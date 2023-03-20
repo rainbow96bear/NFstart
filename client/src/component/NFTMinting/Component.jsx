@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Modal from 'react-modal';
 import { useCallback, useRef, useState } from "react";
 import { FcAddImage } from 'react-icons/fc';
+import axios from 'axios';
 
 const NFTMintingComponent = () => {
 
@@ -30,22 +31,36 @@ const NFTMintingComponent = () => {
         }
     }, []);
 
+    const formData = new FormData();
+    formData.append('file', file);
+
     return (
         <>
             {modalIsOpen ? (
-                <Modal style={ModalStyle} isOpen={modalIsOpen} onRequestClose={() => { setModalIsOpen(false) }} >
+                <Modal style={ModalStyle} isOpen={modalIsOpen} onRequestClose={() => {
+                    const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
+                    if (confirm) {
+                        setModalIsOpen(false);
+                        setImg();
+                    }
+                }} >
                     <AllWrap>
                         <Title>새 NFT 만들기</Title>
                         <ContentWrap>
                             {img ? (
                                 <div>
                                     <NFTImage src={img.toString()} alt={"NFT"} />
-                                    <PrevBtn onClick={() => {
-                                        setImg();
-                                    }}>이전</PrevBtn>
-                                    <PrevBtn onClick={() => {
-                                        alert("..");
-                                    }}>다음</PrevBtn>
+                                    <NextBtn onClick={() => {
+                                        const confirm = window.confirm("이전으로 돌아가시겠습니까?");
+                                        if (confirm) {
+                                            setImg();
+                                        }
+                                    }}>이전</NextBtn>
+                                    <NextBtn onClick={() => {
+                                        // 이미지를 우리 Database에 저장하기
+                                        // axios.post("", formData);
+
+                                    }}>다음</NextBtn>
                                 </div>
                             ) : (
                                 <div>
@@ -75,7 +90,6 @@ export const ModalStyle = {
     overlay: {
         position: "fixed",
         backgroundColor: "rgba(43, 43, 43, 0.425)",
-        // zIndex: 10,
     },
     content: {
         display: "flex",
@@ -90,7 +104,6 @@ export const ModalStyle = {
         outline: "none",
         zIndex: 10,
         padding: '0px'
-        // background: "#ffffff",
     },
 };
 
@@ -122,7 +135,7 @@ const ContentWrap = styled.div`
 `;
 
 const ImgAddDesc = styled.div`
-    margin: 20px 0 60px 0;
+    margin: 20px 0 70px 0;
     font-size: 15px;
 `;
 
@@ -142,31 +155,21 @@ const ImgAddBtn = styled.button`
     cursor: pointer;
     display: inline-block;
     border: none;
+    &:hover {
+        transition: all 0.5s;
+        background-color: #368039;
+        background-color: #41bbb5;
+    }
     
 `;
 
 const NFTImage = styled.img`
-    width: 100%;
-    margin-top: 10px;
-`;
-
-const PrevBtn = styled.div`
-    background-color: #5a5a5a;
-    color: white;
-    font-size: 14px;
-    padding: 6px 10px;
-    border-radius: 5px;
-    text-align: center;
-    width: 100px;
-    cursor: pointer;
-    display: inline-block;
-    border: none;
-    margin: 30px;
-
+    width: 80%;
+    margin-top: 30px;
 `;
 
 const NextBtn = styled.div`
-    background-color: #3e3e3e;
+    background-color: #363636;
     color: white;
     font-size: 14px;
     padding: 6px 10px;
@@ -177,4 +180,9 @@ const NextBtn = styled.div`
     display: inline-block;
     border: none;
     margin: 30px;
+    &:hover {
+        transition: all 0.5s;
+        background-color: #41bbb5;
+    }
+
 `;
