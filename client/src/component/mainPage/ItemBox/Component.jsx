@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const ItemBoxComp = () => {
+  const theme = useSelector((state) => state.theme);
   const testArr = [
     "https://cover.millie.co.kr/service/cover/179561364/59ede77dd98f4da8bbc057bd8282ad17.jpg?w=125&q=80",
     "https://cover.millie.co.kr/service/cover/179548325/60e43be598bb4da9ab50b39f70c11895.jpg?w=125&q=80",
@@ -21,51 +23,76 @@ const ItemBoxComp = () => {
 
   return (
     <ItemBox>
-      <MainImg
-        zIndex={zIndex}
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}>
-        <img src={mainImg} />
-        <div
-          onClick={() => {
-            console.log("사러가기");
-          }}>
-          구매
-        </div>
-      </MainImg>
-      <SubBox>
-        {testArr.map((item, idx) => (
+      <ItemCase>
+        <NameBox theme={theme}>유저 닉네임 혹은 아이디</NameBox>
+        <MainImg
+          theme={theme}
+          zIndex={zIndex}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}>
+          <img src={mainImg} />
           <div
-            key={`subImg-${idx}`}
             onClick={() => {
-              setMainImg(item);
+              console.log("사러가기");
             }}>
-            <img src={item}></img>
+            구매
           </div>
-        ))}
-      </SubBox>
+        </MainImg>
+        <SubBox theme={theme}>
+          {testArr.map((item, idx) => (
+            <div
+              key={`subImg-${idx}`}
+              onClick={() => {
+                setMainImg(item);
+              }}>
+              <img src={item}></img>
+            </div>
+          ))}
+        </SubBox>
+      </ItemCase>
     </ItemBox>
   );
 };
 // 가로 세로는 반응형 생각해서 다시 잡기
 const ItemBox = styled.div`
-  width: 500px;
-  height: 640px;
-  border: 1px solid red;
+  width: 80%;
+  max-width: 500px;
+  border: none;
+  border-radius: 22px;
   margin: 20px 0;
+  padding: 6px;
+  box-shadow: 6px 6px 2px 1px rgba(0, 0, 255, 0.2);
+  background-image: linear-gradient(0.47turn, #e2938f, #ae7dbe, #6f67f1);
+`;
+const ItemCase = styled.div`
+  border-radius: 22px;
+  overflow: hidden;
 `;
 // MainImg는 반응형 정사각형 만들어야한다.
+const NameBox = styled.div`
+  display: flex;
+  padding: 20px 20px 10px 20px;
+  background-color: ${(props) =>
+    props.theme == "dark" ? "#00002a" : "#fdfdfd"};
+`;
 const MainImg = styled.div`
   position: relative;
   width: 100%;
-  height: 500px;
+  background-color: ${(props) =>
+    props.theme == "dark" ? "#00002a" : "#fdfdfd"};
+  &::after {
+    display: block;
+    content: "";
+    padding-bottom: 100%;
+  }
   & > img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    padding: 10px;
     height: 100%;
-    border: 1px solid blue;
+    // border: 1px solid blue;
     z-index: ${(props) => {
       return props.zIndex.toString();
     }};
@@ -74,9 +101,11 @@ const MainImg = styled.div`
     font-size: 3rem;
     width: 100%;
     height: 100%;
+    padding: 10px;
     position: absolute;
     top: 0;
-    background-color: lightblue;
+    background-color: ${(props) =>
+      props.theme == "dark" ? "#00002a" : "#fdfdfd"};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,14 +116,29 @@ const MainImg = styled.div`
 // SubBox안의 div는 반응형 원 만들어야한다.
 const SubBox = styled.div`
   display: flex;
-  height: 140px;
-  padding: 20px;
+  height: fit-content;
   justify-content: space-between;
-
-  & div > img {
-    border: 1px solid yellow;
-    width: 100px;
-    height: 100px;
+  padding: 20px;
+  background-color: ${(props) =>
+    props.theme == "dark" ? "#00002a" : "#fdfdfd"};
+  & > div {
+    // border: 1px solid blue;
+    border-radius: 30%;
+    overflow: hidden;
+    position: relative;
+    width: 20%;
+  }
+  & > div::after {
+    display: block;
+    content: "";
+    padding-bottom: 100%;
+  }
+  & > div > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 `;
 
