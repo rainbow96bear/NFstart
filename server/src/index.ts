@@ -23,7 +23,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/", express.static(path.join(__dirname, "build")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
-const upload = multer();
+
+
+// 이미지 업로드
+const storage = multer.diskStorage({
+  // 업로드 경로 설정
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  // 파일 이름 설정
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage: storage });
+
 
 app.get("/theme", (req, res) => {
   console.log(req.cookies.theme);
