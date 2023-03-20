@@ -19,7 +19,7 @@ const NFTMintingComponent = () => {
     const [file, setFile] = useState();
     const [img, setImg] = useState("");
     const fileChange = useCallback((e) => {
-        setFile(e.target.value);
+        setFile(e.target.files[0]);
 
         // 이미지 경로 세팅
         const reader = new FileReader();
@@ -30,9 +30,6 @@ const NFTMintingComponent = () => {
             }
         }
     }, []);
-
-    const formData = new FormData();
-    formData.append('file', file);
 
     return (
         <>
@@ -56,10 +53,14 @@ const NFTMintingComponent = () => {
                                             setImg();
                                         }
                                     }}>이전</NextBtn>
-                                    <NextBtn onClick={() => {
+                                    <NextBtn onClick={async () => {
                                         // 이미지를 우리 Database에 저장하기
-                                        // axios.post("", formData);
-
+                                        const formData = new FormData();
+                                        formData.append('file', file);
+                                        // account, web3 도 같이 보내기
+                                        console.log(formData);
+                                        console.log(file);
+                                        await axios.post("http://localhost:8080/api/nft/imageAdd", { test: "하이", data: formData, file: file });
                                     }}>다음</NextBtn>
                                 </div>
                             ) : (
