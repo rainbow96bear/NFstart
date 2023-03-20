@@ -5,6 +5,7 @@ import UserContainer from "./component/User/UserContainer";
 import ReactModal from "react-modal";
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import NFTMintingContainer from "./component/NFTMinting/Container";
 
 import MainCont from "./component/mainPage/Container";
 import GlobalStyle from "./styles/globalStyles";
@@ -24,6 +25,7 @@ function App() {
         <Route path="/:params" element={<MainCont></MainCont>}></Route>
         <Route path="/login" element={<UserContainer />}></Route>
         <Route path="/sellmodal" element={<SellModalContain />}></Route>
+        <Route path="/modal" element={<NFTMintingContainer />}></Route>
       </Routes>
     </div>
   );
