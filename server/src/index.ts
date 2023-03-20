@@ -83,7 +83,7 @@ app.post("/api/nft/imageAdd", upload.single('file'), (req: Request, res: Respons
   const file = req.file;
 
   // 스토리지 설정(어디에 저장하겠다라는 설정 해줘야 함)
-  console.log(file);
+  console.log(file?.filename);
 
   res.end();
 });
