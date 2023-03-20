@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-import { AiOutlineHome, AiFillHome } from "react-icons/ai";
+import { AiOutlineHome, AiFillHome, AiOutlinePoweroff } from "react-icons/ai";
 import { BsPlusSquare, BsPlusSquareFill } from "react-icons/bs";
 import {
   IoSearchCircleOutline,
@@ -10,17 +9,8 @@ import {
 } from "react-icons/io5";
 
 import ThemeBtn from "../../../customComp/ThemeBtn";
-import { useDispatch, useSelector } from "react-redux";
 
-const SideBarComp = () => {
-  const theme = useSelector((state) => state.theme);
-  const dispatch = useDispatch();
-  const changeTheme = () => {
-    dispatch({ type: "theme/change" });
-  };
-
-  let { params } = useParams();
-  const navigate = useNavigate();
+const SideBarComp = ({ theme, changeTheme, params, navigate }) => {
   return (
     <SideBarArea>
       <SideItem
@@ -52,17 +42,9 @@ const SideBarComp = () => {
         <BsPlusSquare size={"25"} />
         <p>NFT 등록</p>
       </SideItem>
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/profile");
-        }}>
-        {params == "profile" ? (
-          <AiFillHome size={"25"} />
-        ) : (
-          <AiOutlineHome size={"25"} />
-        )}
-        <p>프로필</p>
+      <SideItem theme={theme} onClick={() => {}}>
+        <AiOutlinePoweroff size={"25"} />
+        <p>로그인</p>
       </SideItem>
       <SideItem
         theme={theme}

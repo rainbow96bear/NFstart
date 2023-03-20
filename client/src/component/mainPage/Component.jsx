@@ -7,10 +7,10 @@ const MainComp = () => {
     <HomeArea>
       <SideBarCont></SideBarCont>
       <Main>
-        {/* <ItemBoxCont></ItemBoxCont>
         <ItemBoxCont></ItemBoxCont>
         <ItemBoxCont></ItemBoxCont>
-        <ItemBoxCont></ItemBoxCont> */}
+        <ItemBoxCont></ItemBoxCont>
+        <ItemBoxCont></ItemBoxCont>
       </Main>
     </HomeArea>
   );
