@@ -18,8 +18,7 @@ const UserComp = ({ logIn }) => {
               className="signIn"
               onClick={() => {
                 logIn();
-              }}
-            ></button>
+              }}></button>
             <p className="arrow_box">CLICK ME</p>
             <h3>Token Click to Join Us</h3>
             <p>Enjoy with us!!</p>

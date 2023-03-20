@@ -20,16 +20,7 @@ const ItemBoxCont = () => {
   const handleMouseOut = () => {
     setZindex("3");
   };
-  return (
-    <ItemBoxComp
-      handleMouseOver={handleMouseOver}
-      handleMouseOut={handleMouseOut}
-      zIndex={zIndex}
-      setMainImg={setMainImg}
-      mainImg={mainImg}
-      theme={theme}
-      testArr={testArr}></ItemBoxComp>
-  );
+  return <ItemBoxComp mainImg={mainImg} theme={theme}></ItemBoxComp>;
 };
 
 export default ItemBoxCont;

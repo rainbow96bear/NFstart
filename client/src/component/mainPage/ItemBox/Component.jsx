@@ -1,26 +1,14 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-const ItemBoxComp = () => {
-  const theme = useSelector((state) => state.theme);
-  const testArr = [
-    "https://cover.millie.co.kr/service/cover/179561364/59ede77dd98f4da8bbc057bd8282ad17.jpg?w=125&q=80",
-    "https://cover.millie.co.kr/service/cover/179548325/60e43be598bb4da9ab50b39f70c11895.jpg?w=125&q=80",
-    "https://cover.millie.co.kr/service/cover/179574180/196635eb017a477385fbe7cec0e7dbf0.jpg?w=125&q=80",
-    "https://cover.millie.co.kr/service/cover/179559925/fe449328632a454aadc7be506b0658e5.jpg?w=125&q=80",
-  ];
-  const [mainImg, setMainImg] = useState(testArr[0]);
-  const [zIndex, setZindex] = useState("3");
-
-  const handleMouseOver = () => {
-    setZindex("1");
-  };
-
-  const handleMouseOut = () => {
-    setZindex("3");
-  };
-
+const ItemBoxComp = ({
+  handleMouseOver,
+  handleMouseOut,
+  zIndex,
+  setMainImg,
+  mainImg,
+  theme,
+  testArr,
+}) => {
   return (
     <ItemBox>
       <ItemCase>
@@ -56,7 +44,7 @@ const ItemBoxComp = () => {
 // 가로 세로는 반응형 생각해서 다시 잡기
 const ItemBox = styled.div`
   width: 80%;
-  max-width: 500px;
+  max-width: 400px;
   border: none;
   border-radius: 22px;
   margin: 20px 0;

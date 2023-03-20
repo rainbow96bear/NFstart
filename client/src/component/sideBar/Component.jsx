@@ -7,8 +7,9 @@ import {
   IoSettingsSharp,
   IoSettingsOutline,
 } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 
-import ThemeBtn from "../../../customComp/ThemeBtn";
+import ThemeBtn from "../../customComp/ThemeBtn";
 
 const SideBarComp = ({ theme, changeTheme, params, navigate }) => {
   return (
@@ -42,8 +43,12 @@ const SideBarComp = ({ theme, changeTheme, params, navigate }) => {
         <BsPlusSquare size={"25"} />
         <p>NFT 등록</p>
       </SideItem>
-      <SideItem theme={theme} onClick={() => {}}>
-        <AiOutlinePoweroff size={"25"} />
+      <SideItem
+        theme={theme}
+        onClick={() => {
+          navigate("/login");
+        }}>
+        <CgProfile size={"25"} />
         <p>로그인</p>
       </SideItem>
       <SideItem
