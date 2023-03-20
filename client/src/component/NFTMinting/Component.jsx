@@ -9,8 +9,6 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
 
     Modal.setAppElement('#root');
 
-    // const [_, render] = useState(false);
-
     // 버튼과 인풋 연결
     const imgInput = useRef();
     const addBtnClick = () => {
@@ -20,6 +18,7 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
     // 파일 선택
     const [file, setFile] = useState();
     const [img, setImg] = useState("");
+    const [image, setImage] = useState("");
     const fileChange = useCallback((e) => {
         setFile(e.target.files[0]);
 
@@ -29,6 +28,7 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
         reader.onload = () => {
             if (reader.result) {
                 setImg(reader.result);
+                setImage(reader.result);
             }
         }
     }, []);
@@ -47,6 +47,7 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
                 const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
                 if (confirm) {
                     setImg(undefined);
+                    setImage("");
                     if (img == undefined) {
                         setImg("");
                     }
@@ -55,13 +56,13 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
                 <AllWrap>
                     <Title>새 NFT 만들기</Title>
                     <ContentWrap>
-                        {img ? (
+                        {image ? (
                             <div>
-                                <NFTImage src={img.toString()} alt={"NFT"} />
+                                <NFTImage src={image.toString()} alt={"NFT"} />
                                 <NextBtn onClick={() => {
                                     const confirm = window.confirm("이전으로 돌아가시겠습니까?");
                                     if (confirm) {
-                                        setImg();
+                                        setImage("");
                                     }
                                 }}>이전</NextBtn>
                                 <NextBtn onClick={async () => {
@@ -69,9 +70,6 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
                                     const formData = new FormData();
                                     formData.append('file', file);
                                     // account, web3 도 같이 보내기
-                                    console.log(formData);
-                                    console.log(file);
-                                    // await axios.post("http://localhost:8080/api/nft/imageAdd", { test: "하이", data: formData, file: file });
                                     await axios.post("http://localhost:8080/api/nft/imageAdd", formData);
                                 }}>다음</NextBtn>
                             </div>
