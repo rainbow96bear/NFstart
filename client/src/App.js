@@ -4,6 +4,13 @@ import SellModalContain from "./component/sell modal/Container/SellModalContain"
 import ReactModal from "react-modal";
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import MainCont from "./component/mainPage/Container";
+import GlobalStyle from "./styles/globalStyles";
+import { lightTheme, darkTheme, Theme } from "./styles/theme";
+import { useSelector } from "react-redux";
 
 import MainCont from "./component/mainPage/Container";
 import GlobalStyle from "./styles/globalStyles";
@@ -19,6 +26,7 @@ function App() {
         <Route path="/" element={<MainCont></MainCont>}></Route>
         <Route path="/:params" element={<MainCont></MainCont>}></Route>
       </Routes>
+
       <SellModalContain />
     </div>
   );
