@@ -33,6 +33,7 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
         }
     }, []);
 
+    // 모달창 삭제를 위한 랜더링
     useEffect(() => {
         if (!img) {
             setRegisteringNFT(false);
@@ -70,7 +71,8 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
                                     // account, web3 도 같이 보내기
                                     console.log(formData);
                                     console.log(file);
-                                    await axios.post("http://localhost:8080/api/nft/imageAdd", { test: "하이", data: formData, file: file });
+                                    // await axios.post("http://localhost:8080/api/nft/imageAdd", { test: "하이", data: formData, file: file });
+                                    await axios.post("http://localhost:8080/api/nft/imageAdd", formData);
                                 }}>다음</NextBtn>
                             </div>
                         ) : (
