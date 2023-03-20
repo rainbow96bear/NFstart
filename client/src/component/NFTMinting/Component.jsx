@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import Modal from 'react-modal';
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FcAddImage } from 'react-icons/fc';
 import axios from 'axios';
 
-const NFTMintingComponent = () => {
+// registeringNFT : 기본 false, 클릭시 true
+const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
 
     Modal.setAppElement('#root');
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    // const [_, render] = useState(false);
 
     // 버튼과 인풋 연결
     const imgInput = useRef();
@@ -31,56 +33,57 @@ const NFTMintingComponent = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (!img) {
+            setRegisteringNFT(false);
+        }
+    }, [img]);
+
+
     return (
         <>
-            {modalIsOpen ? (
-                <Modal style={ModalStyle} isOpen={modalIsOpen} onRequestClose={() => {
-                    const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
-                    if (confirm) {
-                        setModalIsOpen(false);
-                        setImg();
+            <Modal style={ModalStyle} isOpen={registeringNFT} onRequestClose={() => {
+                const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
+                if (confirm) {
+                    setImg(undefined);
+                    if (img == undefined) {
+                        setImg("");
                     }
-                }} >
-                    <AllWrap>
-                        <Title>새 NFT 만들기</Title>
-                        <ContentWrap>
-                            {img ? (
-                                <div>
-                                    <NFTImage src={img.toString()} alt={"NFT"} />
-                                    <NextBtn onClick={() => {
-                                        const confirm = window.confirm("이전으로 돌아가시겠습니까?");
-                                        if (confirm) {
-                                            setImg();
-                                        }
-                                    }}>이전</NextBtn>
-                                    <NextBtn onClick={async () => {
-                                        // 이미지를 우리 Database에 저장하기
-                                        const formData = new FormData();
-                                        formData.append('file', file);
-                                        // account, web3 도 같이 보내기
-                                        console.log(formData);
-                                        console.log(file);
-                                        await axios.post("http://localhost:8080/api/nft/imageAdd", { test: "하이", data: formData, file: file });
-                                    }}>다음</NextBtn>
-                                </div>
-                            ) : (
-                                <div>
-                                    <FcAddImage size="100" color="#fff" />
-                                    <ImgAddDesc>사진과 동영상을 여기에 끌어다 놓으세요</ImgAddDesc>
-                                    <ImgAddInput type={"file"} ref={imgInput} onChange={fileChange} />
-                                    <ImgAddBtn onClick={addBtnClick}>컴퓨터에서 선택</ImgAddBtn>
-                                </div>
-                            )}
-                        </ContentWrap>
-                    </AllWrap>
-                </Modal>
-            ) : (
-                <>
-                    <button onClick={() => {
-                        setModalIsOpen(true);
-                    }}>모달 열기</button>
-                </>
-            )}
+                }
+            }} >
+                <AllWrap>
+                    <Title>새 NFT 만들기</Title>
+                    <ContentWrap>
+                        {img ? (
+                            <div>
+                                <NFTImage src={img.toString()} alt={"NFT"} />
+                                <NextBtn onClick={() => {
+                                    const confirm = window.confirm("이전으로 돌아가시겠습니까?");
+                                    if (confirm) {
+                                        setImg();
+                                    }
+                                }}>이전</NextBtn>
+                                <NextBtn onClick={async () => {
+                                    // 이미지를 우리 Database에 저장하기
+                                    const formData = new FormData();
+                                    formData.append('file', file);
+                                    // account, web3 도 같이 보내기
+                                    console.log(formData);
+                                    console.log(file);
+                                    await axios.post("http://localhost:8080/api/nft/imageAdd", { test: "하이", data: formData, file: file });
+                                }}>다음</NextBtn>
+                            </div>
+                        ) : (
+                            <div>
+                                <FcAddImage size="100" color="#fff" />
+                                <ImgAddDesc>사진과 동영상을 여기에 끌어다 놓으세요</ImgAddDesc>
+                                <ImgAddInput type={"file"} ref={imgInput} onChange={fileChange} />
+                                <ImgAddBtn onClick={addBtnClick}>컴퓨터에서 선택</ImgAddBtn>
+                            </div>
+                        )}
+                    </ContentWrap>
+                </AllWrap>
+            </Modal>
         </>
     );
 }
@@ -90,7 +93,8 @@ export default NFTMintingComponent;
 export const ModalStyle = {
     overlay: {
         position: "fixed",
-        backgroundColor: "rgba(43, 43, 43, 0.425)",
+        backgroundColor: "rgba(21, 21, 21, 0.89)",
+        zIndex: 4
     },
     content: {
         display: "flex",

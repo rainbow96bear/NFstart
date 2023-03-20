@@ -1,6 +1,7 @@
 import SideBarComp from "./Component";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const SideBarCont = () => {
   const theme = useSelector((state) => state.theme);
@@ -10,12 +11,18 @@ const SideBarCont = () => {
   };
   let { params } = useParams();
   const navigate = useNavigate();
+
+  const [registeringNFT, setRegisteringNFT] = useState(false);
+
   return (
     <SideBarComp
       theme={theme}
       changeTheme={changeTheme}
       params={params}
-      navigate={navigate}></SideBarComp>
+      navigate={navigate}
+      registeringNFT={registeringNFT}
+      setRegisteringNFT={setRegisteringNFT}
+    ></SideBarComp>
   );
 };
 export default SideBarCont;

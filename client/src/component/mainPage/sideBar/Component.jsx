@@ -9,8 +9,11 @@ import {
 } from "react-icons/io5";
 
 import ThemeBtn from "../../../customComp/ThemeBtn";
+import NFTMintingContainer from "../../NFTMinting/Container";
 
-const SideBarComp = ({ theme, changeTheme, params, navigate }) => {
+const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, setRegisteringNFT }) => {
+
+
   return (
     <SideBarArea>
       <SideItem
@@ -38,11 +41,17 @@ const SideBarComp = ({ theme, changeTheme, params, navigate }) => {
         )}
         <p>검색</p>
       </SideItem>
-      <SideItem theme={theme}>
+
+      {/* NFT 등록 */}
+      <SideItem theme={theme} onClick={() => {
+        setRegisteringNFT(true);
+      }}>
         <BsPlusSquare size={"25"} />
         <p>NFT 등록</p>
+        <NFTMintingContainer registeringNFT={registeringNFT} setRegisteringNFT={setRegisteringNFT} />
       </SideItem>
-      <SideItem theme={theme} onClick={() => {}}>
+
+      <SideItem theme={theme} onClick={() => { }}>
         <AiOutlinePoweroff size={"25"} />
         <p>로그인</p>
       </SideItem>
@@ -65,9 +74,8 @@ const SideBarComp = ({ theme, changeTheme, params, navigate }) => {
         }}>
         <ThemeBtn
           size={"25"}
-          innerText={`${
-            theme == "dark" ? "밝은 모드" : "어두운 모드"
-          }`}></ThemeBtn>
+          innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"
+            }`}></ThemeBtn>
       </SideItem>
     </SideBarArea>
   );
@@ -86,9 +94,10 @@ const SideItem = styled.div`
   padding: 10px;
   display: flex;
   align-items: center;
+  cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding-left: 10px;
