@@ -16,12 +16,7 @@
     "mysql2": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.8.0",
-    "react-modal": "^3.16.1",
-    "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
-    "sequelize": "^6.29.3",
-    "styled-components": "^5.3.9",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
@@ -47,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.9"
   }
 }
