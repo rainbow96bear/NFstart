@@ -73,5 +73,5 @@ app.post("/api/nft/imageAdd", upload.single('file'), (req: Request, res: Respons
 });
 
 app.listen(app.get("port"), () => {
-  console.log("서버 열음");
+  console.log(`${app.get("port")} Server Open`);
 });

@@ -25,7 +25,6 @@ function App() {
         <Route path="/:params" element={<MainCont></MainCont>}></Route>
         <Route path="/login" element={<UserContainer />}></Route>
         <Route path="/sellmodal" element={<SellModalContain />}></Route>
-        <Route path="/modal" element={<NFTMintingContainer />}></Route>
         <Route path="/mypage" element={<MypageCont />}></Route>
       </Routes>
     </Frame>

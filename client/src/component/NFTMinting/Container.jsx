@@ -1,13 +1,13 @@
 import NFTMintingComponent from "./Component.jsx";
 
-const NFTMintingContainer = ({ account, web3 }) => {
+const NFTMintingContainer = ({ account, web3, registeringNFT, setRegisteringNFT, registeringNFTOnclick }) => {
 
     // console.log(account);
     // console.log(web3);
 
     return (
         <>
-            <NFTMintingComponent />
+            <NFTMintingComponent registeringNFTOnclick={registeringNFTOnclick} registeringNFT={registeringNFT} setRegisteringNFT={setRegisteringNFT} />
         </>
     );
 }
