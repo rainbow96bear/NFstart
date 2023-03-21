@@ -5,7 +5,7 @@ import { FcAddImage } from 'react-icons/fc';
 import axios from 'axios';
 
 // registeringNFT : 기본 false, 클릭시 true
-const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
+const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => {
 
     Modal.setAppElement('#root');
 
@@ -113,7 +113,15 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
                                     }
                                 }}>이전</NextBtn>
                                 <NextBtn onClick={async () => {
-                                    // 실제 등록 요청 보내기
+
+                                    // NFT 등록 요청
+                                    const formData = new FormData();
+                                    formData.append('file', file);
+                                    formData.append('name', name);
+                                    formData.append('desc', desc);
+                                    formData.append('num', num);
+                                    formData.append('account', "유저account"); // 여기
+                                    await axios.post("http://localhost:8080/api/nft/regist", formData);
 
                                     setTimeout(() => {
                                         alert("NFT가 등록되었습니다.");
@@ -153,15 +161,8 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
                                         }
                                     }}>이전</NextBtn>
                                     <NextBtn onClick={async () => {
-                                        const formData = new FormData();
-                                        formData.append('file', file);
-                                        // 이미지를 Database에 저장하기
-                                        // account, web3 도 같이 보내기
-                                        // await axios.post("http://localhost:8080/api/nft/imageAdd", formData);
-
                                         // 상세정보 작성중인 상태로 변경
                                         setIsDetail(true);
-
                                     }}>다음</NextBtn>
                                 </div>
                             ) : (
