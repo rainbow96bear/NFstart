@@ -14,30 +14,35 @@ const UserComp = ({ chainId, account, web3, logIn }) => {
   }, [account]);
   return (
     <>
-      <UserBox>
-        <div className="screen">
-          <img src={home} alt="" />
-        </div>
-        <div className="coin">
-          <div className="inner">
-            <h1>NF STAR</h1>
-            <BsHandIndexThumb width="100px" />
-            <button
-              className="signIn"
-              onClick={() => {
-                logIn();
-              }}
-            ></button>
-            <p className="arrow_box">CLICK ME</p>
-            <h3>Token Click to Join Us</h3>
-            <p>Enjoy with us!!</p>
+      {account && web3 ? (
+        <TestBox>
+          <p>current account : {account}</p>
+          <p>ChainId : {chainId}</p>
+          <p>balance : {balance}</p>
+        </TestBox>
+      ) : (
+        <UserBox>
+          <div className="screen">
+            <img src={home} alt="" />
           </div>
-        </div>
-      </UserBox>
-      <TestBox>
-        <p>current account</p>
-        <p>account</p>
-      </TestBox>
+          <div className="coin">
+            <div className="inner">
+              <h1>NF STAR</h1>
+              <div className="click">
+                <button
+                  className="signIn"
+                  onClick={() => {
+                    logIn();
+                  }}
+                ></button>
+                <p className="arrow_box">CLICK ME</p>
+              </div>
+              <h3>Token Click to Join Us</h3>
+              <p>Enjoy with us!!</p>
+            </div>
+          </div>
+        </UserBox>
+      )}
     </>
   );
 };
