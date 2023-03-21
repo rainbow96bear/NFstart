@@ -60,7 +60,7 @@ app.post(
     const file = req.file;
 
     // 스토리지 설정(어디에 저장하겠다라는 설정 해줘야 함)
-    console.log(file?.filename);
+    console.log("add uploads image : " + file?.filename);
 
     res.end();
   }

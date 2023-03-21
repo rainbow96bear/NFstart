@@ -40,50 +40,116 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
         }
     }, [img]);
 
+    // NFT 등록을 위한 상태값 (+ image, account-users 연결, web3)
+    const [isDetail, setIsDetail] = useState(false);    // 상세 정보 작성중인가?
+    const [name, setName] = useState();                 // NFT 이름
+    const [desc, setDesc] = useState();                 // NFT 설명
+    const [isSale, setIsSale] = useState(false);        // NFT를 판매할 것인가?
+    const [isAuction, setIsAuctio] = useState(false);   // NFT를 경매할 것인가?
+    const [tags, setTags] = useState([]);               // NFT 태그
+    // NFT 등록 시간, 각각의 확률.. 
 
     return (
         <>
-            <Modal style={ModalStyle} isOpen={registeringNFT} onRequestClose={() => {
-                const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
-                if (confirm) {
-                    setImg(undefined);
-                    setImage("");
-                    if (img == undefined) {
-                        setImg("");
+            {isDetail ? (
+                // 상세 정보 작성중일 때 출력
+                <Modal style={ModalStyle2} isOpen={isDetail && registeringNFT} onRequestClose={() => {
+                    const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
+                    if (confirm) {
+                        setImg(undefined);
+                        setImage("");
+                        if (img == undefined) {
+                            setImg("");
+                        }
+                        setIsDetail(false);
                     }
-                }
-            }} >
-                <AllWrap>
-                    <Title>새 NFT 만들기</Title>
-                    <ContentWrap>
-                        {image ? (
-                            <div>
-                                <NFTImage src={image.toString()} alt={"NFT"} />
+                }} >
+                    <AllWrap>
+                        <Title>새 NFT 만들기</Title>
+
+                        {/* 여기 */}
+                        <DetailContentWrap>
+
+                            {/* 위 */}
+                            <DetailContent>
+                                {/* 왼쪽 */}
+                                <DetailNFTImage src={image.toString()} alt={"NFT"} />
+                                {/* 오른쪽 */}
+                                <DetailInputWrap>
+                                    <div style={{ textAlign: "left" }}>ㅇㅅㅇ</div>
+                                    <input style={{ width: "100%", height: "200px" }} placeholder="ㅇㅅㅇ"></input>
+                                    <input style={{ width: "100%", height: "30px" }} placeholder="ㅇㅅㅇ"></input>
+                                    <input style={{ width: "100%", height: "30px" }} placeholder="ㅇㅅㅇ"></input>
+                                    <button>ㅇㅅㅇ</button>
+                                </DetailInputWrap>
+                            </DetailContent>
+
+                            {/* 아래 */}
+                            <DetailBtnWrap>
                                 <NextBtn onClick={() => {
                                     const confirm = window.confirm("이전으로 돌아가시겠습니까?");
                                     if (confirm) {
+                                        setIsDetail(false);
                                         setImage("");
                                     }
                                 }}>이전</NextBtn>
                                 <NextBtn onClick={async () => {
-                                    // 이미지를 우리 Database에 저장하기
-                                    const formData = new FormData();
-                                    formData.append('file', file);
-                                    // account, web3 도 같이 보내기
-                                    await axios.post("http://localhost:8080/api/nft/imageAdd", formData);
-                                }}>다음</NextBtn>
-                            </div>
-                        ) : (
-                            <div>
-                                <FcAddImage size="100" color="#fff" />
-                                <ImgAddDesc>사진과 동영상을 여기에 끌어다 놓으세요</ImgAddDesc>
-                                <ImgAddInput type={"file"} ref={imgInput} onChange={fileChange} />
-                                <ImgAddBtn onClick={addBtnClick}>컴퓨터에서 선택</ImgAddBtn>
-                            </div>
-                        )}
-                    </ContentWrap>
-                </AllWrap>
-            </Modal>
+                                    // 실제 등록 요청 보내기
+                                }}>NFT 등록</NextBtn>
+                            </DetailBtnWrap>
+
+                        </DetailContentWrap>
+
+                    </AllWrap>
+                </Modal>
+            ) : (
+                // 상세 정보 작성 이전 출력
+                <Modal style={ModalStyle} isOpen={registeringNFT} onRequestClose={() => {
+                    const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
+                    if (confirm) {
+                        setImg(undefined);
+                        setImage("");
+                        if (img == undefined) {
+                            setImg("");
+                        }
+                    }
+                }} >
+                    <AllWrap>
+                        <Title>새 NFT 만들기</Title>
+                        <ContentWrap>
+                            {image ? (
+                                <div>
+                                    <NFTImage src={image.toString()} alt={"NFT"} />
+                                    <NextBtn onClick={() => {
+                                        const confirm = window.confirm("이전으로 돌아가시겠습니까?");
+                                        if (confirm) {
+                                            setImage("");
+                                        }
+                                    }}>이전</NextBtn>
+                                    <NextBtn onClick={async () => {
+                                        const formData = new FormData();
+                                        formData.append('file', file);
+                                        // 이미지를 Database에 저장하기
+                                        // account, web3 도 같이 보내기
+                                        // await axios.post("http://localhost:8080/api/nft/imageAdd", formData);
+
+                                        // 상세정보 작성중인 상태로 변경
+                                        setIsDetail(true);
+
+                                    }}>다음</NextBtn>
+                                </div>
+                            ) : (
+                                <div>
+                                    <FcAddImage size="100" color="#fff" />
+                                    <ImgAddDesc>사진과 동영상을 여기에 끌어다 놓으세요</ImgAddDesc>
+                                    <ImgAddInput type={"file"} ref={imgInput} onChange={fileChange} />
+                                    <ImgAddBtn onClick={addBtnClick}>컴퓨터에서 선택</ImgAddBtn>
+                                </div>
+                            )}
+                        </ContentWrap>
+                    </AllWrap>
+                </Modal>
+            )}
         </>
     );
 }
@@ -112,10 +178,70 @@ export const ModalStyle = {
     },
 };
 
+export const ModalStyle2 = {
+    overlay: {
+        position: "fixed",
+        backgroundColor: "rgba(21, 21, 21, 0.89)",
+        zIndex: 4,
+    },
+    content: {
+        display: "flex",
+        justifyContent: "center",
+        overflow: "auto",
+        top: "12vh",
+        left: "24vw",
+        right: "24vw",
+        bottom: "12vh",
+        WebkitOverflowScrolling: "touch",
+        borderRadius: "10px",
+        outline: "none",
+        zIndex: 10,
+        padding: '0px',
+        transition: "all 1s",
+    },
+};
+
+
+const DetailContentWrap = styled.div`
+    color: #4c4c4c;
+    font-size: 15px;
+    height: 70vh;
+    box-sizing: border-box;
+    text-align: center;
+`;
+
+const DetailContent = styled.div`
+    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    padding: 50px;
+    padding-bottom: 30px;
+    padding-top: 60px;
+`;
+
+const DetailNFTImage = styled.img`
+    width: 52%;
+    border-radius: 3px;
+`;
+
+const DetailInputWrap = styled.div`
+    background-color: orange;
+    display: inline-block;
+    width: 35%;
+`;
+
+const DetailBtnWrap = styled.div`
+    text-align: center;
+`;
+
+
+
+
 const AllWrap = styled.div`
     background-color: rgb(245,245,245);
-    width: 100vh;
+    width: 100vw;
     color: #272727;
+    overflow: hidden;
 `;
 
 const Title = styled.div`
@@ -136,7 +262,6 @@ const ContentWrap = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
 `;
 
 const ImgAddDesc = styled.div`
