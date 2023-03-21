@@ -5,12 +5,16 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import multer from "multer";
 
 dotenv.config();
 
 const app: Express = express();
+app.use(cors({ origin: true, credentials: true }));
 app.set("port", process.env.PORT || 8080);
+app.use("/", express.static(path.join(__dirname, "build")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use((req: Request, res: Response, next: NextFunction) => {
   if (process.env.NODE_ENV == "production") {
     morgan("combined")(req, res, next);
@@ -18,27 +22,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     morgan("dev")(req, res, next);
   }
 });
-app.use(cors({ origin: true, credentials: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use("/", express.static(path.join(__dirname, "build")));
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
-
-// 이미지 업로드
-const storage = multer.diskStorage({
-  // 업로드 경로 설정
-  destination: function (req, file, cb) {
-    cb(null, './uploads');
-  },
-  // 파일 이름 설정
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage: storage });
-
-
 app.get("/theme", (req, res) => {
   console.log(req.cookies.theme);
   let theme: string;
@@ -78,16 +61,19 @@ app.use(
   })
 );
 
-app.post("/api/nft/imageAdd", upload.single('file'), (req: Request, res: Response) => {
+app.post(
+  "/api/nft/imageAdd",
+  upload.single("file"),
+  (req: Request, res: Response) => {
+    const file = req.file;
 
-  const file = req.file;
+    // 스토리지 설정(어디에 저장하겠다라는 설정 해줘야 함)
+    console.log(file?.filename);
 
-  // 스토리지 설정(어디에 저장하겠다라는 설정 해줘야 함)
-  console.log(file?.filename);
-
-  res.end();
-});
+    res.end();
+  }
+);
 
 app.listen(app.get("port"), () => {
-  console.log(`${app.get("port")} Server Open`);
+  console.log("서버 열음");
 });
