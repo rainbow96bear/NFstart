@@ -2,7 +2,7 @@ import ItemBoxComp from "./Component";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-const ItemBoxCont = () => {
+const ItemBoxCont = ({ item, index }) => {
   const theme = useSelector((state) => state.theme);
   const testArr = [
     "https://cover.millie.co.kr/service/cover/179561364/59ede77dd98f4da8bbc057bd8282ad17.jpg?w=125&q=80",
@@ -20,7 +20,7 @@ const ItemBoxCont = () => {
   const handleMouseOut = () => {
     setZindex("3");
   };
-  return <ItemBoxComp mainImg={mainImg} theme={theme}></ItemBoxComp>;
+  return <ItemBoxComp item={item} theme={theme}></ItemBoxComp>;
 };
 
 export default ItemBoxCont;
