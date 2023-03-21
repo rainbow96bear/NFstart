@@ -12,7 +12,7 @@ import { CgProfile } from "react-icons/cg";
 import ThemeBtn from "../../customComp/ThemeBtn";
 import NFTMintingContainer from "../../component/NFTMinting/Container";
 
-const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, setRegisteringNFT }) => {
+const SideBarComp = ({ account, theme, changeTheme, params, navigate, registeringNFT, setRegisteringNFT }) => {
 
 
   return (

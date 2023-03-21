@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
+import pinataSDK from '@pinata/sdk';
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", express.static(path.join(__dirname, "build")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+// IPFS
+const pinata = new pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_API_SECRET);
+
 // 이미지 업로드
 const storage = multer.diskStorage({
   // 업로드 경로 설정
@@ -37,8 +41,9 @@ const storage = multer.diskStorage({
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
   },
+
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, limits: { fieldSize: 25 * 1024 * 1024 } });
 
 app.use(
   session({
@@ -53,17 +58,18 @@ app.use(
   })
 );
 
-app.post(
-  "/api/nft/imageAdd",
-  upload.single("file"),
-  (req: Request, res: Response) => {
-    const file = req.file;
+app.post("/api/nft/regist", upload.single("file"), (req: Request, res: Response) => {
+  const file = req.file;
+  const name = req.body.name;
+  const desc = req.body.desc;
+  const num = req.body.num;
+  const account = req.body.account;
+  console.log("add uploads image : " + file?.filename);
+  console.log(name, desc, num);
+  console.log(account);
 
-    // 스토리지 설정(어디에 저장하겠다라는 설정 해줘야 함)
-    console.log("add uploads image : " + file?.filename);
-
-    res.end();
-  }
+  res.end();
+}
 );
 
 app.listen(app.get("port"), () => {
