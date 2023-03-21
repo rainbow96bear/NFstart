@@ -44,9 +44,10 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
     const [isDetail, setIsDetail] = useState(false);    // 상세 정보 작성중인가?
     const [name, setName] = useState();                 // NFT 이름
     const [desc, setDesc] = useState();                 // NFT 설명
-    const [isSale, setIsSale] = useState(false);        // NFT를 판매할 것인가?
-    const [isAuction, setIsAuctio] = useState(false);   // NFT를 경매할 것인가?
-    const [tags, setTags] = useState([]);               // NFT 태그
+    const [num, setNum] = useState(1);                  // NFT 개수
+    // const [isSale, setIsSale] = useState(false);        // NFT를 판매할 것인가?
+    // const [isAuction, setIsAuctio] = useState(false);   // NFT를 경매할 것인가?
+    // const [tags, setTags] = useState([]);               // NFT 태그
     // NFT 등록 시간, 각각의 확률.. 
 
     return (
@@ -76,11 +77,29 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
                                 <DetailNFTImage src={image.toString()} alt={"NFT"} />
                                 {/* 오른쪽 */}
                                 <DetailInputWrap>
-                                    <div style={{ textAlign: "left" }}>ㅇㅅㅇ</div>
-                                    <input style={{ width: "100%", height: "200px" }} placeholder="ㅇㅅㅇ"></input>
+
+                                    <ProfileWrap style={{ textAlign: "left" }}>
+                                        <h4>프로필 이미지, 이름</h4>
+                                    </ProfileWrap>
+
+                                    <h4>NFT 이름</h4>
+                                    <NFTDesc contentEditable="true" value={name} onInput={(e) => {
+                                        setName(e.target.innerText);
+                                    }}></NFTDesc>
+
+                                    <h4>상세 정보</h4>
+                                    <NFTDesc contentEditable="true" placeholder="NFT 설명" value={desc} style={{ height: "258px", overflowY: "scroll" }} onInput={(e) => {
+                                        setDesc(e.target.innerText);
+                                    }}></NFTDesc>
+
+                                    <h4>발행 개수</h4>
+                                    <NFTDesc>1</NFTDesc>
+
+                                    {/* <input style={{ width: "100%", height: "30px" }} value={num} placeholder=""></input> */}
+                                    {/* <h4>즉시 판매</h4>
                                     <input style={{ width: "100%", height: "30px" }} placeholder="ㅇㅅㅇ"></input>
-                                    <input style={{ width: "100%", height: "30px" }} placeholder="ㅇㅅㅇ"></input>
-                                    <button>ㅇㅅㅇ</button>
+                                    <h4>예약 경매</h4>
+                                    <input style={{ width: "100%", height: "30px" }} placeholder="ㅇㅅㅇ"></input> */}
                                 </DetailInputWrap>
                             </DetailContent>
 
@@ -95,6 +114,13 @@ const NFTMintingComponent = ({ registeringNFT, setRegisteringNFT }) => {
                                 }}>이전</NextBtn>
                                 <NextBtn onClick={async () => {
                                     // 실제 등록 요청 보내기
+
+                                    setTimeout(() => {
+                                        alert("NFT가 등록되었습니다.");
+                                        setIsDetail(false);
+                                        setImage("");
+                                        setImg("");
+                                    }, 1000);
                                 }}>NFT 등록</NextBtn>
                             </DetailBtnWrap>
 
@@ -201,44 +227,8 @@ export const ModalStyle2 = {
     },
 };
 
-
-const DetailContentWrap = styled.div`
-    color: #4c4c4c;
-    font-size: 15px;
-    height: 70vh;
-    box-sizing: border-box;
-    text-align: center;
-`;
-
-const DetailContent = styled.div`
-    display: inline-block;
-    display: flex;
-    justify-content: space-between;
-    padding: 50px;
-    padding-bottom: 30px;
-    padding-top: 60px;
-`;
-
-const DetailNFTImage = styled.img`
-    width: 52%;
-    border-radius: 3px;
-`;
-
-const DetailInputWrap = styled.div`
-    background-color: orange;
-    display: inline-block;
-    width: 35%;
-`;
-
-const DetailBtnWrap = styled.div`
-    text-align: center;
-`;
-
-
-
-
 const AllWrap = styled.div`
-    background-color: rgb(245,245,245);
+    /* background-color: rgb(245,245,245); */
     width: 100vw;
     color: #272727;
     overflow: hidden;
@@ -315,4 +305,82 @@ const NextBtn = styled.div`
         background-color: #41bbb5;
     }
 
+`;
+
+const DetailContentWrap = styled.div`
+    color: #4c4c4c;
+    font-size: 15px;
+    height: 70vh;
+    box-sizing: border-box;
+    text-align: center;
+`;
+
+const DetailContent = styled.div`
+    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    padding: 50px;
+    padding-bottom: 20px;
+    padding-top: 60px;
+`;
+
+const DetailNFTImage = styled.img`
+    width: 52%;
+    border-radius: 3px;
+    margin-left: 22px;
+`;
+
+const DetailInputWrap = styled.div`
+    background-color: rgb(239,239,239);
+    display: inline-block;
+    width: 35%;
+    margin-right: 22px;
+    text-align: left;
+    border-radius: 3px;
+    & h4{
+        margin-top : 10px;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 3px 8px;
+        color : #424242;
+    }
+    & input{
+        border: 3px solid rgb(239,239,239);
+        border-radius: 5px;
+        padding: 5px;
+        font-weight: 600;
+    }
+`;
+
+const DetailBtnWrap = styled.div`
+    text-align: center;
+`;
+
+
+
+const ProfileWrap = styled.div`
+    height: 32px;
+    border-radius: 5px;
+    /* background-color: #ff000079; */
+    line-height: 28px;
+`;
+
+const NFTDesc = styled.div`
+    border-radius: 5px;
+    overflow-y: scroll;
+    text-align: left;
+    padding: 5px;
+    outline: none;
+    font-size: 14px;
+    color: #3d3d3d;
+    border: 3px solid rgb(239, 239, 239);
+    background-color: white;
+    line-height: 20px;
+    font-weight: 600;
+
+    /* style={{ width: "100%", height: "32px", overflow: "hidden" }}  */
+    /* style={{ height: "325px", overflow-y: "scroll" }}  */
+    height: 32px;
+    width: 100%;
+    overflow: hidden;
 `;
