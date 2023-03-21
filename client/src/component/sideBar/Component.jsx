@@ -9,8 +9,8 @@ import {
 } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 
-import ThemeBtn from "../../../customComp/ThemeBtn";
-import NFTMintingContainer from "../../NFTMinting/Container";
+import ThemeBtn from "../../customComp/ThemeBtn";
+import NFTMintingContainer from "../../component/NFTMinting/Container";
 
 const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, setRegisteringNFT }) => {
 
