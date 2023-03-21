@@ -18,13 +18,15 @@ function App() {
   return (
     <Frame>
       <GlobalStyle
-        theme={theme == "dark" ? darkTheme : lightTheme}></GlobalStyle>
+        theme={theme == "dark" ? darkTheme : lightTheme}
+      ></GlobalStyle>
       <SideBarCont></SideBarCont>
       <Routes>
         <Route path="/" element={<MainCont></MainCont>}></Route>
         <Route path="/:params" element={<MainCont></MainCont>}></Route>
         <Route path="/login" element={<UserContainer />}></Route>
         <Route path="/sellmodal" element={<SellModalContain />}></Route>
+        <Route path="/mypage" element={<MypageCont />}></Route>
         {/* <Route path="/modal" element={<NFTMintingContainer />}></Route> */}
       </Routes>
     </Frame>

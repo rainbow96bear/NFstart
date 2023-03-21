@@ -1,44 +1,46 @@
-import { useCallback, useState } from "react";
-import Web3 from "web3";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 import UserComp from "./UserComp";
+import { useWeb3 } from "../../modules/useWeb3";
+import { useNavigate } from "react-router-dom";
 
 const UserContainer = () => {
-  const [web3, setWeb3] = useState();
-  const [account, setAccount] = useState("");
-  const [chainId, setChainId] = useState("");
+  const { web3, account, chainId, linkMeta } = useWeb3();
+  const [balance, setBalance] = useState(undefined);
+  const [connect, setConnect] = useState(false);
 
-  const logIn = useCallback(async () => {
-    try {
-      console.log(window.ethereum);
-      if (window.ethereum) {
-        const _web3 = new Web3(window.ethereum);
-        setWeb3(_web3);
+  const navigate = useNavigate();
 
-        const [_account] = await window.ethereum.request({
-          method: "eth_requestAccounts",
+  useEffect(() => {
+    const getMoney = async () => {
+      const _balance = await web3?.eth.getBalance(account);
+      setBalance(_balance / 10 ** 18);
+    };
+    getMoney();
+  }, [account]);
+
+  useEffect(() => {
+    const isConnected = window.ethereum.isConnected();
+    if (balance != undefined) {
+      if (isConnected) {
+        axios.post("http://localhost:8080/userInfo", {
+          account,
+          chainId,
+          balance,
         });
-        if (_account) {
-          setAccount(_account);
-        }
-        window.ethereum.on("accountsChanged", async () => {
-          if (window.ethereum) {
-            const [_account] = await window.ethereum.request({
-              method: "eth_requestAccounts",
-            });
-            setAccount(_account);
-          }
-        });
-        setChainId(window.ethereum.networkVersion);
-      } else {
-        console.log("MetaMask is not exist");
       }
-    } catch (err) {
-      console.log(err);
     }
-  }, []);
+  }, [balance]);
+
   return (
-    <UserComp web3={web3} account={account} chainId={chainId} logIn={logIn} />
+    <UserComp
+      web3={web3}
+      account={account}
+      balance={balance}
+      chainId={chainId}
+      linkMeta={linkMeta}
+    />
   );
 };
 

@@ -12,16 +12,22 @@ import { CgProfile } from "react-icons/cg";
 import ThemeBtn from "../../customComp/ThemeBtn";
 import NFTMintingContainer from "../../component/NFTMinting/Container";
 
-const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, setRegisteringNFT }) => {
-
-
+const SideBarComp = ({
+  theme,
+  changeTheme,
+  params,
+  navigate,
+  registeringNFT,
+  setRegisteringNFT,
+}) => {
   return (
     <SideBarArea>
       <SideItem
         theme={theme}
         onClick={() => {
           navigate("/");
-        }}>
+        }}
+      >
         {params == undefined ? (
           <AiFillHome size={"25"} />
         ) : (
@@ -34,7 +40,8 @@ const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, set
         theme={theme}
         onClick={() => {
           navigate("/explore");
-        }}>
+        }}
+      >
         {params == "explore" ? (
           <IoSearchCircleSharp size={"25"} />
         ) : (
@@ -44,15 +51,26 @@ const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, set
       </SideItem>
 
       {/* NFT 등록 */}
-      <SideItem theme={theme} onClick={() => {
-        setRegisteringNFT(true);
-      }}>
+      <SideItem
+        theme={theme}
+        onClick={() => {
+          setRegisteringNFT(true);
+        }}
+      >
         <BsPlusSquare size={"25"} />
         <p>NFT 등록</p>
-        <NFTMintingContainer registeringNFT={registeringNFT} setRegisteringNFT={setRegisteringNFT} />
+        <NFTMintingContainer
+          registeringNFT={registeringNFT}
+          setRegisteringNFT={setRegisteringNFT}
+        />
       </SideItem>
 
-      <SideItem theme={theme} onClick={() => { }}>
+      <SideItem
+        theme={theme}
+        onClick={() => {
+          navigate("/login");
+        }}
+      >
         <AiOutlinePoweroff size={"25"} />
         <p>로그인</p>
       </SideItem>
@@ -60,7 +78,8 @@ const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, set
         theme={theme}
         onClick={() => {
           navigate("/setting");
-        }}>
+        }}
+      >
         {params == "setting" ? (
           <IoSettingsSharp size={"25"} />
         ) : (
@@ -72,11 +91,12 @@ const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, set
         theme={theme}
         onClick={() => {
           changeTheme();
-        }}>
+        }}
+      >
         <ThemeBtn
           size={"25"}
-          innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"
-            }`}></ThemeBtn>
+          innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
+        ></ThemeBtn>
       </SideItem>
     </SideBarArea>
   );
@@ -98,7 +118,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding-left: 10px;

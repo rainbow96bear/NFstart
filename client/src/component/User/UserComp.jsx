@@ -1,17 +1,13 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 import logo from "./logo.png";
 import home from "./home.png";
-import { useEffect, useState } from "react";
 
-const UserComp = ({ chainId, account, web3, logIn }) => {
-  const [balance, setBalance] = useState(0);
-  useEffect(() => {
-    const getMoney = async () => {
-      const _balance = await web3?.eth.getBalance(account);
-      setBalance(_balance / 10 ** 18);
-    };
-    getMoney();
-  }, [account]);
+const UserComp = ({ web3, account, balance, chainId, linkMeta }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       {account && web3 ? (
@@ -32,7 +28,7 @@ const UserComp = ({ chainId, account, web3, logIn }) => {
                 <button
                   className="signIn"
                   onClick={() => {
-                    logIn();
+                    linkMeta();
                   }}
                 ></button>
                 <p className="arrow_box">CLICK ME</p>

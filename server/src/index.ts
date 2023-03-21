@@ -7,6 +7,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
 
+import db from "../models/index";
+
 dotenv.config();
 
 const app: Express = express();
@@ -65,6 +67,25 @@ app.post(
     res.end();
   }
 );
+
+app.post("/userInfo", async (req: Request, res: Response) => {
+  try {
+    const hi = await db.User.create({
+      account: req.body.account,
+      nickName: "req.body.nickName",
+      chainId: req.body.chainId,
+      balance: req.body.balance,
+    });
+    res.send(hi);
+  } catch (err) {
+    console.log(err);
+    res.send({ isError: true });
+  }
+});
+
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("db connected");
+});
 
 app.listen(app.get("port"), () => {
   console.log(`${app.get("port")} Server Open`);
