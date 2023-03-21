@@ -229,7 +229,6 @@ export const ModalStyle2 = {
 };
 
 const AllWrap = styled.div`
-    /* background-color: rgb(245,245,245); */
     width: 100vw;
     color: #272727;
     overflow: hidden;
@@ -283,7 +282,7 @@ const ImgAddBtn = styled.button`
 `;
 
 const NFTImage = styled.img`
-    width: 70%;
+    width: 25vw;
     display: block;
     margin: 30px auto 14px auto;
 `;
@@ -319,7 +318,7 @@ const DetailContent = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     padding-top: 60px;
 `;
 
