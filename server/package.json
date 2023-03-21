@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@jridgewell/gen-mapping": "^0.3.2",
     "@openzeppelin/contracts": "^4.8.2",
     "@pinata/sdk": "^2.1.0",
     "@remix-project/remixd": "^0.6.12",

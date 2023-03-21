@@ -2,7 +2,7 @@ import ItemBoxComp from "./Component";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-const ItemBoxCont = () => {
+const ItemBoxCont = ({ item }) => {
   const theme = useSelector((state) => state.theme);
   const testArr = [
     "https://cover.millie.co.kr/service/cover/179561364/59ede77dd98f4da8bbc057bd8282ad17.jpg?w=125&q=80",
@@ -28,7 +28,9 @@ const ItemBoxCont = () => {
       setMainImg={setMainImg}
       mainImg={mainImg}
       theme={theme}
-      testArr={testArr}></ItemBoxComp>
+      testArr={testArr}
+      item={item}
+    ></ItemBoxComp>
   );
 };
 

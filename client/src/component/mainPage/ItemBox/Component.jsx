@@ -1,4 +1,7 @@
+import { useState } from "react";
 import styled from "styled-components";
+
+import SellModal from "../../sell modal/Component/SellModal";
 
 const ItemBoxComp = ({
   handleMouseOver,
@@ -8,7 +11,13 @@ const ItemBoxComp = ({
   mainImg,
   theme,
   testArr,
+  item,
 }) => {
+  const [on, setOn] = useState(false);
+  const click = () => {
+    setOn(!on);
+  };
+
   return (
     <ItemBox>
       <ItemCase>
@@ -18,6 +27,9 @@ const ItemBoxComp = ({
           zIndex={zIndex}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
+          onClick={() => {
+            click();
+          }}
         >
           <img src={mainImg} />
         </MainImg>
@@ -34,6 +46,7 @@ const ItemBoxComp = ({
           ))}
         </SubBox>
       </ItemCase>
+      <SellModal isOpen={on} click={click} item={item} />
     </ItemBox>
   );
 };
