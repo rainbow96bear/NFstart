@@ -200,7 +200,8 @@ export const ModalStyle = {
         borderRadius: "10px",
         outline: "none",
         zIndex: 10,
-        padding: '0px'
+        padding: '0px',
+        transition: "all 1s",
     },
 };
 
@@ -277,15 +278,14 @@ const ImgAddBtn = styled.button`
     border: none;
     &:hover {
         transition: all 0.5s;
-        background-color: #368039;
         background-color: #41bbb5;
     }
-    
 `;
 
 const NFTImage = styled.img`
-    width: 80%;
-    margin-top: 30px;
+    width: 70%;
+    display: block;
+    margin: 30px auto 14px auto;
 `;
 
 const NextBtn = styled.div`
@@ -304,7 +304,6 @@ const NextBtn = styled.div`
         transition: all 0.5s;
         background-color: #41bbb5;
     }
-
 `;
 
 const DetailContentWrap = styled.div`
@@ -327,14 +326,14 @@ const DetailContent = styled.div`
 const DetailNFTImage = styled.img`
     width: 52%;
     border-radius: 3px;
-    margin-left: 22px;
+    margin-left: 10px;
 `;
 
 const DetailInputWrap = styled.div`
     background-color: rgb(239,239,239);
     display: inline-block;
-    width: 35%;
-    margin-right: 22px;
+    width: 40%;
+    margin-right: 10px;
     text-align: left;
     border-radius: 3px;
     & h4{
@@ -367,7 +366,7 @@ const ProfileWrap = styled.div`
 
 const NFTDesc = styled.div`
     border-radius: 5px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     text-align: left;
     padding: 5px;
     outline: none;
@@ -377,9 +376,6 @@ const NFTDesc = styled.div`
     background-color: white;
     line-height: 20px;
     font-weight: 600;
-
-    /* style={{ width: "100%", height: "32px", overflow: "hidden" }}  */
-    /* style={{ height: "325px", overflow-y: "scroll" }}  */
     height: 32px;
     width: 100%;
     overflow: hidden;
