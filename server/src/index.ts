@@ -7,7 +7,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
 import pinataSDK from '@pinata/sdk';
-
 import db from "../models/index";
 
 dotenv.config();
