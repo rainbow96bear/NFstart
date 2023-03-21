@@ -4,16 +4,11 @@ import { BiSun, BiMoon } from "react-icons/bi";
 import { useState } from "react";
 
 const ThemeBtn = ({ innerText, size }) => {
-  //   const thema = useSelector((state) => state.thema.type);
-  //   const dispatch = useDispatch();
-  const chageThema = () => {
-    // dispatch(changeThunk());
-  };
+  const theme = useSelector((state) => state.theme);
 
-  const [theme, setTheme] = useState("dark");
   return (
     <Btn>
-      {theme == "dark" ? (
+      {theme == "light" ? (
         <BiMoon size={size}></BiMoon>
       ) : (
         <BiSun size={size}></BiSun>
