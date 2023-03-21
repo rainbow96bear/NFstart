@@ -52,12 +52,8 @@ const SideBarComp = ({ theme, changeTheme, params, navigate, registeringNFT, set
         <NFTMintingContainer registeringNFT={registeringNFT} setRegisteringNFT={setRegisteringNFT} />
       </SideItem>
 
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/login");
-        }}>
-        <CgProfile size={"25"} />
+      <SideItem theme={theme} onClick={() => { }}>
+        <AiOutlinePoweroff size={"25"} />
         <p>로그인</p>
       </SideItem>
       <SideItem
