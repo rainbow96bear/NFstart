@@ -1,35 +1,48 @@
 import styled from "styled-components";
 import logo from "./logo.png";
 import home from "./home.png";
-import { BsHandIndexThumb } from "react-icons/bs";
+import { useEffect, useState } from "react";
 
-const UserComp = ({ logIn }) => {
+const UserComp = ({ chainId, account, web3, logIn }) => {
+  const [balance, setBalance] = useState(0);
+  useEffect(() => {
+    const getMoney = async () => {
+      const _balance = await web3?.eth.getBalance(account);
+      setBalance(_balance / 10 ** 18);
+    };
+    getMoney();
+  }, [account]);
   return (
     <>
-      <UserBox>
-        <div className="screen">
-          <img src={home} alt="" />
-        </div>
-        <div className="coin">
-          <div className="inner">
-            <h1>NF STAR</h1>
-            <BsHandIndexThumb width="100px" />
-            <button
-              className="signIn"
-              onClick={() => {
-                logIn();
-              }}
-            ></button>
-            <p className="arrow_box">CLICK ME</p>
-            <h3>Token Click to Join Us</h3>
-            <p>Enjoy with us!!</p>
+      {account && web3 ? (
+        <TestBox>
+          <p>current account : {account}</p>
+          <p>ChainId : {chainId}</p>
+          <p>balance : {balance}</p>
+        </TestBox>
+      ) : (
+        <UserBox>
+          <div className="screen">
+            <img src={home} alt="" />
           </div>
-        </div>
-      </UserBox>
-      <TestBox>
-        <p>current account</p>
-        <p>account</p>
-      </TestBox>
+          <div className="coin">
+            <div className="inner">
+              <h1>NF STAR</h1>
+              <div className="click">
+                <button
+                  className="signIn"
+                  onClick={() => {
+                    logIn();
+                  }}
+                ></button>
+                <p className="arrow_box">CLICK ME</p>
+              </div>
+              <h3>Token Click to Join Us</h3>
+              <p>Enjoy with us!!</p>
+            </div>
+          </div>
+        </UserBox>
+      )}
     </>
   );
 };
@@ -47,14 +60,59 @@ const UserBox = styled.div`
   justify-content: center;
   align-items: center;
   padding: 50px 0 0 0;
+
+  .screen {
+    img {
+      width: 500px;
+    }
+  }
+  .coin {
+    position: absolute;
+    width: 100%;
+  }
+  .inner {
+    text-align: center;
+    margin: 0 0 0 100px;
+    h1 {
+      color: white;
+      font-family: "Great Vibes", cursive;
+      margin: 0 0 30px 0;
+    }
+    p {
+      font-weight: bold;
+      color: white;
+    }
+    h3 {
+      animation: rainbow 1s infinite;
+      margin: 30px 0 10px 0;
+    }
+  }
+  .signIn {
+    top: 350px;
+    left: 690px;
+    border: none;
+    border-radius: 100%;
+    width: 200px;
+    height: 200px;
+    background-image: url(${logo});
+    background-size: 200px 200px;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 0 0 50px 0;
+  }
+  .click {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
   .arrow_box {
-    margin: auto;
     display: none;
     position: absolute;
     width: 100px;
     padding: 8px;
     color: #ff0000;
-    left: 720px;
+    top: 240px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -75,44 +133,6 @@ const UserBox = styled.div`
     border-width: 10px;
     pointer-events: none;
     content: " ";
-  }
-  .screen {
-    img {
-      width: 500px;
-    }
-  }
-  .coin {
-    position: absolute;
-    width: 100%;
-  }
-  .inner {
-    text-align: center;
-    margin: 0 0 0 100px;
-    h1 {
-      color: white;
-      font-family: "Great Vibes", cursive;
-    }
-    p {
-      font-weight: bold;
-      color: white;
-    }
-    h3 {
-      animation: rainbow 1s infinite;
-      margin: 50px 0 0 0;
-    }
-  }
-  .signIn {
-    top: 350px;
-    left: 690px;
-    border: none;
-    border-radius: 100%;
-    width: 200px;
-    height: 200px;
-    background-image: url(${logo});
-    background-size: 200px 200px;
-    background-repeat: no-repeat;
-    background-position: center;
-    padding: 0 0 50px 0;
   }
   @keyframes rotate_image {
     100% {
