@@ -17,14 +17,9 @@ const ItemBoxComp = ({
           theme={theme}
           zIndex={zIndex}
           onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}>
+          onMouseOut={handleMouseOut}
+        >
           <img src={mainImg} />
-          <div
-            onClick={() => {
-              console.log("사러가기");
-            }}>
-            구매
-          </div>
         </MainImg>
         <SubBox theme={theme}>
           {testArr.map((item, idx) => (
@@ -32,7 +27,8 @@ const ItemBoxComp = ({
               key={`subImg-${idx}`}
               onClick={() => {
                 setMainImg(item);
-              }}>
+              }}
+            >
               <img src={item}></img>
             </div>
           ))}
@@ -75,30 +71,9 @@ const MainImg = styled.div`
   }
   & > img {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     padding: 10px;
     height: 100%;
-    // border: 1px solid blue;
-    z-index: ${(props) => {
-      return props.zIndex.toString();
-    }};
-  }
-  & > div {
-    font-size: 3rem;
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    position: absolute;
-    top: 0;
-    background-color: ${(props) =>
-      props.theme == "dark" ? "#00002a" : "#fdfdfd"};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0.5;
-    z-index: 2;
   }
 `;
 // SubBox안의 div는 반응형 원 만들어야한다.

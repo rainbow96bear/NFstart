@@ -20,7 +20,10 @@ import { TbTriangleSquareCircle, TbArrowBarToDown } from "react-icons/tb";
 import Modal from "react-modal";
 import ReactModal from "react-modal";
 import styled from "styled-components";
-const SellModal = ({ isOpen, onCancel }) => {
+
+const SellModal = ({ click, isOpen, item }) => {
+  console.log("item", item);
+  Modal.setAppElement("#root");
   return (
     <ReactModal isOpen={isOpen}>
       <ModalBox>
@@ -37,26 +40,38 @@ const SellModal = ({ isOpen, onCancel }) => {
             </div>
           </div>
           <div>
-            <img src="/imgs/1.png" />
+            <img src={item.img} />
           </div>
           <div>
-            <AiOutlineMenu size={"30"} />
-            <div>description</div>
+            <div>
+              <div>
+                <AiOutlineMenu size={"30"} />
+              </div>
+              <div>description</div>
+            </div>
             <div>
               <TbArrowBarToDown size={"30"} />
             </div>
           </div>
           <div>
-            <AiOutlineTeam size={"30"} />
-            By Team Name
+            <div>
+              <div>
+                <AiOutlineTeam size={"30"} />{" "}
+              </div>
+              <div>By Team Name </div>
+            </div>
             <div>
               <TbArrowBarToDown size={"30"} />
             </div>
           </div>
           <div>
             <div>
-              <MdEditAttributes size={"30"} />
-              Attributes
+              <div>
+                <div>
+                  <MdEditAttributes size={"30"} />
+                </div>
+                <div>Attributes</div>
+              </div>
               <div>
                 <TbArrowBarToDown size={"30"} />
               </div>
@@ -70,15 +85,23 @@ const SellModal = ({ isOpen, onCancel }) => {
           </div>
 
           <div>
-            <BiFoodMenu size={"30"} />
-            About seller Team
+            <div>
+              <div>
+                <BiFoodMenu size={"30"} />
+              </div>
+              <div>About seller Team</div>
+            </div>
             <div>
               <TbArrowBarToDown size={"30"} />
             </div>
           </div>
           <div>
-            <SiMaterialdesign size={"30"} />
-            details
+            <div>
+              <div>
+                <SiMaterialdesign size={"30"} />
+              </div>
+              <div>details</div>
+            </div>
             <div>
               <TbArrowBarToDown size={"30"} />
             </div>
@@ -86,13 +109,13 @@ const SellModal = ({ isOpen, onCancel }) => {
         </div>
         <div>
           <div>
-            판매자{" "}
+            {item.seller}
             <div>
               <BsShareFill size={"30"} /> <BsThreeDots size={"30"} />
             </div>
           </div>
           <div>
-            판매할 NFT#123
+            {item.name}#{item.number}
             <div>Ownd by 45666</div>
           </div>
 
@@ -100,14 +123,15 @@ const SellModal = ({ isOpen, onCancel }) => {
             <div>
               {" "}
               <BsEye size={"30"} />
-              view
+              {item.view}views
             </div>
             <div>
               <BsArrowThroughHeart size={"30"} />
+              {item.favorites}
               favorites
             </div>
             <div>
-              <TbTriangleSquareCircle size={"30"} /> favorite PFPs
+              <TbTriangleSquareCircle size={"30"} /> {item.PFPS}favorite PFPs
             </div>
           </div>
           <div>
@@ -127,11 +151,11 @@ const SellModal = ({ isOpen, onCancel }) => {
           <div>
             <div>
               <div>Current price</div>
-              <div>$달라 ETH</div>
+              <div>{item.price} ETH</div>
             </div>
             <div>
               <div>
-                <button>addcart</button>
+                <button>Buy now</button>
               </div>
               <div>
                 <button>make offer</button>{" "}
@@ -191,7 +215,7 @@ const SellModal = ({ isOpen, onCancel }) => {
 
         <button
           onClick={() => {
-            onCancel();
+            click();
           }}
         >
           취소
@@ -204,10 +228,12 @@ export default SellModal;
 
 const ModalBox = styled.div`
   display: flex;
-  width: 100%;
+  width: 85%;
+  height: 95%;
   background-color: rgb(245, 245, 245);
   /* background-image: linear-gradient(0.47turn, #e2938f, #ae7dbe, #6f67f1); */
   justify-content: space-around;
+  margin: auto;
   font-size: 20px;
   & > div:first-child {
     display: flex;
@@ -259,16 +285,19 @@ const ModalBox = styled.div`
       }
     }
     & > div:nth-child(2) {
+      position: relative;
       display: flex;
       width: 100%;
+      height: 60%;
+      overflow: hidden;
+      margin: 0 auto;
       border: 1px solid rgba(53, 56, 64, 0.3);
       border-top: none;
-      justify-content: center;
 
-      & > img {
-        display: flex;
+      img {
         border-radius: 10px;
-        width: 80%;
+        width: 100%;
+        object-fit: contain;
       }
     }
     & > div:nth-child(3) {
@@ -278,23 +307,35 @@ const ModalBox = styled.div`
       font-size: 20px;
       border: 1px solid rgba(53, 56, 64, 0.3);
 
-      & > div:first-child img {
+      justify-content: flex-start;
+
+      & > div:first-child {
         display: flex;
-        width: 60%;
+        width: 100%;
+
+        & > div:nth-child(2) {
+          display: flex;
+          flex-direction: row;
+        }
       }
       & > div:last-child {
         display: flex;
-
-        margin-left: 60%;
       }
     }
     & > div:nth-child(4) {
       display: flex;
       border: 1px solid rgba(53, 56, 64, 0.3);
+      justify-content: space-between;
+      text-align: center;
+
+      align-items: center;
+      & > div:first-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       & > div:last-child {
         display: flex;
-
-        margin-left: 52.3%;
       }
     }
     & > div:nth-child(5) {
@@ -307,10 +348,16 @@ const ModalBox = styled.div`
       & > div:first-child {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        & > div:first-child {
+          align-items: center;
+          justify-content: flex-start;
+          text-align: center;
+          display: flex;
+        }
         & > div:last-child {
           display: flex;
-
-          margin-left: 62.6%;
+          justify-content: space-between;
         }
       }
       & > div:last-child {
@@ -325,19 +372,32 @@ const ModalBox = styled.div`
     & > div:nth-child(6) {
       display: flex;
       border: 1px solid rgba(53, 56, 64, 0.3);
+
+      justify-content: space-between;
+      & > div:first-child {
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+        display: flex;
+      }
       & > div:last-child {
         display: flex;
-
-        margin-left: 46.7%;
+        justify-content: space-between;
       }
     }
     & > div:nth-child(7) {
       display: flex;
       border: 1px solid rgba(53, 56, 64, 0.3);
+      justify-content: space-between;
+      & > div:first-child {
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+        display: flex;
+      }
       & > div:last-child {
         display: flex;
-
-        margin-left: 69.2%;
+        justify-content: space-between;
       }
     }
   }
@@ -377,6 +437,10 @@ const ModalBox = styled.div`
       display: flex;
       flex-direction: column;
       font-size: 22px;
+      border: 1px solid rgba(53, 56, 64, 0.3);
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+
       & > div:nth-child(2) {
         display: flex;
         justify-content: space-around;
@@ -387,7 +451,7 @@ const ModalBox = styled.div`
       display: flex;
       width: 100%;
       font-size: 16px;
-
+      border: 1px solid rgba(53, 56, 64, 0.3);
       flex-direction: column;
       & > div:first-child {
         display: flex;
@@ -404,6 +468,11 @@ const ModalBox = styled.div`
         width: 100%;
         justify-content: space-around;
         & > div button {
+          position: relative;
+          border: 1px solid black;
+          display: inline-block;
+          padding: 15px 30px;
+          border-radius: 15px;
           transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
 
           &::before {
@@ -441,6 +510,7 @@ const ModalBox = styled.div`
     & > div:nth-child(6) {
       display: flex;
       flex-direction: column;
+      border: 1px solid rgba(53, 56, 64, 0.3);
       & > div:first-child {
         display: flex;
       }
@@ -448,6 +518,7 @@ const ModalBox = styled.div`
     & > div:nth-child(7) {
       display: flex;
       flex-direction: column;
+      border: 1px solid rgba(53, 56, 64, 0.3);
 
       & > div:first-child {
         display: flex;
@@ -469,6 +540,11 @@ const ModalBox = styled.div`
         font-size: 15px;
       }
       & > div button {
+        position: relative;
+        border: 1px solid black;
+        display: inline-block;
+        padding: 15px 30px;
+        border-radius: 15px;
         transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
 
         &::before {
@@ -505,7 +581,7 @@ const ModalBox = styled.div`
     & > div:nth-child(8) {
       display: flex;
       flex-direction: column;
-
+      border: 1px solid rgba(53, 56, 64, 0.3);
       & > div:nth-child(2) {
         display: flex;
         justify-content: space-around;
@@ -522,8 +598,14 @@ const Okbutton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   & > button {
-    width: 18%;
+    width: 15%;
+    position: relative;
+    border: 1px solid black;
+    display: inline-block;
+    padding: 8px 10px;
+    border-radius: 15px;
 
     transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
 

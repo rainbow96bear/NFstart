@@ -1,10 +1,23 @@
 import styled from "styled-components";
 
-const ItemBoxComp = ({ mainImg }) => {
+import SellModal from "../../sell modal/Component/SellModal";
+import { useState } from "react";
+const ItemBoxComp = ({ item }) => {
+  const [on, setOn] = useState(false);
+  const click = () => {
+    setOn(!on);
+  };
   return (
-    <ItemBox>
-      <img src={mainImg} />
-    </ItemBox>
+    <>
+      <ItemBox
+        onClick={() => {
+          click();
+        }}
+      >
+        <img src={item.img} />
+      </ItemBox>
+      <SellModal isOpen={on} click={click} item={item} />
+    </>
   );
 };
 export default ItemBoxComp;
@@ -12,6 +25,7 @@ export default ItemBoxComp;
 const ItemBox = styled.div`
   position: relative;
   width: 33%;
+
   &::after {
     display: block;
     content: "";
