@@ -3714,6 +3714,11 @@ class-is@^1.1.0:
   resolved "https://registry.yarnpkg.com/class-is/-/class-is-1.1.0.tgz#9d3c0fba0440d211d843cec3dedfa48055005825"
   integrity sha512-rhjH9AG1fvabIDoGRVH587413LPjTZgmDF9fOFCbFJQV4yuocX1mHxxvXI4g3cGwbVY9wAYIoKlg1N79frJKQw==
 
+classnames@^2.2.5:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
+  integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
+
 clean-css@^5.2.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-5.3.2.tgz#70ecc7d4d4114921f5d298349ff86a31a9975224"
@@ -9267,11 +9272,6 @@ react-scripts@5.0.1:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
-
-react-seekbar-component@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-seekbar-component/-/react-seekbar-component-1.0.0.tgz#8371b72357ea7aa23a1d144858493fadd823d4ad"
-  integrity sha512-YI8Gjciy4ZQh8LM6OAmWEHFgvPOZXnytYHCZ53tuzydb+zer2IvHJs/UsR0vWMSexzYEFK4pA9RdpSW6q4zOfQ==
 
 react@^18.2.0:
   version "18.2.0"

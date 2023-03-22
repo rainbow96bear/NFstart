@@ -22,7 +22,6 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
     const [file, setFile] = useState();
     const [img, setImg] = useState("");
     const [image, setImage] = useState("");
-    const [uploadImage, setUploadImage] = useState("");
     const fileChange = useCallback((e) => {
         setFile(e.target.files[0]);
 
@@ -91,13 +90,19 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                         setName(e.target.innerText);
                                     }}></NFTDesc>
 
-                                    <h4>상세 정보</h4>
-                                    <NFTDesc contentEditable="true" placeholder="NFT 설명" value={desc} style={{ height: "258px", overflowY: "scroll" }} onInput={(e) => {
+                                    <h4>NFT 설명</h4>
+                                    <NFTDesc contentEditable="true" placeholder="NFT 설명" value={desc} style={{ height: "135px", overflowY: "scroll" }} onInput={(e) => {
                                         setDesc(e.target.innerText);
                                     }}></NFTDesc>
 
                                     <h4>발행 개수</h4>
                                     <NFTDesc>1</NFTDesc>
+
+                                    <h4>고급 설정</h4>
+                                    <NFTDesc contentEditable="true" ></NFTDesc>
+
+                                    <h4>고급 설정2</h4>
+                                    <NFTDesc contentEditable="true" ></NFTDesc>
 
                                     {/* <input style={{ width: "100%", height: "30px" }} value={num} placeholder=""></input> */}
                                     {/* <h4>즉시 판매</h4>

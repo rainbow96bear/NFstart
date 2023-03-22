@@ -1,16 +1,25 @@
 "use strict";
 import { Model } from "sequelize";
 
-interface NftAttributes {
-  // 테이블 type 작성할 것
-  account: string;
-  nickName: string;
-  chainId: string;
-  balance: number;
+interface NFTAttributes {
+  // 테이블 type 
+  hash: string;
+  name: string;
+  publisher: string;
+  owner: string;
+  desc: string;
+  filename: string;
+  IpfsHash: string;
+  JsonIpfsHash: string;
+  favorite: number;
+  price: number;
+  fees: number;
+  volume: number;
 }
 
+// module.exports = 에서 export default 로 바꿈
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Nft extends Model<NftAttributes> {
+  class NFT extends Model<NFTAttributes> {
     static associate(models: any) {
       // 관계 대상 정하기
       // Nft.belongsTo(models.User, {
@@ -19,18 +28,67 @@ module.exports = (sequelize: any, DataTypes: any) => {
       // });
     }
   }
-  Nft.init(
+  NFT.init(
     {
-      // 테이블
-      account: { type: DataTypes.STRING, allowNull: false, unique: true },
-      nickName: { type: DataTypes.STRING, allowNull: false },
-      chainId: { type: DataTypes.STRING, allowNull: false },
-      balance: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false },
+      // 테이블 설정
+      hash: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        // unique: true
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      publisher: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      owner: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      desc: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      filename: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      IpfsHash: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      JsonIpfsHash: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      favorite: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      fees: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      volume: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 1
+      },
     },
     {
       sequelize,
-      modelName: "Nft",
+      modelName: "NFT",
     }
   );
-  return Nft;
+  return NFT;
 };
