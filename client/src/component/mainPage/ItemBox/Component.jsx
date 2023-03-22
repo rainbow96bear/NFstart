@@ -7,11 +7,10 @@ const ItemBoxComp = ({
   handleMouseOver,
   handleMouseOut,
   zIndex,
-  setMainImg,
-  mainImg,
+  setMain,
+  main,
   theme,
   testArr,
-  item,
 }) => {
   const [on, setOn] = useState(false);
   const click = () => {
@@ -31,22 +30,22 @@ const ItemBoxComp = ({
             click();
           }}
         >
-          <img src={mainImg} />
+          <img src={main.img} />
         </MainImg>
         <SubBox theme={theme}>
           {testArr.map((item, idx) => (
             <div
               key={`subImg-${idx}`}
               onClick={() => {
-                setMainImg(item);
+                setMain(item);
               }}
             >
-              <img src={item}></img>
+              <img src={item.img} />
             </div>
           ))}
         </SubBox>
       </ItemCase>
-      <SellModal isOpen={on} click={click} item={item} />
+      <SellModal isOpen={on} click={click} main={main} />
     </ItemBox>
   );
 };

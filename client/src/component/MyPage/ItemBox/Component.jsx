@@ -7,6 +7,7 @@ const ItemBoxComp = ({ item }) => {
   const click = () => {
     setOn(!on);
   };
+
   return (
     <>
       <ItemBox
@@ -14,9 +15,9 @@ const ItemBoxComp = ({ item }) => {
           click();
         }}
       >
-        <img src={item.img} />
+        <img src={item?.img} />
       </ItemBox>
-      <SellModal isOpen={on} click={click} item={item} />
+      <SellModal isOpen={on} click={click} main={item} />
     </>
   );
 };
