@@ -5,7 +5,6 @@ import path from "path";
 import dotenv from "dotenv";
 import pinataSDK from "@pinata/sdk";
 import fs from "fs";
-// import { Readable } from 'stream';
 import db from "../models/index";
 dotenv.config();
 
