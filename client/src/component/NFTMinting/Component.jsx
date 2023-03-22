@@ -46,6 +46,7 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
         }
     }, [img]);
 
+
     // NFT 등록을 위한 상태값 (+ image, account-users 연결, web3)
     const [isDetail, setIsDetail] = useState(false);    // 상세 정보 작성중인가?
     const [name, setName] = useState();                 // NFT 이름
@@ -56,6 +57,25 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
     // const [tags, setTags] = useState([]);               // NFT 태그
     // NFT 등록 시간, 각각의 확률.. 
 
+    // NFT 등록 로딩
+    const [loading, setLoading] = useState(false);
+
+    // NFT 등록 함수
+    const registReq = async () => {
+        // NFT 등록 요청
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('name', name);
+        formData.append('desc', desc);
+        formData.append('num', num);
+        formData.append('account', account);
+        setLoading(true);
+        const registered = (await axios.post("http://localhost:8080/api/nft/regist", formData)).data;
+        console.log(registered);
+        setLoading(false);
+    }
+
+    // 로그인 확인
     if (isDetail || registeringNFT) {
         console.log(isDetail);
         console.log(registeringNFT);
@@ -87,6 +107,13 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
 
                         {/* 여기 */}
                         <DetailContentWrap>
+
+                            {loading && (
+                                <Loading>
+                                    <img src={`https://images.velog.io/images/leeseooo/post/de8c4bcc-40dc-474a-a4ef-2086127a6f3d/%EB%AC%B4%EC%A7%80%EA%B0%9C%EA%B3%A0%EC%96%91%EC%9D%B4.gif`}></img>
+                                    <div>NFT 등록중...</div>
+                                </Loading>
+                            )}
 
                             {/* 위 */}
                             <DetailContent>
@@ -139,17 +166,12 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
 
                                     alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다.");
 
-                                    // NFT 등록 요청
-                                    const formData = new FormData();
-                                    formData.append('file', file);
-                                    formData.append('name', name);
-                                    formData.append('desc', desc);
-                                    formData.append('num', num);
-                                    formData.append('account', account); // 여기
-                                    await axios.post("http://localhost:8080/api/nft/regist", formData);
+                                    // NFT 등록 요청을 보낸다.
+                                    await registReq();
 
                                     // 로딩창 구현하기
                                     alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
+
                                     setIsDetail(false);
                                     setImage("");
                                     setImg("");
@@ -403,4 +425,57 @@ const NFTDesc = styled.div`
     height: 32px;
     width: 100%;
     overflow: hidden;
+`;
+
+const Loading = styled.div`
+    /* width: inherit; */
+    height: inherit;
+    background-color: #013368;
+    z-index: 5;
+    font-size: 20px;
+    font-weight: 600;
+    animation: rainbow 1s infinite;
+    margin: 0 auto;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    padding-top: 20%;
+    @keyframes rainbow {
+        0% {
+        color: rgb(255, 0, 0);
+        }
+        8% {
+        color: rgb(255, 127, 0);
+        }
+        16% {
+        color: rgb(255, 255, 0);
+        }
+        25% {
+        color: rgb(127, 255, 0);
+        }
+        33% {
+        color: rgb(0, 255, 0);
+        }
+        41% {
+        color: rgb(0, 255, 127);
+        }
+        50% {
+        color: rgb(0, 255, 255);
+        }
+        58% {
+        color: rgb(0, 127, 255);
+        }
+        66% {
+        color: rgb(0, 0, 255);
+        }
+        75% {
+        color: rgb(127, 0, 255);
+        }
+        83% {
+        color: rgb(255, 0, 255);
+        }
+        91% {
+        color: rgb(255, 0, 127);
+        }
+    }
 `;
