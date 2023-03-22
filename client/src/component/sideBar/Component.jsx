@@ -138,7 +138,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding: 0 50px 0 10px;
