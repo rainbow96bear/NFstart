@@ -10,6 +10,7 @@ import { lightTheme, darkTheme } from "./styles/theme";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import MypageCont from "./component/MyPage/Container";
+import CreateCont from "./component/Create/Container";
 
 ReactModal.setAppElement("#root");
 function App() {
@@ -17,14 +18,14 @@ function App() {
   return (
     <Frame>
       <GlobalStyle
-        theme={theme == "dark" ? darkTheme : lightTheme}
-      ></GlobalStyle>
+        theme={theme == "dark" ? darkTheme : lightTheme}></GlobalStyle>
       <SideBarCont></SideBarCont>
       <Routes>
         <Route path="/" element={<MainCont></MainCont>}></Route>
         <Route path="/:params" element={<MainCont></MainCont>}></Route>
         <Route path="/login" element={<UserContainer />}></Route>
         <Route path="/mypage" element={<MypageCont />}></Route>
+        <Route path="/create" element={<CreateCont />}></Route>
         {/* <Route path="/modal" element={<NFTMintingContainer />}></Route> */}
       </Routes>
     </Frame>
