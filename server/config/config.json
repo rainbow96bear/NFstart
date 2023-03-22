@@ -1,26 +1,26 @@
 {
   "development": {
     "username": "root",
-    "password": "tjswn1234",
+    "password": "1234",
     "database": "nf_start",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "port": "3307"
+    "port": "3306"
   },
   "test": {
     "username": "root",
-    "password": "tjswn1234",
+    "password": "1234",
     "database": "nf_start",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "port": "3307"
+    "port": "3306"
   },
   "production": {
     "username": "root",
-    "password": "tjswn1234",
+    "password": "1234",
     "database": "nf_start",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "port": "3307"
+    "port": "3306"
   }
 }

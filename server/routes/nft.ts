@@ -49,7 +49,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     const volume = req.body.num;
     const account = req.body.account;
 
-    const imageData = fs.createReadStream(`./uploads/${filename}.png`);
+    const imageData = fs.createReadStream(`./uploads/${file.filename}`);
 
     console.log(file);
 
@@ -62,7 +62,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
             isDuplicate?: boolean;
         } = await pinata.pinFileToIPFS(imageData, {
             pinataMetadata: {
-                name: filename + "png",
+                name: file.filename,
             },
             pinataOptions: {
                 cidVersion: 0,

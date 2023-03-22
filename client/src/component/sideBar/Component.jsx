@@ -20,7 +20,6 @@ const SideBarComp = ({
   navigate,
   registeringNFT,
   setRegisteringNFT,
-  account,
 }) => {
   const account = useSelector((state) => state.account);
   return (
@@ -129,7 +128,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding-left: 10px;

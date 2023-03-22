@@ -3,11 +3,14 @@ import Modal from 'react-modal';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FcAddImage } from 'react-icons/fc';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 // registeringNFT : 기본 false, 클릭시 true
 const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => {
 
     Modal.setAppElement('#root');
+
+    const navigate = useNavigate();
 
     // account는 Redux에서 가져와 사용하기
     // useSelector으로 state값 받아오기
@@ -52,6 +55,17 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
     // const [isAuction, setIsAuctio] = useState(false);   // NFT를 경매할 것인가?
     // const [tags, setTags] = useState([]);               // NFT 태그
     // NFT 등록 시간, 각각의 확률.. 
+
+    if (isDetail || registeringNFT) {
+        console.log(isDetail);
+        console.log(registeringNFT);
+        if (!account) {
+            alert("로그인 후 이용해 주시기 바랍니다.");
+            setRegisteringNFT(false);
+            navigate("/login");
+            return;
+        }
+    }
 
     return (
         <>
