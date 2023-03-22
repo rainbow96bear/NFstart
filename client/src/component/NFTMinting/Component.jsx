@@ -77,8 +77,6 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
 
     // 로그인 확인
     if (isDetail || registeringNFT) {
-        console.log(isDetail);
-        console.log(registeringNFT);
         if (!account) {
             alert("로그인 후 이용해 주시기 바랍니다.");
             setRegisteringNFT(false);
@@ -105,7 +103,6 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                     <AllWrap>
                         <Title>새 NFT 만들기</Title>
 
-                        {/* 여기 */}
                         <DetailContentWrap>
 
                             {loading && (
@@ -169,7 +166,6 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                     // NFT 등록 요청을 보낸다.
                                     await registReq();
 
-                                    // 로딩창 구현하기
                                     alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
 
                                     setIsDetail(false);
@@ -196,7 +192,25 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                 }} >
                     <AllWrap>
                         <Title>새 NFT 만들기</Title>
-                        <ContentWrap>
+                        {/* 여기 */}
+                        <ContentWrap onDrop={(e) => {
+                            e.preventDefault();
+
+                            console.log(e.dataTransfer.files[0]);
+                            setFile(e.dataTransfer.files[0]);
+
+                            const reader = new FileReader();
+                            reader.readAsDataURL(e.dataTransfer.files[0]);
+                            reader.onload = () => {
+                                if (reader.result) {
+                                    setImg(reader.result);
+                                    setImage(reader.result);
+                                }
+                            }
+
+                        }} onDragOver={(e) => {
+                            e.preventDefault();
+                        }}>
                             {image ? (
                                 <div>
                                     <NFTImage src={image.toString()} alt={"NFT"} />
