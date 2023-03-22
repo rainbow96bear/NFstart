@@ -22,7 +22,7 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 
 const SellModal = ({ click, isOpen, item }) => {
-  console.log("item", item);
+  // console.log("item", item);
   Modal.setAppElement("#root");
   return (
     <ReactModal isOpen={isOpen}>

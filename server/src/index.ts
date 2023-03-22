@@ -90,22 +90,15 @@ app.post("/regist", async (req: Request, res: Response) => {
       res.send({ message: "account is exist" });
       return;
     } else {
-      await db.User.create({
-        account: req.body.account,
-        nickName: "req.body.nickName",
-        chainId: req.body.chainId,
-        balance: req.body.balance,
-      });
+      console.log(req.body);
+      // await db.User.create({
+      //   account: req.body.account,
+      //   nickName: "req.body.nickName",
+      //   chainId: req.body.chainId,
+      //   balance: req.body.balance,
+      // });
       res.send({ isError: false });
     }
-  } catch (err) {
-    console.log(err);
-    res.send({ isError: true });
-  }
-});
-
-app.post("/logined", async (req: Request, res: Response) => {
-  try {
   } catch (err) {
     console.log(err);
     res.send({ isError: true });

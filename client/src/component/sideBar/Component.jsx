@@ -19,6 +19,7 @@ const SideBarComp = ({
   navigate,
   registeringNFT,
   setRegisteringNFT,
+  account,
 }) => {
   return (
     <SideBarArea>
@@ -65,15 +66,22 @@ const SideBarComp = ({
         />
       </SideItem>
 
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/login");
-        }}
-      >
-        <AiOutlinePoweroff size={"25"} />
-        <p>로그인</p>
-      </SideItem>
+      {account ? (
+        <SideItem theme={theme}>
+          <AiOutlinePoweroff size={"25"} />
+          <p>{account}</p>
+        </SideItem>
+      ) : (
+        <SideItem
+          theme={theme}
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          <AiOutlinePoweroff size={"25"} />
+          <p>로그인</p>
+        </SideItem>
+      )}
 
       <SideItem
         theme={theme}
