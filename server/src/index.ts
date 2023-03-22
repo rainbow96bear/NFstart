@@ -67,7 +67,7 @@ app.post("/api/nft/regist", upload.single("file"), (req: Request, res: Response)
   const account = req.body.account;
   console.log("add uploads image : " + file?.filename);
   console.log(name, desc, num);
-  console.log(account);
+  console.log(account + "<- account");
 
   res.end();
 }
