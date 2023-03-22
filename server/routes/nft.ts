@@ -98,8 +98,8 @@ router.post("/regist", upload.single("file"), async (req, res) => {
             filename,
             IpfsHash,
             JsonIpfsHash,
-            publisher: "임시ACCOUNT값",
-            owner: "임시ACCOUNT값",
+            publisher: account,
+            owner: account,
         });
 
         // NFT 컨트랙트에 등록

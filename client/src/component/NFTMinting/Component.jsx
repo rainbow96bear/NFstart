@@ -137,6 +137,8 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                 }}>이전</NextBtn>
                                 <NextBtn onClick={async () => {
 
+                                    alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다.");
+
                                     // NFT 등록 요청
                                     const formData = new FormData();
                                     formData.append('file', file);
