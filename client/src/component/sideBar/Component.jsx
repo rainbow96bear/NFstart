@@ -74,6 +74,7 @@ const SideBarComp = ({
         <AiOutlinePoweroff size={"25"} />
         <p>로그인</p>
       </SideItem>
+
       <SideItem
         theme={theme}
         onClick={() => {
@@ -118,7 +119,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding-left: 10px;

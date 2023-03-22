@@ -1,5 +1,4 @@
 import "./App.css";
-import SellModalContain from "./component/sell modal/Container/SellModalContain";
 import UserContainer from "./component/User/UserContainer";
 import ReactModal from "react-modal";
 import { Routes, Route } from "react-router-dom";
@@ -25,9 +24,7 @@ function App() {
         <Route path="/" element={<MainCont></MainCont>}></Route>
         <Route path="/:params" element={<MainCont></MainCont>}></Route>
         <Route path="/login" element={<UserContainer />}></Route>
-        {/* <Route path="/sellmodal" element={<SellModalContain />}></Route> */}
         <Route path="/mypage" element={<MypageCont />}></Route>
-
         {/* <Route path="/modal" element={<NFTMintingContainer />}></Route> */}
       </Routes>
     </Frame>
@@ -38,4 +35,6 @@ export default App;
 
 const Frame = styled.div`
   display: flex;
+  width: 100vw;
+  overflow-x: hidden;
 `;
