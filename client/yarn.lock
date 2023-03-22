@@ -9268,6 +9268,11 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
+react-seekbar-component@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-seekbar-component/-/react-seekbar-component-1.0.0.tgz#8371b72357ea7aa23a1d144858493fadd823d4ad"
+  integrity sha512-YI8Gjciy4ZQh8LM6OAmWEHFgvPOZXnytYHCZ53tuzydb+zer2IvHJs/UsR0vWMSexzYEFK4pA9RdpSW6q4zOfQ==
+
 react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"

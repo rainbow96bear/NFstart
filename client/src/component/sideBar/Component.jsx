@@ -11,6 +11,7 @@ import { CgProfile } from "react-icons/cg";
 
 import ThemeBtn from "../../customComp/ThemeBtn";
 import NFTMintingContainer from "../../component/NFTMinting/Container";
+import { useSelector } from "react-redux";
 
 const SideBarComp = ({
   theme,
@@ -20,14 +21,14 @@ const SideBarComp = ({
   registeringNFT,
   setRegisteringNFT,
 }) => {
+  const account = useSelector((state) => state.account);
   return (
     <SideBarArea>
       <SideItem
         theme={theme}
         onClick={() => {
           navigate("/");
-        }}
-      >
+        }}>
         {params == undefined ? (
           <AiFillHome size={"25"} />
         ) : (
@@ -40,8 +41,7 @@ const SideBarComp = ({
         theme={theme}
         onClick={() => {
           navigate("/explore");
-        }}
-      >
+        }}>
         {params == "explore" ? (
           <IoSearchCircleSharp size={"25"} />
         ) : (
@@ -55,8 +55,7 @@ const SideBarComp = ({
         theme={theme}
         onClick={() => {
           setRegisteringNFT(true);
-        }}
-      >
+        }}>
         <BsPlusSquare size={"25"} />
         <p>NFT 등록</p>
         <NFTMintingContainer
@@ -65,22 +64,30 @@ const SideBarComp = ({
         />
       </SideItem>
 
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/login");
-        }}
-      >
-        <AiOutlinePoweroff size={"25"} />
-        <p>로그인</p>
-      </SideItem>
-
+      {account ? (
+        <SideItem
+          theme={theme}
+          onClick={() => {
+            navigate("/login");
+          }}>
+          <AiOutlinePoweroff size={"25"} />
+          <p>{account}</p>
+        </SideItem>
+      ) : (
+        <SideItem
+          theme={theme}
+          onClick={() => {
+            navigate("/login");
+          }}>
+          <AiOutlinePoweroff size={"25"} />
+          <p>로그인</p>
+        </SideItem>
+      )}
       <SideItem
         theme={theme}
         onClick={() => {
           navigate("/setting");
-        }}
-      >
+        }}>
         {params == "setting" ? (
           <IoSettingsSharp size={"25"} />
         ) : (
@@ -92,12 +99,12 @@ const SideBarComp = ({
         theme={theme}
         onClick={() => {
           changeTheme();
-        }}
-      >
+        }}>
         <ThemeBtn
           size={"25"}
-          innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
-        ></ThemeBtn>
+          innerText={`${
+            theme == "dark" ? "밝은 모드" : "어두운 모드"
+          }`}></ThemeBtn>
       </SideItem>
     </SideBarArea>
   );
