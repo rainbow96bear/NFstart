@@ -28,7 +28,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       account: { type: DataTypes.STRING, allowNull: false, unique: true },
       nickName: { type: DataTypes.STRING, allowNull: false },
       chainId: { type: DataTypes.STRING, allowNull: false },
-      balance: { type: DataTypes.DECIMAL(15, 2), allowNull: false },
+      balance: { type: DataTypes.DECIMAL(15, 2), allowNull: true },
     },
     {
       sequelize,

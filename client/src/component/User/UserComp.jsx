@@ -1,12 +1,18 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import logo from "./logo.png";
 import home from "./home.png";
 
 const UserComp = ({ web3, account, balance, chainId, linkMeta }) => {
-  const navigate = useNavigate();
+  // useEffect(()=>{
+  // const getMoney = async () => {
+  // const _balance = await web3?.eth.getBalance(account);
+  // setBalance(_balance / 10 ** 18);
+  // };
+  // getMoney();
+  // },[account])
 
   return (
     <>

@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 
 const SideBarCont = () => {
   const theme = useSelector((state) => state.theme);
+  const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
   const changeTheme = () => {
     dispatch({ type: "theme/change" });
   };
+
   let { params } = useParams();
   const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ const SideBarCont = () => {
       changeTheme={changeTheme}
       params={params}
       navigate={navigate}
+      account={account}
       registeringNFT={registeringNFT}
       setRegisteringNFT={setRegisteringNFT}
     ></SideBarComp>

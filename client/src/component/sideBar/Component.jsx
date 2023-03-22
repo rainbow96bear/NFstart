@@ -20,6 +20,7 @@ const SideBarComp = ({
   navigate,
   registeringNFT,
   setRegisteringNFT,
+  account,
 }) => {
   const account = useSelector((state) => state.account);
   return (
@@ -28,7 +29,8 @@ const SideBarComp = ({
         theme={theme}
         onClick={() => {
           navigate("/");
-        }}>
+        }}
+      >
         {params == undefined ? (
           <AiFillHome size={"25"} />
         ) : (
@@ -41,7 +43,8 @@ const SideBarComp = ({
         theme={theme}
         onClick={() => {
           navigate("/explore");
-        }}>
+        }}
+      >
         {params == "explore" ? (
           <IoSearchCircleSharp size={"25"} />
         ) : (
@@ -55,7 +58,8 @@ const SideBarComp = ({
         theme={theme}
         onClick={() => {
           setRegisteringNFT(true);
-        }}>
+        }}
+      >
         <BsPlusSquare size={"25"} />
         <p>NFT 등록</p>
         <NFTMintingContainer
@@ -65,11 +69,7 @@ const SideBarComp = ({
       </SideItem>
 
       {account ? (
-        <SideItem
-          theme={theme}
-          onClick={() => {
-            navigate("/login");
-          }}>
+        <SideItem theme={theme}>
           <AiOutlinePoweroff size={"25"} />
           <p>{account}</p>
         </SideItem>
@@ -78,16 +78,19 @@ const SideBarComp = ({
           theme={theme}
           onClick={() => {
             navigate("/login");
-          }}>
+          }}
+        >
           <AiOutlinePoweroff size={"25"} />
           <p>로그인</p>
         </SideItem>
       )}
+
       <SideItem
         theme={theme}
         onClick={() => {
           navigate("/setting");
-        }}>
+        }}
+      >
         {params == "setting" ? (
           <IoSettingsSharp size={"25"} />
         ) : (
@@ -99,12 +102,12 @@ const SideBarComp = ({
         theme={theme}
         onClick={() => {
           changeTheme();
-        }}>
+        }}
+      >
         <ThemeBtn
           size={"25"}
-          innerText={`${
-            theme == "dark" ? "밝은 모드" : "어두운 모드"
-          }`}></ThemeBtn>
+          innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
+        ></ThemeBtn>
       </SideItem>
     </SideBarArea>
   );
