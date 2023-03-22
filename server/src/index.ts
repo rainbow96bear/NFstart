@@ -6,7 +6,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
-import pinataSDK from '@pinata/sdk';
+import pinataSDK from "@pinata/sdk";
 import db from "../models/index";
 
 dotenv.config();
@@ -27,7 +27,10 @@ app.use("/", express.static(path.join(__dirname, "build")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // IPFS
-const pinata = new pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_API_SECRET);
+const pinata = new pinataSDK(
+  process.env.PINATA_API_KEY,
+  process.env.PINATA_API_SECRET
+);
 
 // 이미지 업로드
 const storage = multer.diskStorage({
@@ -42,9 +45,11 @@ const storage = multer.diskStorage({
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
   },
-
 });
-const upload = multer({ storage: storage, limits: { fieldSize: 25 * 1024 * 1024 } });
+const upload = multer({
+  storage: storage,
+  limits: { fieldSize: 25 * 1024 * 1024 },
+});
 
 app.use(
   session({
@@ -59,29 +64,48 @@ app.use(
   })
 );
 
-app.post("/api/nft/regist", upload.single("file"), (req: Request, res: Response) => {
-  const file = req.file;
-  const name = req.body.name;
-  const desc = req.body.desc;
-  const num = req.body.num;
-  const account = req.body.account;
-  console.log("add uploads image : " + file?.filename);
-  console.log(name, desc, num);
-  console.log(account);
+app.post(
+  "/api/nft/regist",
+  upload.single("file"),
+  (req: Request, res: Response) => {
+    const file = req.file;
+    const name = req.body.name;
+    const desc = req.body.desc;
+    const num = req.body.num;
+    const account = req.body.account;
+    console.log("add uploads image : " + file?.filename);
+    console.log(name, desc, num);
+    console.log(account);
 
-  res.end();
-}
+    res.end();
+  }
 );
 
-app.post("/userInfo", async (req: Request, res: Response) => {
+app.post("/regist", async (req: Request, res: Response) => {
   try {
-    const hi = await db.User.create({
-      account: req.body.account,
-      nickName: "req.body.nickName",
-      chainId: req.body.chainId,
-      balance: req.body.balance,
+    const tempUser = await db.User.findOne({
+      where: { account: req.body.account },
     });
-    res.send(hi);
+    if (tempUser) {
+      res.send({ message: "account is exist" });
+      return;
+    } else {
+      await db.User.create({
+        account: req.body.account,
+        nickName: "req.body.nickName",
+        chainId: req.body.chainId,
+        balance: req.body.balance,
+      });
+      res.send({ isError: false });
+    }
+  } catch (err) {
+    console.log(err);
+    res.send({ isError: true });
+  }
+});
+
+app.post("/logined", async (req: Request, res: Response) => {
+  try {
   } catch (err) {
     console.log(err);
     res.send({ isError: true });

@@ -24,7 +24,7 @@ const UserContainer = () => {
     const isConnected = window.ethereum.isConnected();
     if (balance != undefined) {
       if (isConnected) {
-        axios.post("http://localhost:8080/userInfo", {
+        axios.post("http://localhost:8080/regist", {
           account,
           chainId,
           balance,
