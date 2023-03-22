@@ -2,7 +2,7 @@
 import { SiMaterialdesign } from "react-icons/si";
 import { MdLocalOffer } from "react-icons/md";
 import { FaEthereum } from "react-icons/fa";
-
+import { ImCross } from "react-icons/im";
 import {
   AiOutlineTeam,
   AiOutlineMenu,
@@ -28,11 +28,8 @@ const SellModal = ({ click, isOpen, main }) => {
             <div>
               <div>
                 <img src="/imgs/eth.png" />
+                <span>{main.price}</span>
               </div>
-              <div>
-                <img src="/imgs/openInNew.png" />
-              </div>
-              <div>{<BsFillHeartFill size={"30"} />}</div>
             </div>
             <div>
               <img src={main.img} />
@@ -79,12 +76,12 @@ const SellModal = ({ click, isOpen, main }) => {
           <MpDt>
             <div>
               {main.seller}
-              <div>
-                <BsShareFill size={"30"} /> <BsThreeDots size={"30"} />
+              <div onClick={() => click()}>
+                <ImCross size={"30"} />
               </div>
             </div>
             <div>
-              {main.name}
+              <div>{main.name}</div>
               <div>Ownd by 45666</div>
             </div>
 
@@ -147,18 +144,6 @@ const SellModal = ({ click, isOpen, main }) => {
           </MyOf>
         </div>
       </ModalBox>
-
-      <Okbutton>
-        <button onClick={() => {}}>확인</button>
-
-        <button
-          onClick={() => {
-            click();
-          }}
-        >
-          취소
-        </button>
-      </Okbutton>
     </ReactModal>
   );
 };
@@ -294,7 +279,13 @@ const MpDt = styled.div`
     flex-direction: column;
     justify-content: space-around;
     text-align: center;
+
     & > div:first-child {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 10px;
+    }
+    & > div:nth-child(2) {
       display: flex;
       font-size: 20px;
       justify-content: space-around;
@@ -319,6 +310,7 @@ const MpDt = styled.div`
       display: flex;
       justify-content: space-around;
       font-size: 1.7rem;
+      margin-top: 5px;
     }
   }
   & > div:nth-child(5) {
@@ -347,12 +339,13 @@ const MpDt = styled.div`
       width: 100%;
       justify-content: space-around;
       margin-top: 5%;
+      text-align: center;
       & > div button {
         background-color: lightcyan;
         position: relative;
         border: 1px solid black;
         display: inline-block;
-        padding: 16px 105px;
+        padding: 15px 150px;
         border-radius: 15px;
         transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
 
@@ -413,8 +406,8 @@ const MyOf = styled.div`
 
 const ModalBox = styled.div`
   display: flex;
-  width: 85%;
-  height: 95%;
+  width: 95%;
+  height: 100%;
   background-color: rgb(245, 245, 245);
   justify-content: space-around;
   margin: 0 auto;
@@ -434,48 +427,7 @@ const ModalBox = styled.div`
   & > div:nth-child(2) {
     display: flex;
     flex-direction: column;
-
+    width: 45%;
     justify-content: space-around;
-  }
-`;
-const Okbutton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & > button {
-    width: 15%;
-    position: relative;
-    border: 1px solid black;
-    display: inline-block;
-    padding: 8px 10px;
-    border-radius: 15px;
-
-    transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
-
-    &::before {
-      position: absolute;
-      content: "";
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-      background: var(--btn-bg);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-    }
-
-    &:hover {
-      color: white;
-      background: transparent;
-      background-image: linear-gradient(0.47turn, #e2938f, #ae7dbe, #6f67f1);
-
-      &::before {
-        transform: scaleX(1);
-        transform-origin: left;
-      }
-    }
   }
 `;

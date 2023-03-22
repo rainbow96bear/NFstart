@@ -25,7 +25,7 @@ const MypageComp = ({ open, setOpen, testArr }) => {
         </CategoryBox>
         <ItemBox>
           {testArr.map((item, index) => (
-            <ItemBoxCont item={item} index={index} />
+            <ItemBoxCont item={item} index={index} key={index} />
           ))}
         </ItemBox>
       </MyPageFrame>
