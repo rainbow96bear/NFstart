@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "root",
-    "password": "tjswn1234",
+    "password": "1234",
     "database": "nf_start",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "tjswn1234",
+    "password": "1234",
     "database": "nf_start",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "tjswn1234",
+    "password": "1234",
     "database": "nf_start",
     "host": "127.0.0.1",
     "dialect": "mysql"

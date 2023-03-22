@@ -9,6 +9,9 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
 
     Modal.setAppElement('#root');
 
+    // account는 Redux에서 가져와 사용하기
+    // useSelector으로 state값 받아오기
+
     // 버튼과 인풋 연결
     const imgInput = useRef();
     const addBtnClick = () => {
@@ -120,7 +123,7 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                     formData.append('name', name);
                                     formData.append('desc', desc);
                                     formData.append('num', num);
-                                    formData.append('account', "유저account"); // 여기
+                                    formData.append('account', account); // 여기
                                     await axios.post("http://localhost:8080/api/nft/regist", formData);
 
                                     setTimeout(() => {
