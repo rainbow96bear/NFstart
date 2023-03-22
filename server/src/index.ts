@@ -7,6 +7,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
 import pinataSDK from "@pinata/sdk";
+import fs from "fs";
+import { Readable } from 'stream';
 import db from "../models/index";
 
 dotenv.config();
@@ -64,22 +66,73 @@ app.use(
   })
 );
 
-app.post(
-  "/api/nft/regist",
-  upload.single("file"),
-  (req: Request, res: Response) => {
-    const file = req.file;
-    const name = req.body.name;
-    const desc = req.body.desc;
-    const num = req.body.num;
-    const account = req.body.account;
-    console.log("add uploads image : " + file?.filename);
-    console.log(name, desc, num);
-    console.log(account);
+
+// NFT 등록
+app.post("/api/nft/regist", upload.single("file"), async (req: Request, res: Response) => {
+  if (!req.file) {
+    res.send({ data: "파일 업로드 실패" });
+    return;
+  }
+
+  const file = req.file;
+  const NFTName = req.body.name;
+  const NFTDesc = req.body.desc;
+  const publishNum = req.body.num;
+  const account = req.body.account;
+
+  const imageData = fs.createReadStream(`./uploads/${file.filename}`);
+
+  console.log(file);
+
+  try {
+    // Pinata에 해당 Image 등록
+    const imgResult: {
+      IpfsHash: string;
+      PinSize: number;
+      Timestamp: string;
+      isDuplicate?: boolean;
+    } = await pinata.pinFileToIPFS(imageData, {
+      pinataMetadata: {
+        name: file.filename,
+      },
+      pinataOptions: {
+        cidVersion: 0,
+      }
+    });
+    if (imgResult.isDuplicate) console.log("같은 이미지!");
+    console.log(imgResult);
+
+    // Pinata에 JSON 형식으로 NFT Data(.json) 등록
+    const jsonResult = await pinata.pinJSONToIPFS({
+      NFTName,
+      NFTDesc,
+      publishNum,
+      publishAccount: account,
+      image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
+    }, {
+      pinataMetadata: {
+        // .json : 이름이 같을 수 있기 때문에 추가
+        name: file.filename.split(".")[0] + ".json",
+      },
+      pinataOptions: {
+        cidVersion: 0,
+      }
+    });
+    console.log(jsonResult);
+
+    // NFT Database에 등록
+    // 코드 작성
+
+    // NFT 컨트랙트에 등록
+    // 코드 작성
 
     res.end();
+  } catch (error) {
+    console.error(error);
+    res.send(error);
   }
-);
+});
+
 
 app.post("/regist", async (req: Request, res: Response) => {
   try {

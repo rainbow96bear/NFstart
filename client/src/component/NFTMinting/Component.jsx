@@ -22,6 +22,7 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
     const [file, setFile] = useState();
     const [img, setImg] = useState("");
     const [image, setImage] = useState("");
+    const [uploadImage, setUploadImage] = useState("");
     const fileChange = useCallback((e) => {
         setFile(e.target.files[0]);
 
@@ -126,12 +127,11 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                     formData.append('account', account); // 여기
                                     await axios.post("http://localhost:8080/api/nft/regist", formData);
 
-                                    setTimeout(() => {
-                                        alert("NFT가 등록되었습니다.");
-                                        setIsDetail(false);
-                                        setImage("");
-                                        setImg("");
-                                    }, 1000);
+                                    // 로딩창 구현하기
+                                    alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
+                                    setIsDetail(false);
+                                    setImage("");
+                                    setImg("");
                                 }}>NFT 등록</NextBtn>
                             </DetailBtnWrap>
 
