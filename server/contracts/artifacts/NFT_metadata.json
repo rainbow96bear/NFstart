@@ -6,18 +6,7 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "string",
-						"name": "_name",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "_symbol",
-						"type": "string"
-					}
-				],
+				"inputs": [],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -75,6 +64,43 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_balance",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_msgSender",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "_tokenURI",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_tokenOwner",
+						"type": "address"
+					}
+				],
+				"name": "NFTMinted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "from",
@@ -95,6 +121,19 @@
 				],
 				"name": "Transfer",
 				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "NFTMint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
 				"inputs": [
@@ -310,6 +349,56 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "testMint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "tokenByIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "tokenOfOwnerByIndex",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -323,6 +412,19 @@
 						"internalType": "string",
 						"name": "",
 						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "totalSupply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -355,22 +457,19 @@
 		"devdoc": {
 			"events": {
 				"Approval(address,address,uint256)": {
-					"details": "Emitted when `owner` enables `approved` to manage the `tokenId` token."
+					"details": "`owner`가 `approved`가 `tokenId` 토큰을 관리하도록 할 때 발생합니다."
 				},
 				"ApprovalForAll(address,address,bool)": {
-					"details": "Emitted when `owner` enables or disables (`approved`) `operator` to manage all of its assets."
+					"details": "`owner`가 모든 자산을 관리하기 위해 `operator`를 활성화 또는 비활성화(`approved`)할 때 발생합니다."
 				},
 				"Transfer(address,address,uint256)": {
-					"details": "Emitted when `tokenId` token is transferred from `from` to `to`."
+					"details": "`tokenId` 토큰이 `from`에서 `to`로 전송될 때 발생합니다."
 				}
 			},
 			"kind": "dev",
 			"methods": {
 				"approve(address,uint256)": {
 					"details": "See {IERC721-approve}."
-				},
-				"balanceOf(address)": {
-					"details": "See {IERC721-balanceOf}."
 				},
 				"getApproved(uint256)": {
 					"details": "See {IERC721-getApproved}."
@@ -379,10 +478,10 @@
 					"details": "See {IERC721-isApprovedForAll}."
 				},
 				"name()": {
-					"details": "See {IERC721Metadata-name}."
+					"details": "{IERC721Metadata-name}을 참조하십시오."
 				},
 				"ownerOf(uint256)": {
-					"details": "See {IERC721-ownerOf}."
+					"details": "{IERC721-ownerOf}를 참조하세요."
 				},
 				"safeTransferFrom(address,address,uint256)": {
 					"details": "See {IERC721-safeTransferFrom}."
@@ -399,8 +498,17 @@
 				"symbol()": {
 					"details": "See {IERC721Metadata-symbol}."
 				},
+				"tokenByIndex(uint256)": {
+					"details": "See {IERC721Enumerable-tokenByIndex}."
+				},
+				"tokenOfOwnerByIndex(address,uint256)": {
+					"details": "See {IERC721Enumerable-tokenOfOwnerByIndex}."
+				},
 				"tokenURI(uint256)": {
 					"details": "See {IERC721Metadata-tokenURI}."
+				},
+				"totalSupply()": {
+					"details": "See {IERC721Enumerable-totalSupply}."
 				},
 				"transferFrom(address,address,uint256)": {
 					"details": "See {IERC721-transferFrom}."
@@ -410,7 +518,11 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"balanceOf(address)": {
+					"notice": "dev {IERC721-balanceOf}를 참조하세요."
+				}
+			},
 			"version": 1
 		}
 	},
@@ -431,11 +543,11 @@
 	},
 	"sources": {
 		"contracts/NFT.sol": {
-			"keccak256": "0x2ab6291df7fe76d664e419f25078af63177144286b48c47a0bddc750264b6888",
+			"keccak256": "0x6d7a5c34d8542236c48c1f028376a18918feb328348dfd167f172c7a9a173a96",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d2edfe8eb079fc56082c0baa8f48b19b9c74338c18f1e6d4789982f5af64787c",
-				"dweb:/ipfs/QmNWZHd4AzUkBGFcUbGwbyYPhtSoNCqoxnZ62nwLfMzVQU"
+				"bzz-raw://ee79be6b471aae553c90ff9c1fe0efad0fc014ecc19506d40429e52963f39a44",
+				"dweb:/ipfs/QmT5B5CbhPXVBexFW9HdpVKzptAw6MMEmqLaKbYU1nYryp"
 			]
 		},
 		"node_modules/@openzeppelin/contracts/access/Ownable.sol": {
@@ -447,19 +559,19 @@
 			]
 		},
 		"node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-			"keccak256": "0x1e854874c68bec05be100dc0092cb5fbbc71253d370ae98ddef248bbfc3fe118",
+			"keccak256": "0x5a32ecbe1f26b53bdb5daa5e6dde697b1d9b9a7fec3513b1be77c346babeae13",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ef0fb6e809779426dc2ac201149bbad4aecdc5810874f2843b050e8b5fef8d30",
-				"dweb:/ipfs/QmPDRjaNxmcyxLUKvv8Fxk5eWcf7xvC5S9JpbtqvE7Cadu"
+				"bzz-raw://5fcde55d8e42c52613e45d135c16f43e7b427bf94d636d549209c56522055585",
+				"dweb:/ipfs/QmembJJ2AExPut8kfpG5KN16PcheJ8GKiD2bfwrczEvnAX"
 			]
 		},
 		"node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
-			"keccak256": "0xab28a56179c1db258c9bf5235b382698cb650debecb51b23d12be9e241374b68",
+			"keccak256": "0x82080a0e05445fa574b19555d38327985932417dfb0696a4f1c0be5532768462",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://daae589a9d6fa7e55f99f86c0a16796ca490f243fb3693632c3711c0646c1d56",
-				"dweb:/ipfs/QmR3zpd7wNw3rcUdekwiv6FYHJqksuTCXLVioTxu6Fbxk3"
+				"bzz-raw://bd571223e9cc8d5750fe2b703824aea23757716825709b9f56e8d183acee6773",
+				"dweb:/ipfs/QmcoXYmTtdmR4DXZb3re9abNJdSpvQSqABwtBLFnLM8cg7"
 			]
 		},
 		"node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
