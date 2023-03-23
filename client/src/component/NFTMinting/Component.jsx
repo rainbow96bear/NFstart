@@ -12,9 +12,6 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
 
     const navigate = useNavigate();
 
-    // account는 Redux에서 가져와 사용하기
-    // useSelector으로 state값 받아오기
-
     // 버튼과 인풋 연결
     const imgInput = useRef();
     const addBtnClick = () => {
@@ -62,7 +59,6 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
 
     // NFT 등록 함수
     const registReq = async () => {
-        // NFT 등록 요청
         const formData = new FormData();
         formData.append('file', file);
         formData.append('name', name);
@@ -107,8 +103,10 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
 
                             {loading && (
                                 <Loading>
-                                    <img src={`https://images.velog.io/images/leeseooo/post/de8c4bcc-40dc-474a-a4ef-2086127a6f3d/%EB%AC%B4%EC%A7%80%EA%B0%9C%EA%B3%A0%EC%96%91%EC%9D%B4.gif`}></img>
+                                    <img alt="등록" src={`https://images.velog.io/images/leeseooo/post/de8c4bcc-40dc-474a-a4ef-2086127a6f3d/%EB%AC%B4%EC%A7%80%EA%B0%9C%EA%B3%A0%EC%96%91%EC%9D%B4.gif`}></img>
                                     <div>NFT 등록중...</div>
+                                    {/* <img width={"40%"} alt="" src={`https://steamuserimages-a.akamaihd.net/ugc/586909633581902758/BCAF264131B1B1792A7F985BFDCB749844A7DB8B/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false`}></img> */}
+                                    {/* <div style={{ marginTop: "5%" }}>NFT 등록중...</div> */}
                                 </Loading>
                             )}
 
@@ -192,13 +190,9 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                 }} >
                     <AllWrap>
                         <Title>새 NFT 만들기</Title>
-                        {/* 여기 */}
                         <ContentWrap onDrop={(e) => {
                             e.preventDefault();
-
-                            console.log(e.dataTransfer.files[0]);
                             setFile(e.dataTransfer.files[0]);
-
                             const reader = new FileReader();
                             reader.readAsDataURL(e.dataTransfer.files[0]);
                             reader.onload = () => {
@@ -207,7 +201,6 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                     setImage(reader.result);
                                 }
                             }
-
                         }} onDragOver={(e) => {
                             e.preventDefault();
                         }}>
@@ -221,7 +214,6 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                         }
                                     }}>이전</NextBtn>
                                     <NextBtn onClick={async () => {
-                                        // 상세정보 작성중인 상태로 변경
                                         setIsDetail(true);
                                     }}>다음</NextBtn>
                                 </div>
