@@ -1,11 +1,14 @@
 import ItemBoxComp from "./Component";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const ItemBoxCont = ({ testArr }) => {
+const ItemBoxCont = ({ NFlist }) => {
   const theme = useSelector((state) => state.theme);
-
-  const [main, setMain] = useState(testArr[0]);
+  console.log("nf", NFlist);
+  const [main, setMain] = useState("");
+  useEffect(() => {
+    setMain(NFlist[0]);
+  }, [NFlist]);
   const [zIndex, setZindex] = useState("3");
 
   const handleMouseOver = () => {
@@ -23,7 +26,7 @@ const ItemBoxCont = ({ testArr }) => {
       setMain={setMain}
       main={main}
       theme={theme}
-      testArr={testArr}
+      NFlist={NFlist}
     ></ItemBoxComp>
   );
 };

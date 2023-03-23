@@ -8,7 +8,9 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-
+//chat
+import { IoChatbubblesOutline } from "react-icons/io5";
+//
 import ThemeBtn from "../../customComp/ThemeBtn";
 import NFTMintingContainer from "../../component/NFTMinting/Container";
 import { useSelector } from "react-redux";
@@ -20,7 +22,6 @@ const SideBarComp = ({
   navigate,
   registeringNFT,
   setRegisteringNFT,
-  account,
 }) => {
   const account = useSelector((state) => state.account);
   return (
@@ -98,6 +99,16 @@ const SideBarComp = ({
         )}{" "}
         <p>설정</p>
       </SideItem>
+      <SideItem
+        theme={theme}
+        onClick={() => {
+          navigate("/chat");
+        }}
+      >
+        <IoChatbubblesOutline size={"25"} />
+        <p>채팅</p>
+      </SideItem>
+
       <SideItem
         theme={theme}
         onClick={() => {

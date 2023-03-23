@@ -39,7 +39,7 @@ app.use(
 );
 
 app.use("/api", routes);
-
+app.use("/uploads", express.static("uploads"));
 app.post("/regist", async (req: Request, res: Response) => {
   try {
     const tempUser = await db.User.findOne({

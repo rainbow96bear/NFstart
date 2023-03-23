@@ -1,57 +1,20 @@
 import MypageComp from "./Component";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 const MypageCont = () => {
   const [open, setOpen] = useState(false);
-  const testArr = [
-    {
-      seller: "test1",
-      name: "lee",
-      view: 787345,
-      favorites: 456456,
-      PFPS: 345344,
-      price: 342,
-      rank: 32,
-      number: 20,
-      img: "https://cover.millie.co.kr/service/cover/179561364/59ede77dd98f4da8bbc057bd8282ad17.jpg?w=125&q=80",
-    },
-    {
-      seller: "test2",
-      name: "gtr",
-      view: 555675,
-      favorites: 456456,
-      PFPS: 345344,
-      price: 67876876,
-      rank: 32,
-      number: 20,
-      img: "https://cover.millie.co.kr/service/cover/179548325/60e43be598bb4da9ab50b39f70c11895.jpg?w=125&q=80",
-    },
-    {
-      seller: "test3",
-      name: "tyut",
-      view: 556745,
-      favorites: 456456,
-      PFPS: 345344,
-      price: 567568565,
-      rank: 32,
-      number: 20,
-      img: "https://cover.millie.co.kr/service/cover/179574180/196635eb017a477385fbe7cec0e7dbf0.jpg?w=125&q=80",
-    },
-    {
-      seller: "test4",
-      name: "ghg",
-      view: 12312,
-      favorites: 456456,
-      PFPS: 345344,
-      price: 789798779,
-      rank: 32,
-      number: 20,
-      img: "https://cover.millie.co.kr/service/cover/179559925/fe449328632a454aadc7be506b0658e5.jpg?w=125&q=80",
-    },
-  ];
+  const [NFlist, setNFlist] = useState([]);
+  const templist = async () => {
+    const _NFlist = (await axios.post("http://localhost:8080/api/nft/tomain"))
+      .data;
+    setNFlist(_NFlist);
+  };
+  useEffect(() => {
+    templist();
+  }, []);
 
   return (
-    <MypageComp open={open} setOpen={setOpen} testArr={testArr}></MypageComp>
+    <MypageComp open={open} setOpen={setOpen} NFlist={NFlist}></MypageComp>
   );
 };
 
