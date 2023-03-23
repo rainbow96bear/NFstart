@@ -8,7 +8,9 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-
+//chat
+import { IoChatbubblesOutline } from "react-icons/io5";
+//
 import ThemeBtn from "../../customComp/ThemeBtn";
 import NFTMintingContainer from "../../component/NFTMinting/Container";
 import { useSelector } from "react-redux";
@@ -118,6 +120,15 @@ const SideBarComp = ({
       ) : (
         <></>
       )}
+      <SideItem
+        theme={theme}
+        onClick={() => {
+          navigate("/chat");
+        }}
+      >
+        <IoChatbubblesOutline size={"25"} />
+        <p>채팅</p>
+      </SideItem>
     </>
   );
 };
@@ -138,7 +149,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding: 0 50px 0 10px;

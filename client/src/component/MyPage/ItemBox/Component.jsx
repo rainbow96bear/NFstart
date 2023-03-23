@@ -15,7 +15,9 @@ const ItemBoxComp = ({ item }) => {
           click();
         }}
       >
-        <img src={item?.img} />
+        {item && (
+          <img src={`http://localhost:8080/uploads/${item.filename}.png`} />
+        )}
       </ItemBox>
       <SellModal isOpen={on} click={click} main={item} />
     </>

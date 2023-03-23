@@ -43,6 +43,30 @@ app.use(
 );
 
 app.use("/api", routes);
+app.use("/uploads", express.static("uploads"));
+app.post("/regist", async (req: Request, res: Response) => {
+  try {
+    const tempUser = await db.User.findOne({
+      where: { account: req.body.account },
+    });
+    if (tempUser) {
+      res.send({ message: "account is exist" });
+      return;
+    } else {
+      console.log(req.body);
+      // await db.User.create({
+      //   account: req.body.account,
+      //   nickName: "req.body.nickName",
+      //   chainId: req.body.chainId,
+      //   balance: req.body.balance,
+      // });
+      res.send({ isError: false });
+    }
+  } catch (err) {
+    console.log(err);
+    res.send({ isError: true });
+  }
+});
 
 db.sequelize.sync({ force: false }).then(() => {
   console.log("db connected");

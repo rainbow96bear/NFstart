@@ -19,7 +19,7 @@ import styled from "styled-components";
 
 const SellModal = ({ click, isOpen, main }) => {
   Modal.setAppElement("#root");
-
+  console.log(main);
   return (
     <ReactModal isOpen={isOpen}>
       <ModalBox>
@@ -28,11 +28,13 @@ const SellModal = ({ click, isOpen, main }) => {
             <div>
               <div>
                 <img src="/imgs/eth.png" />
-                <span>{main.price}</span>
+                <span>{main?.price}</span>
               </div>
             </div>
             <div>
-              <img src={main.img} />
+              <img
+                src={`http://localhost:8080/uploads/${main?.filename}.png`}
+              />
             </div>
           </MpRemoteImg>
           <MpMenue>
@@ -75,20 +77,20 @@ const SellModal = ({ click, isOpen, main }) => {
         <div>
           <MpDt>
             <div>
-              {main.seller}
+              {main?.hash}
               <div onClick={() => click()}>
                 <ImCross size={"30"} />
               </div>
             </div>
             <div>
-              <div>{main.name}</div>
-              <div>Ownd by 45666</div>
+              <div>{main?.name}</div>
+              <div>Ownd by {main?.owner}</div>
             </div>
 
             <div>
               <div>
                 <BsFillHeartFill size={"30"} />
-                {main.favorites}
+                {main?.favorites}
               </div>
             </div>
             <div>
@@ -97,7 +99,7 @@ const SellModal = ({ click, isOpen, main }) => {
                 sale ends{" "}
               </div>
               <div>
-                <div>Hour : "time"</div>
+                <div>Hour : "hours"</div>
                 <div>Minutes</div>
                 <div>Seconds</div>
               </div>
@@ -108,7 +110,7 @@ const SellModal = ({ click, isOpen, main }) => {
                   <FaEthereum size={"25"} />
                   Current price
                 </div>
-                <div>{main.price} ETH</div>
+                <div>{main?.price} ETH</div>
               </div>
               <div>
                 <div>

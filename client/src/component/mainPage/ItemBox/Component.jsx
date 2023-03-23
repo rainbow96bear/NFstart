@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-
+import { IoChatbubblesOutline } from "react-icons/io5";
 import SellModal from "../../sell modal/Component/SellModal";
 
 const ItemBoxComp = ({
@@ -10,17 +10,20 @@ const ItemBoxComp = ({
   setMain,
   main,
   theme,
-  testArr,
+  NFlist,
 }) => {
   const [on, setOn] = useState(false);
   const click = () => {
     setOn(!on);
   };
-
+  console.log(main);
   return (
     <ItemBox>
       <ItemCase>
-        <NameBox theme={theme}>유저 닉네임 혹은 아이디</NameBox>
+        <NameBox theme={theme}>
+          유저 닉네임 혹은 아이디 <IoChatbubblesOutline size={"30"} />
+        </NameBox>
+
         <MainImg
           theme={theme}
           zIndex={zIndex}
@@ -30,17 +33,23 @@ const ItemBoxComp = ({
             click();
           }}
         >
-          <img src={main.img} />
+          {main && (
+            <img src={`http://localhost:8080/uploads/${main.filename}.png`} />
+          )}
         </MainImg>
         <SubBox theme={theme}>
-          {testArr.map((item, idx) => (
+          {NFlist?.map((item, idx) => (
             <div
               key={`subImg-${idx}`}
               onClick={() => {
                 setMain(item);
               }}
             >
-              <img src={item.img} />
+              {main && (
+                <img
+                  src={`http://localhost:8080/uploads/${item.filename}.png`}
+                />
+              )}
             </div>
           ))}
         </SubBox>
@@ -66,6 +75,8 @@ const ItemCase = styled.div`
 `;
 // MainImg는 반응형 정사각형 만들어야한다.
 const NameBox = styled.div`
+  justify-content: space-between;
+  align-items: center;
   display: flex;
   padding: 20px 20px 10px 20px;
   background-color: ${(props) =>

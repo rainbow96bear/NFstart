@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import MypageCont from "./component/MyPage/Container";
 import CreateCont from "./component/Create/Container";
+import ChatCont from "./component/Chat/Container/ChatContain";
 
 ReactModal.setAppElement("#root");
 function App() {
@@ -18,7 +19,8 @@ function App() {
   return (
     <Frame>
       <GlobalStyle
-        theme={theme == "dark" ? darkTheme : lightTheme}></GlobalStyle>
+        theme={theme == "dark" ? darkTheme : lightTheme}
+      ></GlobalStyle>
       <SideBarCont></SideBarCont>
       <Routes>
         <Route path="/" element={<MainCont></MainCont>}></Route>
@@ -26,6 +28,8 @@ function App() {
         <Route path="/login" element={<UserContainer />}></Route>
         <Route path="/mypage" element={<MypageCont />}></Route>
         <Route path="/create" element={<CreateCont />}></Route>
+        <Route path="/chat" element={<ChatCont />}></Route>
+
         {/* <Route path="/modal" element={<NFTMintingContainer />}></Route> */}
       </Routes>
     </Frame>
