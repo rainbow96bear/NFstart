@@ -79,7 +79,6 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       },
     });
     if (imgResult.isDuplicate) console.log("같은 이미지!");
-    console.log(imgResult);
     const IpfsHash = imgResult.IpfsHash;
 
     // Pinata에 JSON 형식으로 NFT Data(.json) 등록
@@ -100,7 +99,6 @@ router.post("/regist", upload.single("file"), async (req, res) => {
         },
       }
     );
-    console.log(jsonResult);
     const JsonIpfsHash = jsonResult.IpfsHash;
 
     // NFT 컨트랙트에 등록
