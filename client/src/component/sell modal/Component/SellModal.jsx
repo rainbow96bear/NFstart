@@ -33,9 +33,7 @@ const SellModal = ({ click, isOpen, main }) => {
               </div>
             </div>
             <div>
-              <img
-                src={`http://localhost:8080/uploads/${main?.filename}.png`}
-              />
+              <img alt="" src={`http://localhost:8080/uploads/${main?.filename}`} />
             </div>
           </MpRemoteImg>
           <MpMenue>

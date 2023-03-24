@@ -16,7 +16,7 @@ const ItemBoxComp = ({ item }) => {
         }}
       >
         {item && (
-          <img src={`http://localhost:8080/uploads/${item.filename}.png`} />
+          <img alt="" src={`http://localhost:8080/uploads/${item.filename}`} />
         )}
       </ItemBox>
       <SellModal isOpen={on} click={click} main={item} />
