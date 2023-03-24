@@ -5,8 +5,14 @@ import path from "path";
 import dotenv from "dotenv";
 import pinataSDK from "@pinata/sdk";
 import fs from "fs";
+import Web3 from 'web3';
 import db from "../models/index";
+import NFTAbi from "../build/contracts/NFTToken.json";
+import { AbiItem } from 'web3-utils';
+
 dotenv.config();
+
+const web3 = new Web3("http://ganache.test.errorcode.help:8545");
 
 const router = express.Router();
 
@@ -105,8 +111,22 @@ router.post("/regist", upload.single("file"), async (req, res) => {
             owner: account,
         });
 
-        // NFT 컨트랙트에 등록
-        // 코드 작성
+        // // NFT 컨트랙트에 등록
+        // // 코드 작성
+        // // NFTAbi : 배포된 토큰 json
+        // const deployed = new web3.eth.Contract(NFTAbi as any, process.env.NFTTOKEN_CA);
+        // // await web3.eth.getTransactionCount();
+        // const data = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
+        // console.log(data);
+
+        // const obj = {
+        //     nonce: 0,
+        //     to: process.env.NFT_TOKEN_CA,
+        //     from: req.body.from,
+        //     data: "",
+        // }
+        // obj.nonce = await web3.eth.getTransactionCount(req.body.from);
+        // obj.data = deployed.methods.safeMint(jsonResult.IpfsHash).encodeABI();
 
         res.end();
     } catch (error) {
