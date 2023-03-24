@@ -68,9 +68,7 @@ const NFTMintingComponent = ({
     formData.append("num", num);
     formData.append("account", account);
     setLoading(true);
-    const registered = (
-      await axios.post("http://localhost:8080/api/nft/regist", formData)
-    ).data;
+    const registered = (await axios.post("/api/nft/regist", formData)).data;
     console.log(registered);
     setLoading(false);
   };
