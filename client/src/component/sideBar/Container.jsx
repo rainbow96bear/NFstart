@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { action } from "../../modules/userInfo";
 
-const SideBarCont = () => {
+const SideBarCont = ({ cookieValue }) => {
   const theme = useSelector((state) => state.theme);
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
@@ -36,8 +37,10 @@ const SideBarCont = () => {
       params={params}
       navigate={navigate}
       account={account}
+      cookieValue={cookieValue}
       registeringNFT={registeringNFT}
-      setRegisteringNFT={setRegisteringNFT}></SideBarComp>
+      setRegisteringNFT={setRegisteringNFT}
+    ></SideBarComp>
   );
 };
 export default SideBarCont;
