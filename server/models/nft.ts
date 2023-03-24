@@ -32,7 +32,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     {
       // 테이블 설정
       hash: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
         // unique: true
       },
@@ -49,7 +49,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       desc: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       filename: {
