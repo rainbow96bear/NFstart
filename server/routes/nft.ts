@@ -7,12 +7,16 @@ import pinataSDK from "@pinata/sdk";
 import fs from "fs";
 import Web3 from "web3";
 import db from "../models/index";
-import NFTAbi from "../build/contracts/NFTToken.json";
+// import NFTAbi from "../build/contracts/NFTToken.json";
+import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { AbiItem } from "web3-utils";
 
 dotenv.config();
 
-const web3 = new Web3("http://ganache.test.errorcode.help:8545");
+// const web3 = new Web3("http://ganache.test.errorcode.help:8545");
+// https://app.infura.io/login
+// wss://goerli.infura.io/ws/v3/YOUR-API-KEY
+const web3 = new Web3(`wss://goerli.infura.io/ws/v3/${process.env.GOERLI_API_KEY}`);
 
 const router = express.Router();
 
@@ -97,11 +101,20 @@ router.post("/regist", upload.single("file"), async (req, res) => {
         console.log(jsonResult);
         const JsonIpfsHash = jsonResult.IpfsHash;
 
-        console.log(file);
+
+        // NFT 컨트랙트에 등록
+        const deployed = new web3.eth.Contract(NFTAbi as AbiItem[], process.env.NFT_TOKEN_CA);
+        console.log(deployed.methods);
+
+        console.log(await web3.eth.getTransactionCount(account));
+
+        const data = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
+
+        // 프론트에서 sendTransaction 을 해줘야 함
 
         // NFT Database에 등록
         const createdNFT = await db.NFT.create({
-            hash: "임시HASH값",
+            hash: data,
             name,
             desc,
             filename: file.filename,
@@ -110,31 +123,10 @@ router.post("/regist", upload.single("file"), async (req, res) => {
             publisher: account,
             owner: account,
         });
-
         const user = await db.User.findOne({
             while: { account: account }
         });
-
         await user.addUserNFTs(createdNFT);
-
-
-
-        // // NFT 컨트랙트에 등록
-        // // 코드 작성
-        // // NFTAbi : 배포된 토큰 json
-        // const deployed = new web3.eth.Contract(NFTAbi as any, process.env.NFTTOKEN_CA);
-        // // await web3.eth.getTransactionCount();
-        // const data = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
-        // console.log(data);
-
-        // const obj = {
-        //     nonce: 0,
-        //     to: process.env.NFT_TOKEN_CA,
-        //     from: req.body.from,
-        //     data: "",
-        // }
-        // obj.nonce = await web3.eth.getTransactionCount(req.body.from);
-        // obj.data = deployed.methods.safeMint(jsonResult.IpfsHash).encodeABI();
 
         res.end();
     } catch (error) {
@@ -142,6 +134,8 @@ router.post("/regist", upload.single("file"), async (req, res) => {
         res.send(error);
     }
 });
+
+
 // NFT 메인페이지 출력
 router.post("/tomain", async (req, res) => {
     try {

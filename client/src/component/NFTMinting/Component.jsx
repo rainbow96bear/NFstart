@@ -159,6 +159,8 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                 }}>이전</NextBtn>
                                 <NextBtn onClick={async () => {
 
+                                    // 먼저 sendTransaction을 통하여 서명을 받는다.
+
                                     alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다.");
 
                                     // NFT 등록 요청을 보낸다.

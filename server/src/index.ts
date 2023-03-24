@@ -12,7 +12,8 @@ import Web3 from "web3";
 dotenv.config();
 
 // 일단 테스트 넷 가나슈에서 진행
-const web3 = new Web3("http://ganache.test.errorcode.help:8545");
+// const web3 = new Web3("http://ganache.test.errorcode.help:8545");
+const web3 = new Web3(`wss://goerli.infura.io/ws/v3/${process.env.GOERLI_API_KEY}`);
 
 const app: Express = express();
 app.set("port", process.env.PORT || 8080);
