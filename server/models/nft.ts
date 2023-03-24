@@ -22,10 +22,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
   class NFT extends Model<NFTAttributes> {
     static associate(models: any) {
       // 관계 대상 정하기
-      // Nft.belongsTo(models.User, {
-      //   foreignKey: "account",
-      //   targetKey: "account",
-      // });
+      NFT.belongsTo(models.User, {
+        foreignKey: "userAccount",
+        targetKey: "account",
+      });
     }
   }
   NFT.init(

@@ -17,10 +17,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
     balance!: number;
     static associate(models: any) {
       // 관계 대상 정하기
-      // User.hasMany(models.nft, {
-      //   foreignKey: "account",
-      //   sourceKey: "account",
-      // });
+      User.hasMany(models.NFT, {
+        as: "UserNFTs",
+        foreignKey: "userAccount",
+        sourceKey: "account",
+      });
     }
   }
   User.init(
