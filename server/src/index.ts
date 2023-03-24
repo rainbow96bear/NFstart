@@ -11,6 +11,8 @@ import routes from "../routes/index";
 dotenv.config();
 
 const app: Express = express();
+// app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors());
 app.set("port", process.env.PORT || 8080);
 app.use((req: Request, res: Response, next: NextFunction) => {
   if (process.env.NODE_ENV == "production") {

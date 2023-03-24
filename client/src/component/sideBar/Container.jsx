@@ -2,14 +2,27 @@ import SideBarComp from "./Component";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const SideBarCont = () => {
   const theme = useSelector((state) => state.theme);
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
-  const changeTheme = () => {
+  const changeTheme = async () => {
     dispatch({ type: "theme/change" });
+    await axios.put("/api/theme/set", { theme });
   };
+  useEffect(() => {
+    const test = async () => {
+      const _theme = await axios.get("/api/theme/get", {
+        theme,
+      });
+      if (theme != _theme) {
+        dispatch({ type: "theme/change" });
+      }
+    };
+    test();
+  }, []);
 
   let { params } = useParams();
   const navigate = useNavigate();
@@ -24,8 +37,7 @@ const SideBarCont = () => {
       navigate={navigate}
       account={account}
       registeringNFT={registeringNFT}
-      setRegisteringNFT={setRegisteringNFT}
-    ></SideBarComp>
+      setRegisteringNFT={setRegisteringNFT}></SideBarComp>
   );
 };
 export default SideBarCont;

@@ -16,13 +16,14 @@ import { TbArrowBarToDown } from "react-icons/tb";
 import Modal from "react-modal";
 import ReactModal from "react-modal";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const SellModal = ({ click, isOpen, main }) => {
   Modal.setAppElement("#root");
-
+  const theme = useSelector((state) => state.theme);
   return (
     <ReactModal isOpen={isOpen}>
-      <ModalBox>
+      <ModalBox theme={theme}>
         <div>
           <MpRemoteImg>
             <div>
@@ -408,7 +409,8 @@ const ModalBox = styled.div`
   display: flex;
   width: 95%;
   height: 100%;
-  background-color: rgb(245, 245, 245);
+  background-color: ${(props) =>
+    props.theme == "dark" ? "#00002a" : "#fdfdfd"};
   justify-content: space-around;
   margin: 0 auto;
   font-size: 20px;
