@@ -1,17 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
 import db from "../models/index";
+// import { Socket } from "socket.io";
 dotenv.config();
 const router = express.Router();
+// const io = Socket(server);
 
-router.post("/chart", async (req, res) => {
+router.post("/chat", async (req, res) => {
   try {
-    console.log(req.body);
     if (!req.body) {
       res.send({ data: "아이디를 확인해주세요" });
       return;
     }
-    const createChart = await db.Chart.create({
+    const createChat = await db.Chat.create({
       userId: req.body.userId,
       partnerId: req.body.partnerId,
       text: req.body.text,

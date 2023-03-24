@@ -57,8 +57,6 @@ router.post("/regist", upload.single("file"), async (req, res) => {
 
   const imageData = fs.createReadStream(`./uploads/${file.filename}`);
 
-  console.log(file);
-
   try {
     // Pinata에 해당 Image 등록
     const imgResult: {
@@ -136,13 +134,12 @@ router.post("/regist", upload.single("file"), async (req, res) => {
 });
 // NFT 메인페이지 출력
 router.post("/tomain", async (req, res) => {
-  console.log("1");
   try {
     const nftList = await db.NFT.findAll({
       order: ["id", "DESC"],
       limit: 4,
     });
-    console.log(nftList);
+
     res.send(nftList);
   } catch (error) {
     res.send(error);
