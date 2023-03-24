@@ -51,14 +51,18 @@ router.post("/regist", upload.single("file"), async (req, res) => {
   }
 
   const file = req.file;
+  const files = req.files;
   const filename = file.filename.split(".")[0];
   const name = req.body.name;
   const desc = req.body.desc;
   const volume = req.body.num;
   const account = req.body.account;
 
+  // 이미지가 제대로 안 들어가는 듯
   const imageData = fs.createReadStream(`./uploads/${file.filename}`);
   const nonce = await web3.eth.getTransactionCount(account);
+  console.log(file);
+
   console.log(file);
 
   try {
@@ -68,6 +72,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       PinSize: number;
       Timestamp: string;
       isDuplicate?: boolean;
+      // } = await pinata.pinFileToIPFS(Readable.from(req.file.buffer), {
     } = await pinata.pinFileToIPFS(imageData, {
       pinataMetadata: {
         name: file.filename,
