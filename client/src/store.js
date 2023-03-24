@@ -1,17 +1,16 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import reduxThunk from "redux-thunk";
 
 import { initialize as themeIni } from "./modules/theme";
 import { reducer as theme } from "./modules/theme";
-import { initialize as accountIni } from "./modules/account";
-import { reducer as account } from "./modules/account";
-import { reducer as chainId } from "./modules/chainId";
-import { initialize as chainIdIni } from "./modules/chainId";
-// createStore
+import { reducer as userInfo } from "./modules/userInfo";
+import { initialize as userInfoIni } from "./modules/userInfo";
+
 const store = createStore(
-  combineReducers({ theme, account, chainId }),
-  { ...themeIni, ...accountIni, ...chainIdIni },
-  composeWithDevTools()
+  combineReducers({ theme, userInfo }),
+  { ...themeIni, ...userInfoIni },
+  composeWithDevTools(applyMiddleware(reduxThunk))
 );
 
 export default store;

@@ -4,23 +4,20 @@
     "password": "tjswn1234",
     "database": "nf_start",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "port": "3307"
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",
     "password": "tjswn1234",
     "database": "nf_start",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "port": "3307"
+    "dialect": "mysql"
   },
   "production": {
     "username": "root",
     "password": "tjswn1234",
     "database": "nf_start",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "port": "3307"
+    "dialect": "mysql"
   }
 }

@@ -12,6 +12,7 @@ import { CgProfile } from "react-icons/cg";
 import ThemeBtn from "../../customComp/ThemeBtn";
 import NFTMintingContainer from "../../component/NFTMinting/Container";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const SideBarComp = ({
   theme,
@@ -20,96 +21,104 @@ const SideBarComp = ({
   navigate,
   registeringNFT,
   setRegisteringNFT,
-  account,
 }) => {
-  const account = useSelector((state) => state.account);
+  const { nickName } = useSelector((state) => state.userInfo);
+  const location = useLocation();
+
   return (
-    <SideBarArea>
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        {params == undefined ? (
-          <AiFillHome size={"25"} />
-        ) : (
-          <AiOutlineHome size={"25"} />
-        )}{" "}
-        <p>홈</p>
-        {/* theme로 이미지를 나누는 것이 아니라 params에 따라 변하도록 */}
-      </SideItem>
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/explore");
-        }}
-      >
-        {params == "explore" ? (
-          <IoSearchCircleSharp size={"25"} />
-        ) : (
-          <IoSearchCircleOutline size={"25"} />
-        )}
-        <p>검색</p>
-      </SideItem>
+    <>
+      {location.pathname != "/login" ? (
+        <SideBarArea>
+          <SideItem
+            theme={theme}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            {params == undefined ? (
+              <AiFillHome size={"25"} />
+            ) : (
+              <AiOutlineHome size={"25"} />
+            )}{" "}
+            <p>홈</p>
+            {/* theme로 이미지를 나누는 것이 아니라 params에 따라 변하도록 */}
+          </SideItem>
+          <SideItem
+            theme={theme}
+            onClick={() => {
+              navigate("/explore");
+            }}
+          >
+            {params == "explore" ? (
+              <IoSearchCircleSharp size={"25"} />
+            ) : (
+              <IoSearchCircleOutline size={"25"} />
+            )}
+            <p>검색</p>
+          </SideItem>
 
-      {/* NFT 등록 */}
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          setRegisteringNFT(true);
-        }}
-      >
-        <BsPlusSquare size={"25"} />
-        <p>NFT 등록</p>
-        <NFTMintingContainer
-          registeringNFT={registeringNFT}
-          setRegisteringNFT={setRegisteringNFT}
-        />
-      </SideItem>
+          {/* NFT 등록 */}
+          <SideItem
+            theme={theme}
+            onClick={() => {
+              setRegisteringNFT(true);
+            }}
+          >
+            <BsPlusSquare size={"25"} />
+            <p>NFT 등록</p>
+            <NFTMintingContainer
+              registeringNFT={registeringNFT}
+              setRegisteringNFT={setRegisteringNFT}
+            />
+          </SideItem>
 
-      {account ? (
-        <SideItem theme={theme}>
-          <AiOutlinePoweroff size={"25"} />
-          <p>{account}</p>
-        </SideItem>
+          {nickName ? (
+            <SideItem theme={theme}>
+              <AiOutlinePoweroff size={"25"} />
+              <p>{nickName}</p>
+              <button onClick={() => {}}>로그아웃</button>
+            </SideItem>
+          ) : (
+            <SideItem
+              theme={theme}
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              <AiOutlinePoweroff size={"25"} />
+              <p>로그인</p>
+            </SideItem>
+          )}
+
+          <SideItem
+            theme={theme}
+            onClick={() => {
+              navigate("/setting");
+            }}
+          >
+            {params == "setting" ? (
+              <IoSettingsSharp size={"25"} />
+            ) : (
+              <IoSettingsOutline size={"25"} />
+            )}{" "}
+            <p>설정</p>
+          </SideItem>
+          <SideItem
+            theme={theme}
+            onClick={() => {
+              changeTheme();
+            }}
+          >
+            <ThemeBtn
+              size={"25"}
+              innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
+            ></ThemeBtn>
+          </SideItem>
+        </SideBarArea>
       ) : (
-        <SideItem
-          theme={theme}
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          <AiOutlinePoweroff size={"25"} />
-          <p>로그인</p>
-        </SideItem>
+        <></>
       )}
-
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/setting");
-        }}
-      >
-        {params == "setting" ? (
-          <IoSettingsSharp size={"25"} />
-        ) : (
-          <IoSettingsOutline size={"25"} />
-        )}{" "}
-        <p>설정</p>
-      </SideItem>
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          changeTheme();
-        }}
-      >
-        <ThemeBtn
-          size={"25"}
-          innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
-        ></ThemeBtn>
-      </SideItem>
-    </SideBarArea>
+    </>
   );
 };
 export default SideBarComp;
@@ -132,6 +141,6 @@ const SideItem = styled.div`
       props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
-    padding-left: 10px;
+    padding: 0 50px 0 10px;
   }
 `;

@@ -10,7 +10,6 @@ const SideBarCont = () => {
   const changeTheme = () => {
     dispatch({ type: "theme/change" });
   };
-
   let { params } = useParams();
   const navigate = useNavigate();
 

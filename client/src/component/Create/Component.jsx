@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { BsEraserFill } from "react-icons/bs";
+import brush from "../Create/brush.svg";
 import styled from "styled-components";
 import SeekBar from "react-seekbar-component";
 
@@ -65,7 +66,8 @@ const CreateComp = () => {
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
         onMouseMove={drawing}
-        onMouseLeave={finishDrawing}></canvas>
+        onMouseLeave={finishDrawing}
+      ></canvas>
       <SettingBox>
         <ValueBox>
           <div>
@@ -104,7 +106,8 @@ const CreateComp = () => {
               onClick={() => {
                 setColor(item);
               }}
-              item={item}></ColorItem>
+              item={item}
+            ></ColorItem>
           ))}
 
           <BsEraserFill size={50} />
@@ -112,7 +115,8 @@ const CreateComp = () => {
         <AllDelete
           onClick={() => {
             ctx.clearRect(0, 0, 500, 500);
-          }}>
+          }}
+        >
           전체 지우기
         </AllDelete>
       </SettingBox>
@@ -128,6 +132,9 @@ const CanvasBox = styled.div`
   canvas {
     background-color: white;
     border: 1px solid blue;
+  }
+  canvas:hover {
+    cursor: url(${brush}) 2 13, auto;
   }
 `;
 const SettingBox = styled.div``;

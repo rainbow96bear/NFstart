@@ -2,7 +2,7 @@
 import { Model } from "sequelize";
 
 interface NFTAttributes {
-  // 테이블 type 
+  // 테이블 type
   hash: string;
   name: string;
   publisher: string;
@@ -38,51 +38,51 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       publisher: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       owner: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       desc: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       filename: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       IpfsHash: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       JsonIpfsHash: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       favorite: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        defaultValue: 0
+        defaultValue: 0,
       },
       price: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        defaultValue: 0
+        defaultValue: 0,
       },
       fees: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        defaultValue: 0
+        defaultValue: 0,
       },
       volume: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        defaultValue: 1
+        defaultValue: 1,
       },
     },
     {
