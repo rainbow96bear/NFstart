@@ -1,31 +1,31 @@
-import ItemBoxComp from "./Component";
-import { useState } from "react";
+import NFTMintingComponent from "./Component.jsx";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
+import Web3 from "web3";
 
-const ItemBoxCont = ({ item, index }) => {
-  const theme = useSelector((state) => state.theme);
+const NFTMintingContainer = ({
+  registeringNFT,
+  setRegisteringNFT,
+  registeringNFTOnclick,
+}) => {
 
-  const location = useLocation();
+  const account = useSelector((state) => state.userInfo.account);
 
-  const [zIndex, setZindex] = useState("3");
+  // GOERLI_API_KEY 요청 보내는 것으로 바꾸기
+  // ganache
+  const web3 = new Web3(window.ethereum);
 
-  const handleMouseOver = () => {
-    setZindex("1");
-  };
-
-  const handleMouseOut = () => {
-    setZindex("3");
-  };
   return (
     <>
-      {location.pathname != "login" ? (
-        <ItemBoxComp item={item} theme={theme}></ItemBoxComp>
-      ) : (
-        <></>
-      )}
+      <NFTMintingComponent
+        registeringNFTOnclick={registeringNFTOnclick}
+        registeringNFT={registeringNFT}
+        setRegisteringNFT={setRegisteringNFT}
+        account={account}
+        web3={web3}
+      />
     </>
   );
 };
 
-export default ItemBoxCont;
+export default NFTMintingContainer;
