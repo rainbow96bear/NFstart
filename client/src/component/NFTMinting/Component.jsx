@@ -165,10 +165,8 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
 
                                     // NFT 등록 요청을 보낸다.
                                     const registData = await registReq();
-                                    console.log(registData);
                                     // alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
 
-                                    console.log(web3.eth);
                                     await web3.eth.sendTransaction(registData);
 
                                     alert("NFT 가 Goerli Network에 등록되었습니다.");
