@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 // registeringNFT : 기본 false, 클릭시 true
 const NFTMintingComponent = ({
-  web3,
   account,
   registeringNFT,
   setRegisteringNFT,
@@ -74,8 +73,6 @@ const NFTMintingComponent = ({
     ).data;
     console.log(registered);
     setLoading(false);
-
-    return registered;
   };
 
   // 로그인 확인
@@ -189,10 +186,7 @@ const NFTMintingComponent = ({
                     alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다.");
 
                     // NFT 등록 요청을 보낸다.
-                    const registData = await registReq();
-                    // alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
-
-                    await web3.eth.sendTransaction(registData);
+                    await registReq();
 
                     alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
 

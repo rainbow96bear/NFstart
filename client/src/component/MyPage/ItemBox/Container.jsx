@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 const ItemBoxCont = ({ item, index }) => {
   const theme = useSelector((state) => state.theme);
+
   const [zIndex, setZindex] = useState("3");
 
   const handleMouseOver = () => {
@@ -13,7 +14,15 @@ const ItemBoxCont = ({ item, index }) => {
   const handleMouseOut = () => {
     setZindex("3");
   };
-  return <ItemBoxComp item={item} theme={theme}></ItemBoxComp>;
+  return (
+    <>
+      {location.pathname != "login" ? (
+        <ItemBoxComp item={item} theme={theme}></ItemBoxComp>
+      ) : (
+        <></>
+      )}
+    </>
+  );
 };
 
 export default ItemBoxCont;

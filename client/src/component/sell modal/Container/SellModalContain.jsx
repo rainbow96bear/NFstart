@@ -1,59 +1,40 @@
-// import SellModal from "../Component/SellModal";
-// import Modal from "react-modal";
-// import styled from "styled-components";
+import SellModal from "../Component/SellModal";
 // import ReactModal from "react-modal";
-// import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useParams, useLocation } from "react-router-dom";
 
-// const SellModalContain = () => {
-//   const [isOpen, setOpen] = useState(false);
-//   //   const [open]
-//   const handleClick = () => {
-//     setOpen(true);
-//   };
-//   const handleClickCancel = () => {
-//     setOpen(false);
-//   };
-//   return (
-//     <ModalBox>
-//       <button
-//         onClick={() => {
-//           handleClick();
-//         }}
-//       >
-//         모오달여얼기
-//       </button>
-//       {isOpen ? (
-//         <SellModal isOpen={isOpen} onCancel={handleClickCancel} />
-//       ) : (
-//         <></>
-//       )}
-//     </ModalBox>
-//   );
-// };
-// export default SellModalContain;
+import axios from "axios";
 
-// const ModalBox = styled.div`
-//   overlay: {
-//     position: fixed, top= 0, left=0, right=0, bottom=0,
-//       backgroundColor= rgb(255, 155, 200, 0), z-index=10;
-//   }
-//   content: {
-//     display: flex;
-//     flex-direction: column;
-//     background-color: green;
-//     overflow: auto;
-//     top: 32vh;
-//     left: 35vw;
-//     right: 35vw;
-//     bottom: 32vh;
-//     outline: none;
-//     border-radius: 10px;
-//     z-index: 10;
-//   }
+const SellModalContain = ({ isOpen, click, main }) => {
+  let { account } = useParams();
 
-//   background-image: linear-gradient(0.47turn, #e2938f, #ae7dbe, #6f67f1);
-//   div {
-//     width: 100%;
-//     height: 100%;
-//   }
-// `;
+  const location = useLocation();
+  const theme = useSelector((state) => state.theme);
+  const [button, setButton] = useState();
+  const tempButton = async () => {
+    const _button = (await axios.post(`/api/nft/modalBt`, { account })).data;
+    console.log("버튼", _button);
+    setButton(_button);
+  };
+  useEffect(() => {
+    tempButton();
+  }, []);
+  return (
+    <>
+      {location.pathname != "login" ? (
+        <SellModal
+          theme={theme}
+          button={button}
+          click={click}
+          isOpen={isOpen}
+          main={main}
+        />
+      ) : (
+        <></>
+      )}
+    </>
+  );
+};
+export default SellModalContain;
+// const ModalBox = styled.div``;

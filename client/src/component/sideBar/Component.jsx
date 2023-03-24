@@ -28,8 +28,7 @@ const SideBarComp = ({
   setRegisteringNFT,
   cookieValue,
 }) => {
-  const { nickName } = useSelector((state) => state.userInfo);
-  const { account } = useSelector((state) => state.userInfo);
+  const { nickName, account } = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -138,6 +137,15 @@ const SideBarComp = ({
           <SideItem
             theme={theme}
             onClick={() => {
+              navigate("/chat");
+            }}
+          >
+            <IoChatbubblesOutline size={"25"} />
+            <p>채팅</p>
+          </SideItem>
+          <SideItem
+            theme={theme}
+            onClick={() => {
               changeTheme();
             }}
           >
@@ -150,15 +158,6 @@ const SideBarComp = ({
       ) : (
         <></>
       )}
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/chat");
-        }}
-      >
-        <IoChatbubblesOutline size={"25"} />
-        <p>채팅</p>
-      </SideItem>
     </>
   );
 };

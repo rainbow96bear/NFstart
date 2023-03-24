@@ -3,7 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import ItemBoxCont from "./ItemBox/Container";
 import { useState } from "react";
 
-const MypageComp = ({ open, setOpen, NFlist }) => {
+const MypageComp = ({ open, setOpen, NFlist, nickName }) => {
   return (
     <MyPage>
       <MyPageFrame>
@@ -13,8 +13,7 @@ const MypageComp = ({ open, setOpen, NFlist }) => {
           </ProfileImgBox>
           <Info>
             <div>
-              <div>{NFlist.name}</div>
-              <div>프로필 편집</div>
+              <div>{NFlist.account}</div>
             </div>
             <div>게시물 {NFlist.length}개</div>
           </Info>
@@ -24,7 +23,7 @@ const MypageComp = ({ open, setOpen, NFlist }) => {
           <div>판매중</div>
         </CategoryBox>
         <ItemBox>
-          {NFlist.map((item, index) => (
+          {NFlist?.map((item, index) => (
             <ItemBoxCont item={item} index={index} key={index} />
           ))}
         </ItemBox>

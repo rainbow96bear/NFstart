@@ -18,9 +18,10 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-const SellModal = ({ click, isOpen, main }) => {
+const SellModal = ({ click, isOpen, main, button }) => {
   Modal.setAppElement("#root");
   const theme = useSelector((state) => state.theme);
+
   return (
     <ReactModal isOpen={isOpen}>
       <ModalBox theme={theme}>
@@ -33,7 +34,7 @@ const SellModal = ({ click, isOpen, main }) => {
               </div>
             </div>
             <div>
-              <img alt="" src={`http://localhost:8080/uploads/${main?.filename}`} />
+              <img alt="" src={`/uploads/${main?.filename}`} />
             </div>
           </MpRemoteImg>
           <MpMenue>
@@ -112,7 +113,11 @@ const SellModal = ({ click, isOpen, main }) => {
                 <div>{main?.price} ETH</div>
               </div>
               <div>
-                <div>
+                <div
+                  onClick={() => {
+                    // console.log(button);
+                  }}
+                >
                   <button>
                     {" "}
                     <AiOutlineThunderbolt size={"20"} />

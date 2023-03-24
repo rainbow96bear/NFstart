@@ -1,7 +1,8 @@
 import styled from "styled-components";
-
+import SellModalContain from "../../sell modal/Container/SellModalContain";
 import SellModal from "../../sell modal/Component/SellModal";
 import { useState } from "react";
+
 const ItemBoxComp = ({ item }) => {
   const [on, setOn] = useState(false);
   const click = () => {
@@ -15,11 +16,9 @@ const ItemBoxComp = ({ item }) => {
           click();
         }}
       >
-        {item && (
-          <img alt="" src={`http://localhost:8080/uploads/${item.filename}`} />
-        )}
+        {item && <img alt="" src={`/uploads/${item.filename}`} />}
       </ItemBox>
-      <SellModal isOpen={on} click={click} main={item} />
+      <SellModalContain isOpen={on} click={click} main={item} />
     </>
   );
 };
