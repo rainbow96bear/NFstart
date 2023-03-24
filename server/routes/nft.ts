@@ -10,6 +10,7 @@ import db from "../models/index";
 // import NFTAbi from "../build/contracts/NFTToken.json";
 import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { AbiItem } from "web3-utils";
+import { Readable } from "stream";
 
 dotenv.config();
 
@@ -55,13 +56,17 @@ router.post("/regist", upload.single("file"), async (req, res) => {
   }
 
   const file = req.file;
+  const files = req.files;
   const filename = file.filename.split(".")[0];
   const name = req.body.name;
   const desc = req.body.desc;
   const volume = req.body.num;
   const account = req.body.account;
 
+  // 이미지가 제대로 안 들어가는 듯
   const imageData = fs.createReadStream(`./uploads/${file.filename}`);
+
+  console.log(file);
 
   try {
     // Pinata에 해당 Image 등록
@@ -70,6 +75,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       PinSize: number;
       Timestamp: string;
       isDuplicate?: boolean;
+      // } = await pinata.pinFileToIPFS(Readable.from(req.file.buffer), {
     } = await pinata.pinFileToIPFS(imageData, {
       pinataMetadata: {
         name: file.filename,
@@ -80,6 +86,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     });
     if (imgResult.isDuplicate) console.log("같은 이미지!");
     const IpfsHash = imgResult.IpfsHash;
+    console.log(IpfsHash);
 
     // Pinata에 JSON 형식으로 NFT Data(.json) 등록
     const jsonResult = await pinata.pinJSONToIPFS(
@@ -100,6 +107,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       }
     );
     const JsonIpfsHash = jsonResult.IpfsHash;
+    console.log(JsonIpfsHash);
 
     // NFT 컨트랙트에 등록
     const deployed = new web3.eth.Contract(
@@ -136,8 +144,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       nonce: nonce,
       to: process.env.NFT_TOKEN_CA,
       from: account,
-      // data: encodeURI(JSON.stringify({ jsonData, imgData })),
-      data: imgData,
+      data: jsonData,
     };
     console.log("보낼 객체");
     console.log(obj);
