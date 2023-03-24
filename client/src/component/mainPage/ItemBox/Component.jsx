@@ -33,8 +33,9 @@ const ItemBoxComp = ({
             click();
           }}
         >
+          {console.log(main)}
           {main && (
-            <img src={`http://localhost:8080/uploads/${main.filename}.png`} />
+            <img alt="" src={`http://localhost:8080/uploads/${main.filename}`} />
           )}
         </MainImg>
         <SubBox theme={theme}>
@@ -46,9 +47,7 @@ const ItemBoxComp = ({
               }}
             >
               {main && (
-                <img
-                  src={`http://localhost:8080/uploads/${item.filename}.png`}
-                />
+                <img alt="" src={`http://localhost:8080/uploads/${item.filename}`} />
               )}
             </div>
           ))}

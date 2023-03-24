@@ -8,7 +8,7 @@ const NFTMintingContainer = ({
   registeringNFTOnclick,
 }) => {
 
-  const account = useSelector((state) => state.account);
+  const account = useSelector((state) => state.userInfo.account);
 
   return (
     <>
