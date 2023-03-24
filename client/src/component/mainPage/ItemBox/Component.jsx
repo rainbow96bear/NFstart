@@ -12,17 +12,18 @@ const ItemBoxComp = ({
   theme,
   NFlist,
   nickName,
+  item,
 }) => {
   const [on, setOn] = useState(false);
   const click = () => {
     setOn(!on);
   };
-
+  console.log(item);
   return (
     <ItemBox>
       <ItemCase>
         <NameBox theme={theme}>
-          {nickName} <IoChatbubblesOutline size={"30"} />
+          {item.nickName} <IoChatbubblesOutline size={"30"} />
         </NameBox>
 
         <MainImg

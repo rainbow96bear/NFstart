@@ -162,6 +162,19 @@ router.post("/tomain", async (req, res) => {
     res.send(error);
   }
 });
+// main all
+router.post("/tomainAll", async (req, res) => {
+  try {
+    const userList = await db.User.findAll({
+      order: [["id", "DESC"]],
+    });
+    console.log("유저리스트", userList);
+
+    res.send(userList);
+  } catch (error) {
+    res.send(error);
+  }
+});
 //  NFT 마이페이지에 가지고 있는거 띄움
 router.post("/toMypage", async (req, res) => {
   // console.log(req.body);
@@ -182,7 +195,7 @@ router.post("/toMypage", async (req, res) => {
       res.send(error);
     }
   }
-  res.send();
+
   // 1차 유저랑 관계를 맺어야함
   // 2차 해당하는 유저의 정보를 가져와야함
 });

@@ -68,7 +68,6 @@ const ChatBox = styled.div`
   font-size: 100%;
   padding: 20px;
   position: relative;
-  padding: 20px;
   vertical-align: baseline;
   margin-left: auto;
 `;

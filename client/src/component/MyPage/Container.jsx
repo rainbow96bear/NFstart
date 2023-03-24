@@ -20,9 +20,7 @@ const MypageCont = () => {
     const _NFlist = (await axios.post(`/api/nft/toMypage`, { account })).data;
     setNFlist(_NFlist);
   };
-  // const tempNft= async()=>{
-  //   const _
-  // }
+
   useEffect(() => {
     templist();
   }, []);

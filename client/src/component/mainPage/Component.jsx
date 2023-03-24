@@ -1,10 +1,18 @@
 import styled from "styled-components";
 import ItemBoxCont from "./ItemBox/Container";
 
-const MainComp = ({ NFlist }) => {
+const MainComp = ({ NFlist, mainId }) => {
+  console.log("nf리스트", NFlist);
+  console.log("nfId", mainId);
   return (
     <Main>
-      <ItemBoxCont NFlist={NFlist}></ItemBoxCont>
+      {mainId?.reverse().map((item, index) => {
+        return (
+          <Box>
+            <ItemBoxCont NFlist={NFlist} item={item}></ItemBoxCont>
+          </Box>
+        );
+      })}
     </Main>
   );
 };
@@ -18,4 +26,9 @@ const Main = styled.div`
   align-items: center;
   height: 100vh;
   overflow-y: scroll;
+`;
+const Box = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;
