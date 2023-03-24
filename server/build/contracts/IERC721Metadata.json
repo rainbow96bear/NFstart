@@ -1,0 +1,710 @@
+{
+  "contractName": "IERC721Metadata",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "approved",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "approved",
+          "type": "bool"
+        }
+      ],
+      "name": "ApprovalForAll",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getApproved",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        }
+      ],
+      "name": "isApprovedForAll",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "ownerOf",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "_approved",
+          "type": "bool"
+        }
+      ],
+      "name": "setApprovalForAll",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenURI",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"approved\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"approved\",\"type\":\"bool\"}],\"name\":\"ApprovalForAll\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"getApproved\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"}],\"name\":\"isApprovedForAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"ownerOf\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"safeTransferFrom\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"safeTransferFrom\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"_approved\",\"type\":\"bool\"}],\"name\":\"setApprovalForAll\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"tokenURI\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"See https://eips.ethereum.org/EIPS/eip-721\",\"events\":{\"Approval(address,address,uint256)\":{\"details\":\"`owner`\\uac00 `approved`\\uac00 `tokenId` \\ud1a0\\ud070\\uc744 \\uad00\\ub9ac\\ud558\\ub3c4\\ub85d \\ud560 \\ub54c \\ubc1c\\uc0dd\\ud569\\ub2c8\\ub2e4.\"},\"ApprovalForAll(address,address,bool)\":{\"details\":\"`owner`\\uac00 \\ubaa8\\ub4e0 \\uc790\\uc0b0\\uc744 \\uad00\\ub9ac\\ud558\\uae30 \\uc704\\ud574 `operator`\\ub97c \\ud65c\\uc131\\ud654 \\ub610\\ub294 \\ube44\\ud65c\\uc131\\ud654(`approved`)\\ud560 \\ub54c \\ubc1c\\uc0dd\\ud569\\ub2c8\\ub2e4.\"},\"Transfer(address,address,uint256)\":{\"details\":\"`tokenId` \\ud1a0\\ud070\\uc774 `from`\\uc5d0\\uc11c `to`\\ub85c \\uc804\\uc1a1\\ub420 \\ub54c \\ubc1c\\uc0dd\\ud569\\ub2c8\\ub2e4.\"}},\"kind\":\"dev\",\"methods\":{\"approve(address,uint256)\":{\"details\":\"`to`\\uc5d0\\uac8c `tokenId` \\ud1a0\\ud070\\uc744 \\ub2e4\\ub978 \\uacc4\\uc815\\uc73c\\ub85c \\uc804\\uc1a1\\ud560 \\uc218 \\uc788\\ub294 \\uad8c\\ud55c\\uc744 \\ubd80\\uc5ec\\ud569\\ub2c8\\ub2e4. \\ud1a0\\ud070\\uc774 \\uc804\\uc1a1\\ub418\\uba74 \\uc2b9\\uc778\\uc774 \\ud574\\uc81c\\ub429\\ub2c8\\ub2e4. \\ud55c \\ubc88\\uc5d0 \\ud558\\ub098\\uc758 \\uacc4\\uc815\\ub9cc \\uc2b9\\uc778\\ud560 \\uc218 \\uc788\\uc73c\\ubbc0\\ub85c \\uc81c\\ub85c \\uc8fc\\uc18c\\ub97c \\uc2b9\\uc778\\ud558\\uba74 \\uc774\\uc804 \\uc2b9\\uc778\\uc774 \\uc9c0\\uc6cc\\uc9d1\\ub2c8\\ub2e4. \\uc694\\uad6c \\uc0ac\\ud56d: - \\ud638\\ucd9c\\uc790\\ub294 \\ud1a0\\ud070\\uc744 \\uc18c\\uc720\\ud558\\uac70\\ub098 \\uc2b9\\uc778\\ub41c \\uc6b4\\uc601\\uc790\\uc5ec\\uc57c \\ud569\\ub2c8\\ub2e4. - `tokenId`\\uac00 \\uc788\\uc5b4\\uc57c \\ud569\\ub2c8\\ub2e4. {\\uc2b9\\uc778} \\uc774\\ubca4\\ud2b8\\ub97c \\ub0b4\\ubcf4\\ub0c5\\ub2c8\\ub2e4.\"},\"balanceOf(address)\":{\"details\":\"``\\uc18c\\uc720\\uc790`` \\uacc4\\uc815\\uc758 \\ud1a0\\ud070 \\uc218\\ub97c \\ubc18\\ud658\\ud569\\ub2c8\\ub2e4.\"},\"getApproved(uint256)\":{\"details\":\"`tokenId` \\ud1a0\\ud070\\uc5d0 \\ub300\\ud574 \\uc2b9\\uc778\\ub41c \\uacc4\\uc815\\uc744 \\ubc18\\ud658\\ud569\\ub2c8\\ub2e4. \\uc694\\uad6c \\uc0ac\\ud56d: - `tokenId`\\uac00 \\uc788\\uc5b4\\uc57c \\ud569\\ub2c8\\ub2e4.\"},\"isApprovedForAll(address,address)\":{\"details\":\"`operator`\\uac00 `owner`\\uc758 \\ubaa8\\ub4e0 \\uc790\\uc0b0\\uc744 \\uad00\\ub9ac\\ud560 \\uc218 \\uc788\\ub294\\uc9c0 \\uc5ec\\ubd80\\ub97c \\ubc18\\ud658\\ud569\\ub2c8\\ub2e4. {setApprovalForAll} \\ucc38\\uc870\"},\"name()\":{\"details\":\"Returns the token collection name.\"},\"ownerOf(uint256)\":{\"details\":\"`tokenId` \\ud1a0\\ud070\\uc758 \\uc18c\\uc720\\uc790\\ub97c \\ubc18\\ud658\\ud569\\ub2c8\\ub2e4. \\uc694\\uad6c \\uc0ac\\ud56d: - `tokenId`\\uac00 \\uc788\\uc5b4\\uc57c \\ud569\\ub2c8\\ub2e4.\"},\"safeTransferFrom(address,address,uint256,bytes)\":{\"details\":\"`tokenId` \\ud1a0\\ud070\\uc744 `from`\\uc5d0\\uc11c `to`\\ub85c \\uc548\\uc804\\ud558\\uac8c \\uc804\\uc1a1\\ud569\\ub2c8\\ub2e4. Requirements: - `from`\\uc740 0 \\uc8fc\\uc18c\\uac00 \\ub420 \\uc218 \\uc5c6\\uc2b5\\ub2c8\\ub2e4. - `to`\\ub294 0 \\uc8fc\\uc18c\\uac00 \\ub420 \\uc218 \\uc5c6\\uc2b5\\ub2c8\\ub2e4. - `tokenId` \\ud1a0\\ud070\\uc774 \\uc874\\uc7ac\\ud574\\uc57c \\ud558\\uba70 `from`\\uc774 \\uc18c\\uc720\\ud574\\uc57c \\ud569\\ub2c8\\ub2e4. - \\ud638\\ucd9c\\uc790\\uac00 `from`\\uc774 \\uc544\\ub2cc \\uacbd\\uc6b0 {approve} \\ub610\\ub294 {setApprovalForAll}\\uc744 \\ud1b5\\ud574 \\uc774 \\ud1a0\\ud070\\uc744 \\uc774\\ub3d9\\ud558\\ub824\\uba74 \\uc2b9\\uc778\\uc744 \\ubc1b\\uc544\\uc57c \\ud569\\ub2c8\\ub2e4. - `to`\\uac00 \\uc2a4\\ub9c8\\ud2b8 \\uacc4\\uc57d\\uc744 \\uc758\\ubbf8\\ud558\\ub294 \\uacbd\\uc6b0 \\uc548\\uc804\\ud55c \\uc804\\uc1a1 \\uc2dc \\ud638\\ucd9c\\ub418\\ub294 {IERC721Receiver-onERC721Received}\\ub97c \\uad6c\\ud604\\ud574\\uc57c \\ud569\\ub2c8\\ub2e4. {Transfer} \\uc774\\ubca4\\ud2b8\\ub97c \\ub0b4\\ubcf4\\ub0c5\\ub2c8\\ub2e4.\"},\"setApprovalForAll(address,bool)\":{\"details\":\"\\ud638\\ucd9c\\uc790\\uc758 \\uc5f0\\uc0b0\\uc790\\ub85c `operator`\\ub97c \\uc2b9\\uc778\\ud558\\uac70\\ub098 \\uc81c\\uac70\\ud569\\ub2c8\\ub2e4. \\uc6b4\\uc601\\uc790\\ub294 \\ud638\\ucd9c\\uc790\\uac00 \\uc18c\\uc720\\ud55c \\ubaa8\\ub4e0 \\ud1a0\\ud070\\uc5d0 \\ub300\\ud574 {transferFrom} \\ub610\\ub294 {safeTransferFrom}\\uc744 \\ud638\\ucd9c\\ud560 \\uc218 \\uc788\\uc2b5\\ub2c8\\ub2e4. \\uc694\\uad6c \\uc0ac\\ud56d: - `operator`\\ub294 \\ud638\\ucd9c\\uc790\\uac00 \\ub420 \\uc218 \\uc5c6\\uc2b5\\ub2c8\\ub2e4. {ApprovalForAll} \\uc774\\ubca4\\ud2b8\\ub97c \\ub0b4\\ubcf4\\ub0c5\\ub2c8\\ub2e4.\"},\"supportsInterface(bytes4)\":{\"details\":\"Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas.\"},\"symbol()\":{\"details\":\"Returns the token collection symbol.\"},\"tokenURI(uint256)\":{\"details\":\"Returns the Uniform Resource Identifier (URI) for `tokenId` token.\"},\"transferFrom(address,address,uint256)\":{\"details\":\"`tokenId` \\ud1a0\\ud070\\uc744 `from`\\uc5d0\\uc11c `to`\\ub85c \\uc804\\uc1a1\\ud569\\ub2c8\\ub2e4. \\uacbd\\uace0: \\ubc1c\\uc2e0\\uc790\\ub294 \\uc218\\uc2e0\\uc790\\uac00 ERC721\\uc744 \\uc218\\uc2e0\\ud560 \\uc218 \\uc788\\ub294\\uc9c0 \\ud655\\uc778\\ud560 \\ucc45\\uc784\\uc774 \\uc788\\uc2b5\\ub2c8\\ub2e4. \\uadf8\\ub807\\uc9c0 \\uc54a\\uc73c\\uba74 \\uc601\\uad6c\\uc801\\uc73c\\ub85c \\uc190\\uc2e4\\ub420 \\uc218 \\uc788\\uc2b5\\ub2c8\\ub2e4. {safeTransferFrom}\\uc744 \\uc0ac\\uc6a9\\ud558\\uba74 \\uc190\\uc2e4\\uc744 \\ubc29\\uc9c0\\ud560 \\uc218 \\uc788\\uc9c0\\ub9cc \\ud638\\ucd9c\\uc790\\ub294 \\uc774\\uac83\\uc740 \\uc7a0\\uc7ac\\uc801\\uc73c\\ub85c \\uc7ac\\uc9c4\\uc785 \\ucde8\\uc57d\\uc810\\uc744 \\uc0dd\\uc131\\ud558\\ub294 \\uc678\\ubd80 \\ud638\\ucd9c\\uc744 \\ucd94\\uac00\\ud55c\\ub2e4\\ub294 \\uac83\\uc744 \\uc774\\ud574\\ud558\\uc2ed\\uc2dc\\uc624. \\uc694\\uad6c \\uc0ac\\ud56d: - `from`\\uc740 0 \\uc8fc\\uc18c\\uac00 \\ub420 \\uc218 \\uc5c6\\uc2b5\\ub2c8\\ub2e4. - `to`\\ub294 0 \\uc8fc\\uc18c\\uac00 \\ub420 \\uc218 \\uc5c6\\uc2b5\\ub2c8\\ub2e4. - `tokenId` \\ud1a0\\ud070\\uc740 `from`\\uc774 \\uc18c\\uc720\\ud574\\uc57c \\ud569\\ub2c8\\ub2e4. - \\ud638\\ucd9c\\uc790\\uac00 `from`\\uc774 \\uc544\\ub2cc \\uacbd\\uc6b0 {approve} \\ub610\\ub294 {setApprovalForAll}\\uc744 \\ud1b5\\ud574 \\uc774 \\ud1a0\\ud070\\uc744 \\uc774\\ub3d9\\ud558\\ub824\\uba74 \\uc2b9\\uc778\\uc744 \\ubc1b\\uc544\\uc57c \\ud569\\ub2c8\\ub2e4. {Transfer} \\uc774\\ubca4\\ud2b8\\ub97c \\ub0b4\\ubcf4\\ub0c5\\ub2c8\\ub2e4.\"}},\"title\":\"ERC-721 Non-Fungible Token Standard, optional metadata extension\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol\":\"IERC721Metadata\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol\":{\"keccak256\":\"0x82080a0e05445fa574b19555d38327985932417dfb0696a4f1c0be5532768462\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://bd571223e9cc8d5750fe2b703824aea23757716825709b9f56e8d183acee6773\",\"dweb:/ipfs/QmcoXYmTtdmR4DXZb3re9abNJdSpvQSqABwtBLFnLM8cg7\"]},\"project:/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol\":{\"keccak256\":\"0x75b829ff2f26c14355d1cba20e16fe7b29ca58eb5fef665ede48bc0f9c6c74b9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a0a107160525724f9e1bbbab031defc2f298296dd9e331f16a6f7130cec32146\",\"dweb:/ipfs/QmemujxSd7gX8A9M8UwmNbz4Ms3U9FG9QfudUgxwvTmPWf\"]},\"project:/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f\",\"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n// OpenZeppelin Contracts v4.4.1 (token/ERC721/extensions/IERC721Metadata.sol)\n\npragma solidity ^0.8.0;\n\nimport \"../IERC721.sol\";\n\n/**\n * @title ERC-721 Non-Fungible Token Standard, optional metadata extension\n * @dev See https://eips.ethereum.org/EIPS/eip-721\n */\ninterface IERC721Metadata is IERC721 {\n    /**\n     * @dev Returns the token collection name.\n     */\n    function name() external view returns (string memory);\n\n    /**\n     * @dev Returns the token collection symbol.\n     */\n    function symbol() external view returns (string memory);\n\n    /**\n     * @dev Returns the Uniform Resource Identifier (URI) for `tokenId` token.\n     */\n    function tokenURI(uint256 tokenId) external view returns (string memory);\n}\n",
+  "sourcePath": "C:\\Users\\effor\\Git\\NFstart\\server\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\extensions\\IERC721Metadata.sol",
+  "ast": {
+    "absolutePath": "project:/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
+    "exportedSymbols": {
+      "IERC165": [
+        2487
+      ],
+      "IERC721": [
+        1295
+      ],
+      "IERC721Metadata": [
+        1850
+      ]
+    },
+    "id": 1851,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1825,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "112:23:14"
+      },
+      {
+        "absolutePath": "project:/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol",
+        "file": "../IERC721.sol",
+        "id": 1826,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 1851,
+        "sourceUnit": 1296,
+        "src": "137:24:14",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 1828,
+              "name": "IERC721",
+              "nameLocations": [
+                "326:7:14"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 1295,
+              "src": "326:7:14"
+            },
+            "id": 1829,
+            "nodeType": "InheritanceSpecifier",
+            "src": "326:7:14"
+          }
+        ],
+        "canonicalName": "IERC721Metadata",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 1827,
+          "nodeType": "StructuredDocumentation",
+          "src": "163:133:14",
+          "text": " @title ERC-721 Non-Fungible Token Standard, optional metadata extension\n @dev See https://eips.ethereum.org/EIPS/eip-721"
+        },
+        "fullyImplemented": false,
+        "id": 1850,
+        "linearizedBaseContracts": [
+          1850,
+          1295,
+          2487
+        ],
+        "name": "IERC721Metadata",
+        "nameLocation": "307:15:14",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 1830,
+              "nodeType": "StructuredDocumentation",
+              "src": "340:58:14",
+              "text": " @dev Returns the token collection name."
+            },
+            "functionSelector": "06fdde03",
+            "id": 1835,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "name",
+            "nameLocation": "412:4:14",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1831,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "416:2:14"
+            },
+            "returnParameters": {
+              "id": 1834,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1833,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1835,
+                  "src": "442:13:14",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1832,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "442:6:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "441:15:14"
+            },
+            "scope": 1850,
+            "src": "403:54:14",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 1836,
+              "nodeType": "StructuredDocumentation",
+              "src": "463:60:14",
+              "text": " @dev Returns the token collection symbol."
+            },
+            "functionSelector": "95d89b41",
+            "id": 1841,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "symbol",
+            "nameLocation": "537:6:14",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1837,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "543:2:14"
+            },
+            "returnParameters": {
+              "id": 1840,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1839,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1841,
+                  "src": "569:13:14",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1838,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "569:6:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "568:15:14"
+            },
+            "scope": 1850,
+            "src": "528:56:14",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 1842,
+              "nodeType": "StructuredDocumentation",
+              "src": "590:90:14",
+              "text": " @dev Returns the Uniform Resource Identifier (URI) for `tokenId` token."
+            },
+            "functionSelector": "c87b56dd",
+            "id": 1849,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "tokenURI",
+            "nameLocation": "694:8:14",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1845,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1844,
+                  "mutability": "mutable",
+                  "name": "tokenId",
+                  "nameLocation": "711:7:14",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1849,
+                  "src": "703:15:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1843,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "703:7:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "702:17:14"
+            },
+            "returnParameters": {
+              "id": 1848,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1847,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1849,
+                  "src": "743:13:14",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1846,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "743:6:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "742:15:14"
+            },
+            "scope": 1850,
+            "src": "685:73:14",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 1851,
+        "src": "297:463:14",
+        "usedErrors": []
+      }
+    ],
+    "src": "112:649:14"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.19+commit.7dd6d404.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.13",
+  "updatedAt": "2023-03-23T08:38:14.120Z",
+  "devdoc": {
+    "details": "See https://eips.ethereum.org/EIPS/eip-721",
+    "events": {
+      "Approval(address,address,uint256)": {
+        "details": "`owner`가 `approved`가 `tokenId` 토큰을 관리하도록 할 때 발생합니다."
+      },
+      "ApprovalForAll(address,address,bool)": {
+        "details": "`owner`가 모든 자산을 관리하기 위해 `operator`를 활성화 또는 비활성화(`approved`)할 때 발생합니다."
+      },
+      "Transfer(address,address,uint256)": {
+        "details": "`tokenId` 토큰이 `from`에서 `to`로 전송될 때 발생합니다."
+      }
+    },
+    "kind": "dev",
+    "methods": {
+      "approve(address,uint256)": {
+        "details": "`to`에게 `tokenId` 토큰을 다른 계정으로 전송할 수 있는 권한을 부여합니다. 토큰이 전송되면 승인이 해제됩니다. 한 번에 하나의 계정만 승인할 수 있으므로 제로 주소를 승인하면 이전 승인이 지워집니다. 요구 사항: - 호출자는 토큰을 소유하거나 승인된 운영자여야 합니다. - `tokenId`가 있어야 합니다. {승인} 이벤트를 내보냅니다."
+      },
+      "balanceOf(address)": {
+        "details": "``소유자`` 계정의 토큰 수를 반환합니다."
+      },
+      "getApproved(uint256)": {
+        "details": "`tokenId` 토큰에 대해 승인된 계정을 반환합니다. 요구 사항: - `tokenId`가 있어야 합니다."
+      },
+      "isApprovedForAll(address,address)": {
+        "details": "`operator`가 `owner`의 모든 자산을 관리할 수 있는지 여부를 반환합니다. {setApprovalForAll} 참조"
+      },
+      "name()": {
+        "details": "Returns the token collection name."
+      },
+      "ownerOf(uint256)": {
+        "details": "`tokenId` 토큰의 소유자를 반환합니다. 요구 사항: - `tokenId`가 있어야 합니다."
+      },
+      "safeTransferFrom(address,address,uint256,bytes)": {
+        "details": "`tokenId` 토큰을 `from`에서 `to`로 안전하게 전송합니다. Requirements: - `from`은 0 주소가 될 수 없습니다. - `to`는 0 주소가 될 수 없습니다. - `tokenId` 토큰이 존재해야 하며 `from`이 소유해야 합니다. - 호출자가 `from`이 아닌 경우 {approve} 또는 {setApprovalForAll}을 통해 이 토큰을 이동하려면 승인을 받아야 합니다. - `to`가 스마트 계약을 의미하는 경우 안전한 전송 시 호출되는 {IERC721Receiver-onERC721Received}를 구현해야 합니다. {Transfer} 이벤트를 내보냅니다."
+      },
+      "setApprovalForAll(address,bool)": {
+        "details": "호출자의 연산자로 `operator`를 승인하거나 제거합니다. 운영자는 호출자가 소유한 모든 토큰에 대해 {transferFrom} 또는 {safeTransferFrom}을 호출할 수 있습니다. 요구 사항: - `operator`는 호출자가 될 수 없습니다. {ApprovalForAll} 이벤트를 내보냅니다."
+      },
+      "supportsInterface(bytes4)": {
+        "details": "Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas."
+      },
+      "symbol()": {
+        "details": "Returns the token collection symbol."
+      },
+      "tokenURI(uint256)": {
+        "details": "Returns the Uniform Resource Identifier (URI) for `tokenId` token."
+      },
+      "transferFrom(address,address,uint256)": {
+        "details": "`tokenId` 토큰을 `from`에서 `to`로 전송합니다. 경고: 발신자는 수신자가 ERC721을 수신할 수 있는지 확인할 책임이 있습니다. 그렇지 않으면 영구적으로 손실될 수 있습니다. {safeTransferFrom}을 사용하면 손실을 방지할 수 있지만 호출자는 이것은 잠재적으로 재진입 취약점을 생성하는 외부 호출을 추가한다는 것을 이해하십시오. 요구 사항: - `from`은 0 주소가 될 수 없습니다. - `to`는 0 주소가 될 수 없습니다. - `tokenId` 토큰은 `from`이 소유해야 합니다. - 호출자가 `from`이 아닌 경우 {approve} 또는 {setApprovalForAll}을 통해 이 토큰을 이동하려면 승인을 받아야 합니다. {Transfer} 이벤트를 내보냅니다."
+      }
+    },
+    "title": "ERC-721 Non-Fungible Token Standard, optional metadata extension",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

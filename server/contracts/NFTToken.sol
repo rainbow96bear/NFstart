@@ -19,14 +19,9 @@ contract NFTToken is ERC721Enumerable {
         address _tokenOwner
     );
 
-    // constructor(
-    //     string memory _name,
-    //     string memory _symbol
-    // ) ERC721(_name, _symbol) {}
-
     constructor() ERC721("NFStart", "NFS") {}
 
-    // 어떤 data를 받아서 넣어야 하는지 잘 모르겠다.
+    // 어떤 data를 받아서 넣어야 하는지 잘 모르겠다. -> ipfs cid 값 이라고 한다.
     function NFTMint(bytes memory data) public {
         uint256 tokenId = _tokenId.current();
         _tokenId.increment();
