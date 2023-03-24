@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { action } from "../../modules/userInfo";
 import logo from "./logo.png";
@@ -10,9 +9,6 @@ const UserComp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const nickName = dispatch(action.nick);
-  // const account = dispatch(action.account);
-  // console.log(dispatch(action.type.account));
   return (
     <>
       <UserBox>

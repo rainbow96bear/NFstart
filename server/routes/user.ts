@@ -1,5 +1,6 @@
 // /api/user
 import express from "express";
+import { runInNewContext } from "vm";
 import db from "../models/index";
 
 const router = express.Router();
@@ -13,7 +14,6 @@ router.post("/regist", async (req, res) => {
       res.send({ message: "account is exist" });
       return;
     } else {
-      console.log(req.body);
       await db.User.create({
         account: req.body.account,
         nickName: req.body.nickName,
@@ -23,8 +23,39 @@ router.post("/regist", async (req, res) => {
       res.send({ isError: false });
     }
   } catch (err) {
-    console.log(err);
     res.send({ isError: true });
   }
 });
+
+router.post("/info", async (req, res) => {
+  try {
+    const nickData = await db.User.findOne({
+      where: { account: req.body.account },
+    });
+
+    res.send({ isError: false, nickData });
+  } catch (err) {
+    res.send({ isError: true });
+  }
+});
+
+router.post("/login", async (req, res) => {
+  const account = await db.User.findOne({
+    where: { account: req.body.account },
+  });
+  if (account) {
+    res.cookie("logout", false, {
+      expires: new Date(Date.now() + 10 * 60 * 1000),
+    });
+  }
+  res.send({ isError: false });
+});
+
+router.post("/logout", async (req, res) => {
+  res.cookie("logout", true, {
+    expires: new Date(Date.now() + 10 * 60 * 1000),
+  });
+  res.end();
+});
+
 export default router;
