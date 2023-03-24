@@ -1,9 +1,12 @@
 import ItemBoxComp from "./Component";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
 const ItemBoxCont = ({ item, index }) => {
   const theme = useSelector((state) => state.theme);
+
+  const location = useLocation();
 
   const [zIndex, setZindex] = useState("3");
 
