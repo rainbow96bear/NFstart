@@ -89,9 +89,10 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     console.log(IpfsHash);
 
     // Pinata에 JSON 형식으로 NFT Data(.json) 등록
+    const nonce = await web3.eth.getTransactionCount(account);
     const jsonResult = await pinata.pinJSONToIPFS(
       {
-        name,
+        name: `${name} #${nonce}`,
         desc,
         volume,
         publisher: account,
@@ -114,14 +115,13 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       NFTAbi as AbiItem[],
       process.env.NFT_TOKEN_CA
     );
-    const nonce = await web3.eth.getTransactionCount(account);
     const jsonData = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
     const imgData = deployed.methods.NFTMint(IpfsHash).encodeABI();
 
     // NFT Database에 등록 -> 밖으로 빼기
     const createdNFT = await db.NFT.create({
       hash: nonce,
-      name,
+      name: `${name} #${nonce}`,
       desc,
       filename: file.filename,
       IpfsHash,
