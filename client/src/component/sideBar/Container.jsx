@@ -13,6 +13,7 @@ const SideBarCont = ({ cookieValue }) => {
     dispatch({ type: "theme/change" });
     await axios.put("/api/theme/set", { theme });
   };
+
   useEffect(() => {
     const test = async () => {
       const _theme = await axios.get("/api/theme/get", {

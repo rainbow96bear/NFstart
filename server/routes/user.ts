@@ -1,6 +1,5 @@
 // /api/user
 import express from "express";
-import { runInNewContext } from "vm";
 import db from "../models/index";
 
 const router = express.Router();

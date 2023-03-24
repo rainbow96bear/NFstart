@@ -9,6 +9,8 @@ const UserComp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { account } = useSelector((state) => state.userInfo);
+
   return (
     <>
       <UserBox>
@@ -23,7 +25,7 @@ const UserComp = () => {
                 className="signIn"
                 onClick={() => {
                   dispatch(action.asyncLogIn());
-                  navigate("/mypage");
+                  navigate("/");
                 }}
               ></button>
               <p className="arrow_box">CLICK ME</p>

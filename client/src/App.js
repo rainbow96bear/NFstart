@@ -4,6 +4,7 @@ import ReactModal from "react-modal";
 import { Routes, Route } from "react-router-dom";
 import NFTMintingContainer from "./component/NFTMinting/Container";
 import SideBarCont from "./component/sideBar/Container";
+import SettingCont from "./component/SettingPage/Container";
 import MainCont from "./component/mainPage/Container";
 import GlobalStyle from "./styles/globalStyles";
 import { lightTheme, darkTheme } from "./styles/theme";
@@ -42,12 +43,13 @@ function App() {
       ></GlobalStyle>
       <SideBarCont cookieValue={cookieValue}></SideBarCont>
       <Routes>
-        <Route path="/" element={<MainCont></MainCont>}></Route>
-        <Route path="/:params" element={<MainCont></MainCont>}></Route>
-        <Route path="/login" element={<UserContainer />}></Route>
-        <Route path="/mypage/:account" element={<MypageCont />}></Route>
-        <Route path="/create" element={<CreateCont />}></Route>
-        <Route path="/chat" element={<ChatCont />}></Route>
+        <Route path="/" element={<MainCont />} />
+        <Route path="/:params" element={<MainCont />} />
+        <Route path="/login" element={<UserContainer />} />
+        <Route path="/mypage/:account" element={<MypageCont />} />
+        <Route path="/setting" element={<SettingCont />} />
+        <Route path="/create" element={<CreateCont />} />
+        <Route path="/chat" element={<ChatCont />} />
       </Routes>
     </Frame>
   );

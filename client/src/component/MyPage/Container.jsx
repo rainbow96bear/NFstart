@@ -12,6 +12,7 @@ const MypageCont = () => {
   const [open, setOpen] = useState(false);
   const [NFlist, setNFlist] = useState([]);
   let { account } = useParams();
+
   //login
   const location = useLocation();
   const { nickName } = useSelector((state) => state.userInfo);

@@ -8,6 +8,8 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
+import { MdExitToApp } from "react-icons/md";
+import { BsList } from "react-icons/bs";
 //chat
 import { IoChatbubblesOutline } from "react-icons/io5";
 //
@@ -17,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { action } from "../../modules/userInfo";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const SideBarComp = ({
   theme,
@@ -31,6 +33,7 @@ const SideBarComp = ({
   const { nickName, account } = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
   const location = useLocation();
+  const [layer, setLayer] = useState(false);
 
   useEffect(() => {
     if (cookieValue != null) {
@@ -53,6 +56,10 @@ const SideBarComp = ({
     }
   }, [account, nickName]);
 
+  const onClickPop = (e) => {
+    setLayer((prev) => (prev ? false : true));
+  };
+
   return (
     <>
       {location.pathname != "/login" ? (
@@ -61,7 +68,8 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/");
-            }}>
+            }}
+          >
             {params == undefined ? (
               <AiFillHome size={"25"} />
             ) : (
@@ -74,7 +82,8 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/explore");
-            }}>
+            }}
+          >
             {params == "explore" ? (
               <IoSearchCircleSharp size={"25"} />
             ) : (
@@ -88,7 +97,8 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               setRegisteringNFT(true);
-            }}>
+            }}
+          >
             <BsPlusSquare size={"25"} />
             <p>NFT 등록</p>
             <NFTMintingContainer
@@ -97,45 +107,27 @@ const SideBarComp = ({
             />
           </SideItem>
           {account == "" ? (
-            <SideItem
-              theme={theme}
-              onClick={() => {
-                navigate("/login");
-              }}>
-              <AiOutlinePoweroff size={"25"} />
-              <p>로그인</p>
-            </SideItem>
+            <></>
           ) : (
-            <SideItem theme={theme}>
-              <AiOutlinePoweroff size={"25"} />
-              <p>{nickName}</p>
-              <button
+            <>
+              <SideItem
+                theme={theme}
                 onClick={() => {
-                  dispatch({ type: "userInfo/logout" });
-                  dispatch(action.asyncLogOut);
-                }}>
-                로그아웃
-              </button>
-            </SideItem>
+                  navigate("/mypage/account");
+                }}
+              >
+                <AiOutlinePoweroff size={"25"} />
+                <p>프로필</p>
+              </SideItem>
+            </>
           )}
 
           <SideItem
             theme={theme}
             onClick={() => {
-              navigate("/setting");
-            }}>
-            {params == "setting" ? (
-              <IoSettingsSharp size={"25"} />
-            ) : (
-              <IoSettingsOutline size={"25"} />
-            )}{" "}
-            <p>설정</p>
-          </SideItem>
-          <SideItem
-            theme={theme}
-            onClick={() => {
               navigate("/chat");
-            }}>
+            }}
+          >
             <IoChatbubblesOutline size={"25"} />
             <p>채팅</p>
           </SideItem>
@@ -143,13 +135,51 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               changeTheme();
-            }}>
+            }}
+          >
             <ThemeBtn
               size={"25"}
-              innerText={`${
-                theme == "dark" ? "밝은 모드" : "어두운 모드"
-              }`}></ThemeBtn>
+              innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
+            ></ThemeBtn>
           </SideItem>
+          <>
+            <SideItem
+              theme={theme}
+              onClick={() => {
+                onClickPop();
+              }}
+            >
+              <BsList size={"25"} />
+              <p>더보기</p>
+            </SideItem>
+            <PopItem theme={theme}>
+              {layer ? (
+                <>
+                  <div
+                    onClick={() => {
+                      navigate("/setting");
+                      onClickPop();
+                    }}
+                  >
+                    <p>설정</p>
+                    <IoSettingsOutline size={"25"} />
+                  </div>
+                  <div
+                    onClick={() => {
+                      dispatch({ type: "userInfo/logout" });
+                      dispatch(action.asyncLogOut);
+                      navigate("/login");
+                    }}
+                  >
+                    <p>로그아웃</p>
+                    <MdExitToApp size={"25"} />
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
+            </PopItem>
+          </>
         </SideBarArea>
       ) : (
         <></>
@@ -165,6 +195,7 @@ const SideBarArea = styled.div`
   height: 100vh;
   border-right: 1px solid #5a5a5a;
   padding: 20px;
+  flex-direction: column;
 `;
 const SideItem = styled.div`
   border-radius: 10px;
@@ -178,5 +209,23 @@ const SideItem = styled.div`
   }
   > p {
     padding: 0 50px 0 10px;
+  }
+`;
+const PopItem = styled.div`
+  width: 100%;
+  padding: 20px;
+  div {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > p {
+      padding: 0 50px 0 10px;
+    }
+    cursor: pointer;
+    &:hover {
+      background-color: ${(props) =>
+        props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+    }
   }
 `;
