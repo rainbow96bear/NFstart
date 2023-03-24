@@ -15,6 +15,8 @@ dotenv.config();
 const web3 = new Web3("http://ganache.test.errorcode.help:8545");
 
 const app: Express = express();
+// app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors());
 app.set("port", process.env.PORT || 8080);
 app.use((req: Request, res: Response, next: NextFunction) => {
   if (process.env.NODE_ENV == "production") {

@@ -35,8 +35,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/");
-            }}
-          >
+            }}>
             {params == undefined ? (
               <AiFillHome size={"25"} />
             ) : (
@@ -49,8 +48,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/explore");
-            }}
-          >
+            }}>
             {params == "explore" ? (
               <IoSearchCircleSharp size={"25"} />
             ) : (
@@ -64,8 +62,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               setRegisteringNFT(true);
-            }}
-          >
+            }}>
             <BsPlusSquare size={"25"} />
             <p>NFT 등록</p>
             <NFTMintingContainer
@@ -85,8 +82,7 @@ const SideBarComp = ({
               theme={theme}
               onClick={() => {
                 navigate("/login");
-              }}
-            >
+              }}>
               <AiOutlinePoweroff size={"25"} />
               <p>로그인</p>
             </SideItem>
@@ -96,8 +92,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/setting");
-            }}
-          >
+            }}>
             {params == "setting" ? (
               <IoSettingsSharp size={"25"} />
             ) : (
@@ -109,12 +104,12 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               changeTheme();
-            }}
-          >
+            }}>
             <ThemeBtn
               size={"25"}
-              innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
-            ></ThemeBtn>
+              innerText={`${
+                theme == "dark" ? "밝은 모드" : "어두운 모드"
+              }`}></ThemeBtn>
           </SideItem>
         </SideBarArea>
       ) : (
@@ -124,8 +119,7 @@ const SideBarComp = ({
         theme={theme}
         onClick={() => {
           navigate("/chat");
-        }}
-      >
+        }}>
         <IoChatbubblesOutline size={"25"} />
         <p>채팅</p>
       </SideItem>

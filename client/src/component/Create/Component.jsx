@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { BsEraserFill } from "react-icons/bs";
 import brush from "../Create/brush.svg";
 import styled from "styled-components";
@@ -11,6 +12,7 @@ const CreateComp = () => {
   const [value, setValue] = useState(0);
   const [eraser, setEraser] = useState(0);
   const [color, setColor] = useState(0);
+  const theme = useSelector((state) => state.theme);
   const baseColor = [
     "red",
     "orange",
@@ -27,6 +29,13 @@ const CreateComp = () => {
     canvas.width = 500;
     canvas.height = 500;
     const context = canvas.getContext("2d");
+    context.fillStyle = "#fff";
+    context.fillRect(
+      0 * canvas.width,
+      0 * canvas.height,
+      canvas.width,
+      canvas.height
+    );
     context.strokeStyle = "black";
     context.lineWidth = (value / 10).toString();
     contextRef.current = context;
@@ -59,15 +68,15 @@ const CreateComp = () => {
       }
     }
   };
+
   return (
-    <CanvasBox>
+    <CanvasBox theme={theme}>
       <canvas
         ref={canvasRef}
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
         onMouseMove={drawing}
-        onMouseLeave={finishDrawing}
-      ></canvas>
+        onMouseLeave={finishDrawing}></canvas>
       <SettingBox>
         <ValueBox>
           <div>
@@ -106,38 +115,58 @@ const CreateComp = () => {
               onClick={() => {
                 setColor(item);
               }}
-              item={item}
-            ></ColorItem>
+              item={item}></ColorItem>
           ))}
 
-          <BsEraserFill size={50} />
+          <EraserBox>
+            <BsEraserFill
+              onClick={() => {
+                setColor("white");
+              }}
+              size={50}
+            />
+          </EraserBox>
         </ColorBox>
         <AllDelete
           onClick={() => {
-            ctx.clearRect(0, 0, 500, 500);
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0, 0, 500, 500);
           }}
-        >
+          theme={theme}>
           전체 지우기
         </AllDelete>
       </SettingBox>
+      <MintingBox theme={theme}>
+        <a
+        // download={"image-name.png"}
+        // href={canvasRef.current
+        //   ?.toDataURL("image/png")
+        //   .replace("image/png", "image/octet-stream")}
+        >
+          민팅
+        </a>
+      </MintingBox>
     </CanvasBox>
   );
 };
 
 export default CreateComp;
 const CanvasBox = styled.div`
-  max-width: 500px;
-  width: 100%;
-  margin: 20px;
+  width: fit-content;
+  margin: auto;
+  border: 1px solid
+    ${(props) => (props.theme == "dark" ? "#fdfdfd" : "#00002a")};
   canvas {
-    background-color: white;
     border: 1px solid blue;
   }
   canvas:hover {
     cursor: url(${brush}) 2 13, auto;
   }
 `;
-const SettingBox = styled.div``;
+const SettingBox = styled.div`
+  border: 1px solid
+    ${(props) => (props.theme == "dark" ? "#fdfdfd" : "#00002a")};
+`;
 const ValueBox = styled.div`
   display: flex;
   padding: 10px;
@@ -150,7 +179,7 @@ const ColorBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 10px;
-  border: 1px solid black;
+  border: 1px solid white;
 `;
 
 const ColorItem = styled.div`
@@ -165,9 +194,22 @@ const ColorItem = styled.div`
     padding-bottom: 100%;
   }
 `;
-
+const EraserBox = styled.div`
+  border-left: 1px solid white;
+`;
 const AllDelete = styled.div`
   flex: 1;
-  border: 1px solid black;
+  text-align: center;
+  border-top: 1px solid
+    ${(props) => (props.theme == "dark" ? "#fdfdfd" : "#00002a")};
   padding: 10px;
+`;
+
+const MintingBox = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  a {
+    color: ${(props) => (props.theme == "dark" ? "#fdfdfd" : "#00002a")};
+  }
 `;
