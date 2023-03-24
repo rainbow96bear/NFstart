@@ -27,4 +27,17 @@ router.post("/regist", async (req, res) => {
     res.send({ isError: true });
   }
 });
+router.post("/mypageCheck", async (req, res) => {
+  try {
+    const MpCheck = await db.User.findAll({
+      where: {
+        account: req.body.account,
+      },
+    });
+    res.send(MpCheck);
+  } catch (error) {
+    console.log(error);
+    res.send({ isError: true });
+  }
+});
 export default router;

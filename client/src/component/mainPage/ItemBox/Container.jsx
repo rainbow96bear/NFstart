@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 const ItemBoxCont = ({ NFlist }) => {
   const theme = useSelector((state) => state.theme);
   const [main, setMain] = useState("");
+  const { nickName } = useSelector((state) => state.userInfo);
+
   useEffect(() => {
     setMain(NFlist[0]);
   }, [NFlist]);
@@ -26,6 +28,7 @@ const ItemBoxCont = ({ NFlist }) => {
       main={main}
       theme={theme}
       NFlist={NFlist}
+      nickName={nickName}
     ></ItemBoxComp>
   );
 };

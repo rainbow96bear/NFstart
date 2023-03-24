@@ -119,7 +119,7 @@ const asyncLogIn = () => {
           }
           const nickName = a + " " + b;
 
-          axios.post("http://localhost:8080/api/user/regist", {
+          axios.post("/api/user/regist", {
             account,
             nickName,
             balance,
@@ -149,7 +149,7 @@ export const initialize = {
 
 export const reducer = (state = initialize, action) => {
   const { type, payload } = action;
-  console.log(payload);
+
   switch (type) {
     case TYPE.LOGIN:
       return { ...state, ...payload };

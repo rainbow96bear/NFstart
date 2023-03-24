@@ -24,7 +24,8 @@ const SideBarComp = ({
   registeringNFT,
   setRegisteringNFT,
 }) => {
-  const { nickName } = useSelector((state) => state.userInfo);
+  const { nickName, account } = useSelector((state) => state.userInfo);
+
   const location = useLocation();
 
   return (
@@ -35,7 +36,8 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/");
-            }}>
+            }}
+          >
             {params == undefined ? (
               <AiFillHome size={"25"} />
             ) : (
@@ -48,7 +50,8 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/explore");
-            }}>
+            }}
+          >
             {params == "explore" ? (
               <IoSearchCircleSharp size={"25"} />
             ) : (
@@ -62,7 +65,8 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               setRegisteringNFT(true);
-            }}>
+            }}
+          >
             <BsPlusSquare size={"25"} />
             <p>NFT 등록</p>
             <NFTMintingContainer
@@ -72,7 +76,12 @@ const SideBarComp = ({
           </SideItem>
 
           {nickName ? (
-            <SideItem theme={theme}>
+            <SideItem
+              theme={theme}
+              onClick={() => {
+                navigate(`/mypage/${account}`);
+              }}
+            >
               <AiOutlinePoweroff size={"25"} />
               <p>{nickName}</p>
               <button onClick={() => {}}>로그아웃</button>
@@ -82,7 +91,8 @@ const SideBarComp = ({
               theme={theme}
               onClick={() => {
                 navigate("/login");
-              }}>
+              }}
+            >
               <AiOutlinePoweroff size={"25"} />
               <p>로그인</p>
             </SideItem>
@@ -92,7 +102,8 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/setting");
-            }}>
+            }}
+          >
             {params == "setting" ? (
               <IoSettingsSharp size={"25"} />
             ) : (
@@ -103,26 +114,27 @@ const SideBarComp = ({
           <SideItem
             theme={theme}
             onClick={() => {
+              navigate("/chat");
+            }}
+          >
+            <IoChatbubblesOutline size={"25"} />
+            <p>채팅</p>
+          </SideItem>
+          <SideItem
+            theme={theme}
+            onClick={() => {
               changeTheme();
-            }}>
+            }}
+          >
             <ThemeBtn
               size={"25"}
-              innerText={`${
-                theme == "dark" ? "밝은 모드" : "어두운 모드"
-              }`}></ThemeBtn>
+              innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
+            ></ThemeBtn>
           </SideItem>
         </SideBarArea>
       ) : (
         <></>
       )}
-      <SideItem
-        theme={theme}
-        onClick={() => {
-          navigate("/chat");
-        }}>
-        <IoChatbubblesOutline size={"25"} />
-        <p>채팅</p>
-      </SideItem>
     </>
   );
 };

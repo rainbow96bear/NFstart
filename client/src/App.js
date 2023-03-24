@@ -26,7 +26,7 @@ function App() {
         <Route path="/" element={<MainCont></MainCont>}></Route>
         <Route path="/:params" element={<MainCont></MainCont>}></Route>
         <Route path="/login" element={<UserContainer />}></Route>
-        <Route path="/mypage" element={<MypageCont />}></Route>
+        <Route path="/mypage/:account" element={<MypageCont />}></Route>
         <Route path="/create" element={<CreateCont />}></Route>
         <Route path="/chat" element={<ChatCont />}></Route>
 

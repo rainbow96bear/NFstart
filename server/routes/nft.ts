@@ -132,7 +132,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     res.send(error);
   }
 });
-// NFT 메인페이지 출력
+// NFT 메인페이지에 최신 4개 출력
 router.post("/tomain", async (req, res) => {
   try {
     const nftList = await db.NFT.findAll({
@@ -143,6 +143,54 @@ router.post("/tomain", async (req, res) => {
     res.send(nftList);
   } catch (error) {
     res.send(error);
+  }
+});
+//  NFT 마이페이지에 가지고 있는거 띄움
+router.post("/toMypage", async (req, res) => {
+  // console.log(req.body);
+  // console.log("999", req.body.account);
+
+  if (!req.body.account == db.User.account) {
+    res.send({ data: "회원 정보가 없습니다." });
+    return;
+  } else {
+    try {
+      const nftAccount = await db.User.findAll({
+        where: {
+          account: req.body.account,
+        },
+      });
+      res.send(nftAccount);
+    } catch (error) {
+      res.send(error);
+    }
+  }
+  res.send();
+  // 1차 유저랑 관계를 맺어야함
+  // 2차 해당하는 유저의 정보를 가져와야함
+});
+
+router.post("/modalBt", async (req, res) => {
+  console.log(req.body);
+  try {
+    const MPmodalAc = await db.User.findAll({
+      where: { account: req.body },
+    });
+    console.log("모달어카", MPmodalAc);
+    const MPmodalNF = await db.NFT.findAll({
+      where: {
+        name: req.body.name,
+      },
+    });
+    console.log("NF", MPmodalNF);
+  } catch (error) {
+    console.log(error);
+  }
+
+  if (req.body.account == db.User.account) {
+    res.send({ data: "판매자 입니다" });
+  } else {
+    res.send({ data: "판매자가 아닙니다" });
   }
 });
 

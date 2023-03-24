@@ -11,6 +11,7 @@ const ItemBoxComp = ({
   main,
   theme,
   NFlist,
+  nickName,
 }) => {
   const [on, setOn] = useState(false);
   const click = () => {
@@ -21,7 +22,7 @@ const ItemBoxComp = ({
     <ItemBox>
       <ItemCase>
         <NameBox theme={theme}>
-          유저 닉네임 혹은 아이디 <IoChatbubblesOutline size={"30"} />
+          {nickName} <IoChatbubblesOutline size={"30"} />
         </NameBox>
 
         <MainImg
@@ -33,9 +34,7 @@ const ItemBoxComp = ({
             click();
           }}
         >
-          {main && (
-            <img src={`http://localhost:8080/uploads/${main.filename}.png`} />
-          )}
+          {main && <img src={`/uploads/${main.filename}.png`} />}
         </MainImg>
         <SubBox theme={theme}>
           {NFlist?.map((item, idx) => (
@@ -45,11 +44,7 @@ const ItemBoxComp = ({
                 setMain(item);
               }}
             >
-              {main && (
-                <img
-                  src={`http://localhost:8080/uploads/${item.filename}.png`}
-                />
-              )}
+              {main && <img src={`/uploads/${item.filename}.png`} />}
             </div>
           ))}
         </SubBox>
