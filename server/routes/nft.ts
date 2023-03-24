@@ -111,6 +111,14 @@ router.post("/regist", upload.single("file"), async (req, res) => {
             owner: account,
         });
 
+        const user = await db.User.findOne({
+            while: { account: account }
+        });
+
+        await user.addUserNFTs(createdNFT);
+
+
+
         // // NFT 컨트랙트에 등록
         // // 코드 작성
         // // NFTAbi : 배포된 토큰 json
