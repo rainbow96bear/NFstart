@@ -7,7 +7,7 @@ import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721UR
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 
-contract NFTToken is ERC721Enumerable {
+contract NFTToken is ERC721Enumerable, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenId;
 
@@ -22,10 +22,11 @@ contract NFTToken is ERC721Enumerable {
     constructor() ERC721("NFStart", "NFS") {}
 
     // 어떤 data를 받아서 넣어야 하는지 잘 모르겠다. -> ipfs cid 값 이라고 한다.
-    function NFTMint(bytes memory data) public {
+    function NFTMint(string memory data) public {
         uint256 tokenId = _tokenId.current();
         _tokenId.increment();
-        _safeMint(msg.sender, tokenId, data);
+        _safeMint(msg.sender, tokenId);
+        _setTokenURI(tokenId, data);
     }
 
     function testMint() public {
@@ -42,5 +43,33 @@ contract NFTToken is ERC721Enumerable {
             tokenURI(tokenId),
             ownerOf(tokenId)
         );
+    }
+
+    // override
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 firstTokenId,
+        uint256 batchSize
+    ) internal override(ERC721, ERC721Enumerable) {
+        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
+    }
+
+    function _burn(
+        uint256 tokenId
+    ) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
+    }
+
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view override(ERC721, ERC721Enumerable) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
+
+    function tokenURI(
+        uint256 tokenId
+    ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+        return super.tokenURI(tokenId); // ERC721URIStorage의 super를 가져온다.
     }
 }
