@@ -19,7 +19,7 @@ import styled from "styled-components";
 
 const SellModal = ({ click, isOpen, main }) => {
   Modal.setAppElement("#root");
-  console.log(main);
+
   return (
     <ReactModal isOpen={isOpen}>
       <ModalBox>

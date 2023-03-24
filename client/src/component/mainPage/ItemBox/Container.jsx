@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 const ItemBoxCont = ({ NFlist }) => {
   const theme = useSelector((state) => state.theme);
-  console.log("nf", NFlist);
   const [main, setMain] = useState("");
   useEffect(() => {
     setMain(NFlist[0]);

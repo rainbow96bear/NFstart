@@ -16,7 +16,7 @@ const ItemBoxComp = ({
   const click = () => {
     setOn(!on);
   };
-  console.log(main);
+
   return (
     <ItemBox>
       <ItemCase>
