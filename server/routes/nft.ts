@@ -104,17 +104,14 @@ router.post("/regist", upload.single("file"), async (req, res) => {
 
         // NFT 컨트랙트에 등록
         const deployed = new web3.eth.Contract(NFTAbi as AbiItem[], process.env.NFT_TOKEN_CA);
-        console.log(deployed.methods);
+        const nonce = await web3.eth.getTransactionCount(account);
+        const jsonData = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
+        const imgData = deployed.methods.NFTMint(IpfsHash).encodeABI();
 
-        console.log(await web3.eth.getTransactionCount(account));
 
-        const data = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
-
-        // 프론트에서 sendTransaction 을 해줘야 함
-
-        // NFT Database에 등록
+        // NFT Database에 등록 -> 밖으로 빼기
         const createdNFT = await db.NFT.create({
-            hash: data,
+            hash: nonce,
             name,
             desc,
             filename: file.filename,
@@ -128,7 +125,18 @@ router.post("/regist", upload.single("file"), async (req, res) => {
         });
         await user.addUserNFTs(createdNFT);
 
-        res.end();
+        // transaction 보낼 객체 생성
+        const obj: { nonce: number; to: string | undefined; from: string; data: string } = {
+            nonce: nonce,
+            to: process.env.NFT_TOKEN_CA,
+            from: account,
+            // data: encodeURI(JSON.stringify({ jsonData, imgData })),
+            data: imgData,
+        }
+        console.log("보낼 객체");
+        console.log(obj);
+
+        res.send(obj);
     } catch (error) {
         console.error(error);
         res.send(error);

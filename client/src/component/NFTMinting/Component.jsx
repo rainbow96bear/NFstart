@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 // registeringNFT : 기본 false, 클릭시 true
-const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => {
+const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT }) => {
 
     Modal.setAppElement('#root');
 
@@ -69,6 +69,8 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
         const registered = (await axios.post("http://localhost:8080/api/nft/regist", formData)).data;
         console.log(registered);
         setLoading(false);
+
+        return registered;
     }
 
     // 로그인 확인
@@ -159,14 +161,17 @@ const NFTMintingComponent = ({ account, registeringNFT, setRegisteringNFT }) => 
                                 }}>이전</NextBtn>
                                 <NextBtn onClick={async () => {
 
-                                    // 먼저 sendTransaction을 통하여 서명을 받는다.
-
                                     alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다.");
 
                                     // NFT 등록 요청을 보낸다.
-                                    await registReq();
+                                    const registData = await registReq();
+                                    console.log(registData);
+                                    // alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
 
-                                    alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
+                                    console.log(web3.eth);
+                                    await web3.eth.sendTransaction(registData);
+
+                                    alert("NFT 가 Goerli Network에 등록되었습니다.");
 
                                     setIsDetail(false);
                                     setImage("");
