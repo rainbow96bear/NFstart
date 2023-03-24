@@ -33,20 +33,23 @@ const SideBarComp = ({
   const location = useLocation();
 
   useEffect(() => {
-    if (cookieValue[2] == "false") {
-      const getAccount = async () => {
-        const [_account] = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        const data = (await axios.post("/api/user/info", { account: _account }))
-          .data;
-        const { account, nickName, chainId, balance } = data.nickData;
-        dispatch({
-          type: "userInfo/login",
-          payload: { account, nickName, chainId, balance },
-        });
-      };
-      getAccount();
+    if (cookieValue != null) {
+      if (cookieValue[2] == "false") {
+        const getAccount = async () => {
+          const [_account] = await window.ethereum.request({
+            method: "eth_requestAccounts",
+          });
+          const data = (
+            await axios.post("/api/user/info", { account: _account })
+          ).data;
+          const { account, nickName, chainId, balance } = data.nickData;
+          dispatch({
+            type: "userInfo/login",
+            payload: { account, nickName, chainId, balance },
+          });
+        };
+        getAccount();
+      }
     }
   }, [account, nickName]);
 
@@ -58,8 +61,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/");
-            }}
-          >
+            }}>
             {params == undefined ? (
               <AiFillHome size={"25"} />
             ) : (
@@ -72,8 +74,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/explore");
-            }}
-          >
+            }}>
             {params == "explore" ? (
               <IoSearchCircleSharp size={"25"} />
             ) : (
@@ -87,8 +88,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               setRegisteringNFT(true);
-            }}
-          >
+            }}>
             <BsPlusSquare size={"25"} />
             <p>NFT 등록</p>
             <NFTMintingContainer
@@ -101,8 +101,7 @@ const SideBarComp = ({
               theme={theme}
               onClick={() => {
                 navigate("/login");
-              }}
-            >
+              }}>
               <AiOutlinePoweroff size={"25"} />
               <p>로그인</p>
             </SideItem>
@@ -114,8 +113,7 @@ const SideBarComp = ({
                 onClick={() => {
                   dispatch({ type: "userInfo/logout" });
                   dispatch(action.asyncLogOut);
-                }}
-              >
+                }}>
                 로그아웃
               </button>
             </SideItem>
@@ -125,8 +123,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/setting");
-            }}
-          >
+            }}>
             {params == "setting" ? (
               <IoSettingsSharp size={"25"} />
             ) : (
@@ -138,8 +135,7 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               navigate("/chat");
-            }}
-          >
+            }}>
             <IoChatbubblesOutline size={"25"} />
             <p>채팅</p>
           </SideItem>
@@ -147,12 +143,12 @@ const SideBarComp = ({
             theme={theme}
             onClick={() => {
               changeTheme();
-            }}
-          >
+            }}>
             <ThemeBtn
               size={"25"}
-              innerText={`${theme == "dark" ? "밝은 모드" : "어두운 모드"}`}
-            ></ThemeBtn>
+              innerText={`${
+                theme == "dark" ? "밝은 모드" : "어두운 모드"
+              }`}></ThemeBtn>
           </SideItem>
         </SideBarArea>
       ) : (
