@@ -137,12 +137,10 @@ const CreateComp = () => {
         </AllDelete>
       </SettingBox>
       <MintingBox theme={theme}>
-        <a
-        // download={"image-name.png"}
-        // href={canvasRef.current
-        //   ?.toDataURL("image/png")
-        //   .replace("image/png", "image/octet-stream")}
-        >
+        <a download={"image-name.png"} href={canvasRef.current?.toDataURL("image/png").replace("image/png", "image/octet-stream")} onClick={(e) => {
+          // 이미지를 IPFS에 저장하고 ...
+          console.log(e.target);
+        }}>
           민팅
         </a>
       </MintingBox>

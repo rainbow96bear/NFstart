@@ -194,6 +194,8 @@ export const ModalStyle = {
     outline: "none",
     zIndex: 10,
     transition: "all 1s",
+    background: "none",
+    padding: "none",
   },
 };
 
@@ -201,11 +203,12 @@ export const ModalStyle = {
 const ModalBox = styled.div`
   display: flex;
   height: 100%;
+  width: 100%;
   background-color: ${(props) =>
     props.theme == "dark" ? "#00002a" : "#fdfdfd"};
   justify-content: space-between;
   font-size: 18px;
-  padding: 20px 10px;
+  padding: 40px 60px;
 `;
 
 const LeftWrap = styled.div`
