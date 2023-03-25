@@ -69,19 +69,22 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
     formData.append('account', account);
     setLoading(true);
     const registered = (await axios.post("http://localhost:8080/api/nft/regist", formData)).data;
+    console.log("registReq() 호출");
     console.log(registered);
     setLoading(false);
-
     return registered;
   }
 
 
   // NFT 등록 트랜잭션 함수
   const sendTransactionReq = async (registData) => {
-    alert("NFT 등록을 시도합니다. 서명 이후 약 30초 가량 소요됩니다. [2/2]");
     setSignLoading(true);
-    await web3.eth.sendTransaction(registData);
+    await web3.eth.sendTransaction(registData.obj);
     setSignLoading(false);
+    console.log("sendTransactionReq() 호출");
+    console.log(registData.saveData);
+    const saved = (await axios.post("http://localhost:8080/api/nft/save", registData.saveData)).data;
+    console.log(saved);
   }
 
 
@@ -176,10 +179,11 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
                   }
                 }}>이전</NextBtn>
                 <NextBtn onClick={async () => {
-                  alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다. [1/2]");
+                  alert("NFT 등록을 시도합니다. 약 30초 가량 소요됩니다.");
 
                   // NFT 등록 요청을 보낸다.
                   const registData = await registReq();
+                  // const {obj, saveData} = registData;
 
                   // 트랜잭션 요청을 보낸다.
                   await sendTransactionReq(registData);
