@@ -156,6 +156,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
   }
 });
 
+
 // NFT 메인페이지에 최신 4개 출력
 router.post("/tomain", async (req, res) => {
   try {
