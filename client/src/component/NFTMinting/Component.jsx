@@ -10,6 +10,7 @@ const NFTMintingComponent = ({
   account,
   registeringNFT,
   setRegisteringNFT,
+  file,
 }) => {
   Modal.setAppElement("#root");
 
