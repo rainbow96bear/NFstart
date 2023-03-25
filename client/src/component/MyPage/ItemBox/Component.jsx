@@ -18,7 +18,7 @@ const ItemBoxComp = ({ item, NFlist }) => {
       >
         {item && <img alt="" src={`/uploads/${item.filename}`} />}
       </ItemBox>
-      <SellModalContain isOpen={on} click={click} main={item} />
+      <SellModalContain isOpen={on} setIsOpen={setOn} click={click} main={item} />
     </>
   );
 };
