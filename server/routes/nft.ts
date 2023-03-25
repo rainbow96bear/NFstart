@@ -7,35 +7,29 @@ import pinataSDK from "@pinata/sdk";
 import fs from "fs";
 import Web3 from "web3";
 import db from "../models/index";
-// import NFTAbi from "../build/contracts/NFTToken.json";
 import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { AbiItem } from "web3-utils";
 import { Readable } from "stream";
 
 dotenv.config();
 
-// const web3 = new Web3("http://ganache.test.errorcode.help:8545");
-// https://app.infura.io/login
-// wss://goerli.infura.io/ws/v3/YOUR-API-KEY
 const web3 = new Web3(
   `wss://goerli.infura.io/ws/v3/${process.env.GOERLI_API_KEY}`
 );
 
 const router = express.Router();
 
-// IPFS
 const pinata = new pinataSDK(
   process.env.PINATA_API_KEY,
   process.env.PINATA_API_SECRET
 );
 
-// 이미지 업로드
 const storage = multer.diskStorage({
-  // 업로드 경로 설정
+  // 업로드 경로
   destination: function (req, file, cb) {
     cb(null, "./uploads");
   },
-  // 파일 이름 설정
+  // 파일 이름
   filename: function (req, file, cb) {
     cb(
       null,
@@ -48,7 +42,6 @@ const upload = multer({
   limits: { fieldSize: 25 * 1024 * 1024 },
 });
 
-// NFT 등록
 router.post("/regist", upload.single("file"), async (req, res) => {
   if (!req.file) {
     res.send({ data: "파일 업로드 실패" });
@@ -56,26 +49,23 @@ router.post("/regist", upload.single("file"), async (req, res) => {
   }
 
   const file = req.file;
-  const files = req.files;
   const filename = file.filename.split(".")[0];
   const name = req.body.name;
   const desc = req.body.desc;
   const volume = req.body.num;
   const account = req.body.account;
 
-  // 이미지가 제대로 안 들어가는 듯
   const imageData = fs.createReadStream(`./uploads/${file.filename}`);
-
+  const nonce = await web3.eth.getTransactionCount(account);
   console.log(file);
 
   try {
-    // Pinata에 해당 Image 등록
+    // 1. Pinata에 Image 등록
     const imgResult: {
       IpfsHash: string;
       PinSize: number;
       Timestamp: string;
       isDuplicate?: boolean;
-      // } = await pinata.pinFileToIPFS(Readable.from(req.file.buffer), {
     } = await pinata.pinFileToIPFS(imageData, {
       pinataMetadata: {
         name: file.filename,
@@ -84,57 +74,54 @@ router.post("/regist", upload.single("file"), async (req, res) => {
         cidVersion: 0,
       },
     });
-    if (imgResult.isDuplicate) console.log("같은 이미지!");
+    if (imgResult.isDuplicate) console.log("이미 Pinata에 등록된 이미지");
     const IpfsHash = imgResult.IpfsHash;
     console.log(IpfsHash);
 
-    // Pinata에 JSON 형식으로 NFT Data(.json) 등록
-    const nonce = await web3.eth.getTransactionCount(account);
-    const jsonResult = await pinata.pinJSONToIPFS(
-      {
-        name: `${name} #${nonce}`,
-        desc,
-        volume,
-        publisher: account,
-        image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
+    // 2. Pinata에 JSON 형식으로 NFT Data 등록
+    const jsonResult = await pinata.pinJSONToIPFS({
+      name: `${name} #${nonce}`,
+      desc,
+      volume,
+      publisher: account,
+      image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
+    }, {
+      pinataMetadata: {
+        name: filename + ".json",
       },
-      {
-        pinataMetadata: {
-          name: filename + ".json",
-        },
-        pinataOptions: {
-          cidVersion: 0,
-        },
-      }
+      pinataOptions: {
+        cidVersion: 0,
+      },
+    }
     );
     const JsonIpfsHash = jsonResult.IpfsHash;
     console.log(JsonIpfsHash);
 
-    // NFT 컨트랙트에 등록
+    // 3. 배포된 컨트랙트의 메서드를 활용하여 NFT 등록 데이터 생성
     const deployed = new web3.eth.Contract(
       NFTAbi as AbiItem[],
       process.env.NFT_TOKEN_CA
     );
     const jsonData = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
-    const imgData = deployed.methods.NFTMint(IpfsHash).encodeABI();
+    console.log(jsonData);
 
-    // NFT Database에 등록 -> 밖으로 빼기
-    const createdNFT = await db.NFT.create({
-      hash: nonce,
-      name: `${name} #${nonce}`,
-      desc,
-      filename: file.filename,
-      IpfsHash,
-      JsonIpfsHash,
-      publisher: account,
-      owner: account,
-    });
-    const user = await db.User.findOne({
-      while: { account: account },
-    });
-    await user.addUserNFTs(createdNFT);
+    // NFT를 Database에 등록 -> 해당 데이터를 컨트랙트에 배포하겠다는 서명 이후 진행(밖으로 빼기)
+    // const createdNFT = await db.NFT.create({
+    //   hash: nonce,
+    //   name: `${name} #${nonce}`,
+    //   desc,
+    //   filename: file.filename,
+    //   IpfsHash,
+    //   JsonIpfsHash,
+    //   publisher: account,
+    //   owner: account,
+    // });
+    // const user = await db.User.findOne({
+    //   while: { account: account },
+    // });
+    // await user.addUserNFTs(createdNFT);
 
-    // transaction 보낼 객체 생성
+    // 해당 Contract에 Transaction을 보내기 위한 객체 생성
     const obj: {
       nonce: number;
       to: string | undefined;
@@ -146,13 +133,61 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       from: account,
       data: jsonData,
     };
-    console.log("보낼 객체");
-    console.log(obj);
 
-    res.send(obj);
+    // Database에 저장하기 위한 객체 생성
+    const saveData: {
+      hash: number;
+      name: string;
+      desc: string;
+      filename: string;
+      IpfsHash: string;
+      JsonIpfsHash: string;
+      publisher: string;
+      owner: string;
+    } = {
+      hash: nonce,
+      name: `${name} #${nonce}`,
+      desc,
+      filename: file.filename,
+      IpfsHash,
+      JsonIpfsHash,
+      publisher: account,
+      owner: account,
+    };
+    console.log("Transaction 보낼 객체");
+    console.log(obj);
+    console.log("Database에 등록할 객체");
+    console.log(saveData);
+
+    // 다르게 바꾸기
+    res.send({ obj, saveData });
   } catch (error) {
     console.error(error);
     res.send(error);
+  }
+});
+
+// 배포된 NFT 정보를 DB에 저장
+router.post("/save", async (req, res) => {
+  try {
+    const createdNFT = await db.NFT.create({
+      hash: req.body.hash,
+      name: req.body.name,
+      desc: req.body.desc,
+      filename: req.body.filename,
+      IpfsHash: req.body.IpfsHash,
+      JsonIpfsHash: req.body.JsonIpfsHash,
+      publisher: req.body.publisher,
+      owner: req.body.owner,
+    });
+    const user = await db.User.findOne({
+      while: { account: req.body.owner },
+    });
+    await user.addUserNFTs(createdNFT);
+    res.send("성공");
+  } catch (error) {
+    console.error(error);
+    res.send("실패");
   }
 });
 
