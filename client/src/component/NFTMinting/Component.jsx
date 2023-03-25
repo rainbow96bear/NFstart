@@ -10,6 +10,7 @@ const NFTMintingComponent = ({
   account,
   registeringNFT,
   setRegisteringNFT,
+  file,
 }) => {
   Modal.setAppElement("#root");
 
@@ -26,6 +27,7 @@ const NFTMintingComponent = ({
   const [img, setImg] = useState("");
   const [image, setImage] = useState("");
   const fileChange = useCallback((e) => {
+    console.log(e.target.files[0]);
     setFile(e.target.files[0]);
 
     // 이미지 경로 세팅
@@ -100,8 +102,7 @@ const NFTMintingComponent = ({
               }
               setIsDetail(false);
             }
-          }}
-        >
+          }}>
           <AllWrap>
             <Title>새 NFT 만들기</Title>
 
@@ -110,8 +111,7 @@ const NFTMintingComponent = ({
                 <Loading>
                   <img
                     alt="등록"
-                    src={`https://images.velog.io/images/leeseooo/post/de8c4bcc-40dc-474a-a4ef-2086127a6f3d/%EB%AC%B4%EC%A7%80%EA%B0%9C%EA%B3%A0%EC%96%91%EC%9D%B4.gif`}
-                  ></img>
+                    src={`https://images.velog.io/images/leeseooo/post/de8c4bcc-40dc-474a-a4ef-2086127a6f3d/%EB%AC%B4%EC%A7%80%EA%B0%9C%EA%B3%A0%EC%96%91%EC%9D%B4.gif`}></img>
                   <div>NFT 등록중...</div>
                   {/* <img width={"40%"} alt="" src={`https://steamuserimages-a.akamaihd.net/ugc/586909633581902758/BCAF264131B1B1792A7F985BFDCB749844A7DB8B/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false`}></img> */}
                   {/* <div style={{ marginTop: "5%" }}>NFT 등록중...</div> */}
@@ -134,8 +134,7 @@ const NFTMintingComponent = ({
                     value={name}
                     onInput={(e) => {
                       setName(e.target.innerText);
-                    }}
-                  ></NFTDesc>
+                    }}></NFTDesc>
 
                   <h4>NFT 설명</h4>
                   <NFTDesc
@@ -145,8 +144,7 @@ const NFTMintingComponent = ({
                     style={{ height: "135px", overflowY: "scroll" }}
                     onInput={(e) => {
                       setDesc(e.target.innerText);
-                    }}
-                  ></NFTDesc>
+                    }}></NFTDesc>
 
                   <h4>발행 개수</h4>
                   <NFTDesc>1</NFTDesc>
@@ -175,8 +173,7 @@ const NFTMintingComponent = ({
                       setIsDetail(false);
                       setImage("");
                     }
-                  }}
-                >
+                  }}>
                   이전
                 </NextBtn>
                 <NextBtn
@@ -191,8 +188,7 @@ const NFTMintingComponent = ({
                     setIsDetail(false);
                     setImage("");
                     setImg("");
-                  }}
-                >
+                  }}>
                   NFT 등록
                 </NextBtn>
               </DetailBtnWrap>
@@ -213,8 +209,7 @@ const NFTMintingComponent = ({
                 setImg("");
               }
             }
-          }}
-        >
+          }}>
           <AllWrap>
             <Title>새 NFT 만들기</Title>
             <ContentWrap
@@ -232,8 +227,7 @@ const NFTMintingComponent = ({
               }}
               onDragOver={(e) => {
                 e.preventDefault();
-              }}
-            >
+              }}>
               {image ? (
                 <div>
                   <NFTImage src={image.toString()} alt={"NFT"} />
@@ -244,15 +238,13 @@ const NFTMintingComponent = ({
                       if (confirm) {
                         setImage("");
                       }
-                    }}
-                  >
+                    }}>
                     이전
                   </NextBtn>
                   <NextBtn
                     onClick={async () => {
                       setIsDetail(true);
-                    }}
-                  >
+                    }}>
                     다음
                   </NextBtn>
                 </div>

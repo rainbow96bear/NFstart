@@ -1,11 +1,10 @@
 import SideBarComp from "./Component";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { action } from "../../modules/userInfo";
 
-const SideBarCont = ({ cookieValue }) => {
+const SideBarCont = () => {
   const theme = useSelector((state) => state.theme);
   const account = useSelector((state) => state.account);
   const dispatch = useDispatch();
@@ -14,7 +13,7 @@ const SideBarCont = ({ cookieValue }) => {
     await axios.put("/api/theme/set", { theme });
   };
   useEffect(() => {
-    const test = async () => {
+    const getTheme = async () => {
       const _theme = await axios.get("/api/theme/get", {
         theme,
       });
@@ -22,10 +21,9 @@ const SideBarCont = ({ cookieValue }) => {
         dispatch({ type: "theme/change" });
       }
     };
-    test();
+    getTheme();
   }, []);
 
-  let { params } = useParams();
   const navigate = useNavigate();
 
   const [registeringNFT, setRegisteringNFT] = useState(false);
@@ -34,13 +32,10 @@ const SideBarCont = ({ cookieValue }) => {
     <SideBarComp
       theme={theme}
       changeTheme={changeTheme}
-      params={params}
       navigate={navigate}
       account={account}
-      cookieValue={cookieValue}
       registeringNFT={registeringNFT}
-      setRegisteringNFT={setRegisteringNFT}
-    ></SideBarComp>
+      setRegisteringNFT={setRegisteringNFT}></SideBarComp>
   );
 };
 export default SideBarCont;

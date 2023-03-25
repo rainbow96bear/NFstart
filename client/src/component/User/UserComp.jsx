@@ -10,39 +10,32 @@ const UserComp = () => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <UserBox>
-        <div className="screen">
-          <img src={home} alt="" />
-        </div>
-        <div className="coin">
-          <div className="inner">
-            <h1>NF STAR</h1>
-            <div className="click">
-              <button
-                className="signIn"
-                onClick={() => {
-                  dispatch(action.asyncLogIn());
-                  navigate("/mypage");
-                }}
-              ></button>
-              <p className="arrow_box">CLICK ME</p>
-            </div>
-            <h3>Token Click to Join Us</h3>
-            <p>Enjoy with us!!</p>
+    <UserBox>
+      <div className="screen">
+        <img src={home} alt="" />
+      </div>
+      <div className="coin">
+        <div className="inner">
+          <h1>NF STAR</h1>
+          <div className="click">
+            <button
+              className="signIn"
+              onClick={() => {
+                dispatch(action.asyncLogIn());
+                navigate("/main");
+              }}></button>
+            <p className="arrow_box">CLICK ME</p>
           </div>
+          <h3>Token Click to Join Us</h3>
+          <p>Enjoy with us!!</p>
         </div>
-      </UserBox>
-    </>
+      </div>
+    </UserBox>
   );
 };
 
 export default UserComp;
 
-const TestBox = styled.div`
-  position: absolute;
-  top: 10px;
-`;
 const UserBox = styled.div`
   width: 100%;
   margin: auto;

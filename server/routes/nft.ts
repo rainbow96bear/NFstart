@@ -10,9 +10,8 @@ import db from "../models/index";
 // import NFTAbi from "../build/contracts/NFTToken.json";
 import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { AbiItem } from "web3-utils";
-
+import { Op } from "sequelize";
 dotenv.config();
-
 // const web3 = new Web3("http://ganache.test.errorcode.help:8545");
 // https://app.infura.io/login
 // wss://goerli.infura.io/ws/v3/YOUR-API-KEY
@@ -211,4 +210,22 @@ router.post("/modalBt", async (req, res) => {
   }
 });
 
+router.get("/explore", async (req, res) => {
+  const { keyword } = req.query;
+  const searchResult = await db.NFT.findAll({
+    where: {
+      [Op.or]: [
+        { name: { [Op.substring]: keyword } },
+        { owner: { [Op.substring]: keyword } },
+        { "$User.nickName$": { [Op.substring]: keyword } },
+      ],
+    },
+    include: [
+      {
+        model: db.User,
+      },
+    ],
+  });
+  res.send({ searchResult });
+});
 export default router;
