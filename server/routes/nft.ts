@@ -7,8 +7,8 @@ import pinataSDK from "@pinata/sdk";
 import fs from "fs";
 import Web3 from "web3";
 import db from "../models/index";
-// import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { Op } from "sequelize";
+// import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { abi as NFTAbi } from "../contracts/artifacts/LetMeDoItForYou.json";
 import { AbiItem } from "web3-utils";
 import { Readable } from "stream";
@@ -51,18 +51,14 @@ router.post("/regist", upload.single("file"), async (req, res) => {
   }
 
   const file = req.file;
-  const files = req.files;
   const filename = file.filename.split(".")[0];
   const name = req.body.name;
   const desc = req.body.desc;
   const volume = req.body.num;
   const account = req.body.account;
 
-  // 이미지가 제대로 안 들어가는 듯
   const imageData = fs.createReadStream(`./uploads/${file.filename}`);
   const nonce = await web3.eth.getTransactionCount(account);
-  console.log(file);
-
   console.log(file);
 
   try {
@@ -72,7 +68,6 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       PinSize: number;
       Timestamp: string;
       isDuplicate?: boolean;
-      // } = await pinata.pinFileToIPFS(Readable.from(req.file.buffer), {
     } = await pinata.pinFileToIPFS(imageData, {
       pinataMetadata: {
         name: file.filename,
@@ -86,22 +81,20 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     console.log(IpfsHash);
 
     // 2. Pinata에 JSON 형식으로 NFT Data 등록
-    const jsonResult = await pinata.pinJSONToIPFS(
-      {
-        name: `${name} #${nonce}`,
-        desc,
-        volume,
-        publisher: account,
-        image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
+    const jsonResult = await pinata.pinJSONToIPFS({
+      name: `${name} #${nonce}`,
+      desc,
+      volume,
+      publisher: account,
+      image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
+    }, {
+      pinataMetadata: {
+        name: filename + ".json",
       },
-      {
-        pinataMetadata: {
-          name: filename + ".json",
-        },
-        pinataOptions: {
-          cidVersion: 0,
-        },
-      }
+      pinataOptions: {
+        cidVersion: 0,
+      },
+    }
     );
     const JsonIpfsHash = jsonResult.IpfsHash;
     console.log(JsonIpfsHash);
@@ -116,20 +109,20 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     console.log(jsonData);
 
     // NFT를 Database에 등록 -> 해당 데이터를 컨트랙트에 배포하겠다는 서명 이후 진행(밖으로 빼기)
-    const createdNFT = await db.NFT.create({
-      hash: nonce,
-      name: `${name} #${nonce}`,
-      desc,
-      filename: file.filename,
-      IpfsHash,
-      JsonIpfsHash,
-      publisher: account,
-      owner: account,
-    });
-    const user = await db.User.findOne({
-      while: { account: account },
-    });
-    await user.addUserNFTs(createdNFT);
+    // const createdNFT = await db.NFT.create({
+    //   hash: nonce,
+    //   name: `${name} #${nonce}`,
+    //   desc,
+    //   filename: file.filename,
+    //   IpfsHash,
+    //   JsonIpfsHash,
+    //   publisher: account,
+    //   owner: account,
+    // });
+    // const user = await db.User.findOne({
+    //   while: { account: account },
+    // });
+    // await user.addUserNFTs(createdNFT);
 
     // 해당 Contract에 Transaction을 보내기 위한 객체 생성
     const obj: {
