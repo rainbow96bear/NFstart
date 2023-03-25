@@ -6,7 +6,7 @@ import { useParams, useLocation } from "react-router-dom";
 
 import axios from "axios";
 
-const SellModalContain = ({ isOpen, click, main }) => {
+const SellModalContain = ({ isOpen, setIsOpen, click, main }) => {
   let { account } = useParams();
 
   const location = useLocation();
@@ -28,6 +28,7 @@ const SellModalContain = ({ isOpen, click, main }) => {
           button={button}
           click={click}
           isOpen={isOpen}
+          setIsOpen={setIsOpen}
           main={main}
         />
       ) : (

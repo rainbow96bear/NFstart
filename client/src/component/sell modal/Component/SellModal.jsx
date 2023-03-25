@@ -2,7 +2,7 @@
 import { SiMaterialdesign } from "react-icons/si";
 import { MdLocalOffer } from "react-icons/md";
 import { FaEthereum } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
+import { IoClose } from "react-icons/io5";
 import {
   AiOutlineTeam,
   AiOutlineMenu,
@@ -10,130 +10,148 @@ import {
   AiOutlineFieldTime,
 } from "react-icons/ai";
 
-import { BsShareFill, BsThreeDots, BsFillHeartFill } from "react-icons/bs";
+import { BsFillHeartFill } from "react-icons/bs";
 import { TbArrowBarToDown } from "react-icons/tb";
+import { RiArrowDownSLine } from "react-icons/ri";
 
 import Modal from "react-modal";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
-const SellModal = ({ click, isOpen, main, button }) => {
+const SellModal = ({ click, isOpen, setIsOpen, main, button }) => {
   Modal.setAppElement("#root");
   const theme = useSelector((state) => state.theme);
 
   return (
-    <ReactModal isOpen={isOpen}>
-      <ModalBox theme={theme}>
-        <div>
-          <MpRemoteImg>
+    // Modal
+    <ReactModal style={ModalStyle} isOpen={isOpen} onRequestClose={() => { setIsOpen(false) }}>
+      <ModalBox theme={theme} className={"modalBox"}>
+
+        {/* 왼쪽 */}
+        <LeftWrap>
+          <ImgWrap className="MpRemoteImg">
+            <ImgTop>
+              {/* <img src="/imgs/eth.png" alt="Ethereum" /> */}
+              <FaEthereum size={"25"} style={{ marginRight: "5px", color: "rgba(165, 68, 255, 0.744)" }} />
+              <span>{main?.price}</span>
+            </ImgTop>
+            <ImgDiv>
+              <NFTImg alt="" src={`/uploads/${main?.filename}`} />
+            </ImgDiv>
+          </ImgWrap>
+          <LeftBottomWrap className="LeftBottomWrap">
             <div>
               <div>
-                <img src="/imgs/eth.png" />
-                <span>{main?.price}</span>
-              </div>
-            </div>
-            <div>
-              <img alt="" src={`/uploads/${main?.filename}`} />
-            </div>
-          </MpRemoteImg>
-          <MpMenue>
-            <div>
-              <div>
-                <div>
+                <div style={{ marginRight: "10px" }}>
                   <AiOutlineMenu size={"30"} />
                 </div>
                 <div>collection</div>
               </div>
               <div>
-                <TbArrowBarToDown size={"30"} />
+                <RiArrowDownSLine size={"30"} style={{ cursor: "pointer" }} />
               </div>
             </div>
+
             <div>
               <div>
-                <div>
+                <div style={{ marginRight: "10px" }}>
                   <AiOutlineTeam size={"30"} />{" "}
                 </div>
                 <div>By publisher </div>
               </div>
               <div>
-                <TbArrowBarToDown size={"30"} />
+                <RiArrowDownSLine size={"30"} style={{ cursor: "pointer" }} />
               </div>
             </div>
 
             <div>
               <div>
-                <div>
+                <div style={{ marginRight: "10px" }}>
                   <SiMaterialdesign size={"30"} />
                 </div>
                 <div>details</div>
               </div>
               <div>
-                <TbArrowBarToDown size={"30"} />
+                <RiArrowDownSLine size={"30"} style={{ cursor: "pointer" }} />
               </div>
             </div>
-          </MpMenue>
-        </div>
-        <div>
-          <MpDt>
-            <div>
-              {main?.hash}
-              <div onClick={() => click()}>
-                <ImCross size={"30"} />
-              </div>
-            </div>
-            <div>
-              <div>{main?.name}</div>
-              <div>Ownd by {main?.owner}</div>
+          </LeftBottomWrap>
+        </LeftWrap>
+
+
+        {/* 오른쪽 */}
+        <RightWrap>
+          <DetailAndBuyWrap>
+
+            {/* Hash & Close */}
+            <RightTop >
+              <div style={{ fontWeight: "600", marginBottom: "10px" }}>#{main?.hash}</div>
+
+              <IoClose style={{ cursor: "pointer" }} onClick={() => click()} size={"40"} />
+            </RightTop>
+
+            {/* NFT Name & Owner Account */}
+            <div style={{ marginBottom: "30px" }}>
+              <div style={{ fontWeight: "600", fontSize: "20px" }}>{main?.name}</div>
+              <div style={{ cursor: "pointer" }} onClick={() => {
+                alert("해당 Owner의 계정 정보로 이동");
+              }}>Ownd by {main?.owner}</div>
             </div>
 
-            <div>
+            {/* Heart Btn */}
+            <div style={{ marginBottom: "30px" }}>
               <div>
-                <BsFillHeartFill size={"30"} />
+                <BsFillHeartFill size={"30"} style={{ cursor: "pointer" }} onClick={() => {
+                  alert("찜 기능 만들기");
+                }} />
                 {main?.favorites}
               </div>
             </div>
-            <div>
-              <div>
-                <AiOutlineFieldTime size={"25"} />
+
+            {/* Sale ends */}
+            {/* <div style={{ marginBottom: "50px", backgroundColor: "rgb(245,245,245)", borderRadius: "10px", padding: "12px", fontSize: "18px" }}> */}
+            <div style={{ marginBottom: "50px", borderRadius: "10px", padding: "12px", fontSize: "18px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "left" }}>
+                <AiOutlineFieldTime size={"25"} style={{ marginRight: "5px" }} />
                 sale ends{" "}
               </div>
-              <div>
+              <div >
                 <div>Hour : "hours"</div>
                 <div>Minutes</div>
                 <div>Seconds</div>
               </div>
             </div>
-            <div>
+
+            {/* Current Price & Buy Now */}
+            {/* <div style={{ marginBottom: "50px", backgroundColor: "rgb(245,245,245)", borderRadius: "10px", padding: "12px" }}> */}
+            <div style={{ marginBottom: "50px", borderRadius: "10px", padding: "12px" }}>
               <div>
-                <div>
-                  <FaEthereum size={"25"} />
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "left", fontSize: "18px" }}>
+                  <FaEthereum size={"25"} style={{ marginRight: "5px" }} />
                   Current price
                 </div>
                 <div>{main?.price} ETH</div>
               </div>
               <div>
-                <div
-                  onClick={() => {
-                    // console.log(button);
-                  }}
-                >
-                  <button>
-                    {" "}
-                    <AiOutlineThunderbolt size={"20"} />
-                    Buy now
-                  </button>
+                <div onClick={() => { }} >
+                  <BuyNowBtn>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "left" }}>
+                      <AiOutlineThunderbolt size={"20"} style={{ marginRight: "5px" }} />
+                      Buy now
+                    </div>
+                  </BuyNowBtn>
                 </div>
               </div>
             </div>
-          </MpDt>
 
-          <MyOf>
-            <div>
-              {" "}
-              <MdLocalOffer size={"25"} /> Offers
-            </div>
-            <div>
+          </DetailAndBuyWrap>
+
+          <OffersWrap>
+            <OffersTitle>
+              <MdLocalOffer size={"25"} style={{ margin: "0 5px 3px 0" }} /> Offers
+            </OffersTitle>
+            <OffersDetail>
               <div>
                 <div>Price</div>
                 <div>USD Price</div>
@@ -146,139 +164,127 @@ const SellModal = ({ click, isOpen, main, button }) => {
                 <div>Expiration :in number hours</div>
                 <div>Form : ID</div>
               </div>
-            </div>
-          </MyOf>
-        </div>
+            </OffersDetail>
+          </OffersWrap>
+        </RightWrap>
+
       </ModalBox>
-    </ReactModal>
+    </ReactModal >
   );
 };
 export default SellModal;
-const MpRemoteImg = styled.div`
+
+
+export const ModalStyle = {
+  overlay: {
+    position: "fixed",
+    backgroundColor: "rgba(28, 28, 28, 0.89)",
+    zIndex: 4
+  },
+  content: {
+    display: "flex",
+    justifyContent: "center",
+    overflow: "auto",
+    top: "5vh",
+    left: "13vw",
+    right: "13vw",
+    bottom: "5vh",
+    WebkitOverflowScrolling: "touch",
+    borderRadius: "10px",
+    outline: "none",
+    zIndex: 10,
+    transition: "all 1s",
+  },
+};
+
+
+const ModalBox = styled.div`
   display: flex;
+  height: 100%;
+  background-color: ${(props) =>
+    props.theme == "dark" ? "#00002a" : "#fdfdfd"};
+  justify-content: space-between;
+  font-size: 18px;
+  padding: 20px 10px;
+`;
 
-  & > div:first-child {
+const LeftWrap = styled.div`
+  width: 45%;
+  & > div {
     display: flex;
-    align-items: center;
-    font-weight: 50px;
-    height: 42px;
-    width: 100%;
-    justify-content: space-between;
-    border: 1px solid rgba(53, 56, 64, 0.3);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom: none;
-    & > div:first-child {
-      display: flex;
-      width: 7%;
-      margin-left: 3%;
-      & > img {
-        display: flex;
-        width: 100%;
-      }
-    }
-    & > div:nth-child(2) {
-      display: flex;
-      width: 7%;
-      margin-left: 55%;
-
-      flex-direction: row-reverse;
-      & > img {
-        display: flex;
-        width: 100%;
-      }
-    }
-  }
-  & > div:nth-child(2) {
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    border: 1px solid rgba(53, 56, 64, 0.3);
-    border-top: none;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      border-radius: 10px;
-      width: 70%;
-      object-fit: contain;
-    }
+    flex-direction: column;
   }
 `;
-const MpMenue = styled.div`
+
+const ImgWrap = styled.div`
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid rgb(232, 232, 232);
+`;
+
+const ImgTop = styled.div`
+  height: 40px;
+  line-height: 40px;
   display: flex;
+  align-items: center;
+  justify-content: left;
+  padding-left : 5px;
+  font-weight: 600;
+  &>img{
+    width: 25px;
+    cursor: pointer;
+    margin-right: 2px;
+  }
+`;
+
+const ImgDiv = styled.div`
+`;
+
+const NFTImg = styled.img`
   width: 100%;
+  object-fit: cover;  
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
+
+const LeftBottomWrap = styled.div`
+  display: flex;
   flex-direction: row;
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 600;
 
-  & > div:first-child {
+  /* 각각의 메뉴 */
+  &>div{
     display: flex;
     width: 100%;
-
     flex-direction: row;
     justify-content: space-between;
-    border: 1px solid rgba(53, 56, 64, 0.3);
+    margin-bottom: 10px;
+    font-weight: 500;
     & > div:first-child {
       display: flex;
+      align-items: center;
     }
-
     & > div:nth-child(2) {
       display: flex;
       flex-direction: row;
     }
+
   }
-  & > div:nth-child(2) {
-    display: flex;
-    width: 100%;
 
-    flex-direction: row;
-    justify-content: space-between;
-    border: 1px solid rgba(53, 56, 64, 0.3);
-    & > div:first-child {
-      display: flex;
-    }
 
-    & > div:nth-child(2) {
-      display: flex;
-      flex-direction: row;
-    }
-  }
-  & > div:nth-child(3) {
-    display: flex;
-    width: 100%;
-
-    flex-direction: row;
-    justify-content: space-between;
-    border: 1px solid rgba(53, 56, 64, 0.3);
-    & > div:first-child {
-      display: flex;
-    }
-
-    & > div:nth-child(2) {
-      display: flex;
-      flex-direction: row;
-    }
-  }
 `;
 
-const MpDt = styled.div`
-  height: 72%;
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: space-around;
-  font-size: 30px;
+const RightWrap = styled.div`
+  width: 50%;
+`;
 
+
+// 이 놈
+const DetailAndBuyWrap = styled.div`
   & > div:first-child {
     display: flex;
-    width: 100%;
     justify-content: space-between;
-    & > div {
-      display: flex;
-      gap: 13px;
-    }
   }
   & > div:nth-child(2) {
     display: flex;
@@ -293,20 +299,18 @@ const MpDt = styled.div`
     }
     & > div:nth-child(2) {
       display: flex;
-      font-size: 20px;
       justify-content: space-around;
     }
   }
   & > div:nth-child(3) {
     display: flex;
-    font-size: 28px;
+    font-size: 18px;
     justify-content: space-around;
   }
   & > div:nth-child(4) {
     display: flex;
     width: 100%;
     flex-direction: column;
-    font-size: 1.2rem;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     flex-wrap: wrap;
@@ -315,7 +319,6 @@ const MpDt = styled.div`
     & > div:nth-child(2) {
       display: flex;
       justify-content: space-around;
-      font-size: 1.7rem;
       margin-top: 5px;
     }
   }
@@ -328,7 +331,7 @@ const MpDt = styled.div`
     & > div:first-child {
       display: flex;
       flex-direction: column;
-      font-size: 28px;
+      font-size: 20px;
       justify-content: center;
 
       & > div:first-child {
@@ -347,13 +350,22 @@ const MpDt = styled.div`
       margin-top: 5%;
       text-align: center;
       & > div button {
-        background-color: lightcyan;
+        cursor: pointer;
+        background-color: #616161;
         position: relative;
-        border: 1px solid black;
         display: inline-block;
         padding: 15px 150px;
         border-radius: 15px;
         transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
+        font-size: 18px;
+        background: transparent;
+        background-image: linear-gradient(
+            0.47turn,
+            #e2938f,
+            #ae7dbe,
+            #6f67f1
+        );
+        color : white;
 
         &::before {
           position: absolute;
@@ -368,73 +380,50 @@ const MpDt = styled.div`
           transform-origin: right;
           transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
         }
-
-        &:hover {
-          color: white;
-          background: transparent;
-          background-image: linear-gradient(
-            0.47turn,
-            #e2938f,
-            #ae7dbe,
-            #6f67f1
-          );
-
-          &::before {
-            transform: scaleX(1);
-            transform-origin: left;
-          }
-        }
       }
     }
   }
 `;
-const MyOf = styled.div`
-  height: 20%;
+
+const RightTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  line-height: 30px;
+  margin-bottom: 20px;
+`;
+
+const OffersWrap = styled.div`
   display: flex;
   flex-direction: column;
+  /* background-color: rgb(245,245,245); */
+  border-radius: 10px;
+  padding: 12px;
+`;
 
-  & > div {
-    display: flex;
-    margin-top: 4%;
-    border: 1px solid rgba(53, 56, 64, 0.3);
-  }
-  & > div:nth-child(2) {
+const OffersTitle = styled.div`
+  display: flex;
+`;
+
+const OffersDetail = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  & > div:nth-child(3) {
     display: flex;
     justify-content: space-around;
-    flex-direction: row;
-    & > div:nth-child(3) {
-      display: flex;
-      justify-content: space-around;
-      font-size: 18px;
-    }
+    font-size: 18px;
   }
 `;
 
-const ModalBox = styled.div`
+const BuyNowBtn = styled.button`
   display: flex;
-  width: 95%;
-  height: 100%;
-  background-color: ${(props) =>
-    props.theme == "dark" ? "#00002a" : "#fdfdfd"};
-  justify-content: space-around;
-  margin: 0 auto;
-  font-size: 20px;
-  & > div:first-child {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
-    justify-content: space-around;
-
-    & > div {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  & > div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
-    justify-content: space-around;
+  align-items: center;
+  justify-content: left;
+  border: none;
+  box-sizing: border-box;
+  &:hover{
+    background-color: white;
+    /* border: 3px solid #c070c2; */
   }
 `;

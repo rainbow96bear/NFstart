@@ -49,7 +49,7 @@ const ItemBoxComp = ({
           ))}
         </SubBox>
       </ItemCase>
-      <SellModal isOpen={on} click={click} main={main} />
+      <SellModal isOpen={on} setIsOpen={setOn} click={click} main={main} />
     </ItemBox>
   );
 };
