@@ -11,14 +11,13 @@ const ItemBoxComp = ({
   main,
   theme,
   NFlist,
-  nickName,
   item,
 }) => {
   const [on, setOn] = useState(false);
   const click = () => {
     setOn(!on);
   };
-  // console.log(item);
+
   return (
     <ItemBox>
       <ItemCase>

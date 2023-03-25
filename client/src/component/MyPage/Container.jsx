@@ -2,7 +2,6 @@ import MypageComp from "./Component";
 // HOOK
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 // axios
 import axios from "axios";
@@ -26,7 +25,7 @@ const MypageCont = () => {
   };
   const tempNF = async () => {
     const _NFlist = (await axios.post(`/api/nft/myNFT`, { path })).data;
-    // console.log("NF", _NFlist);
+
     setNFlist(_NFlist);
   };
   useEffect(() => {

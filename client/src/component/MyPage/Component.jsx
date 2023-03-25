@@ -15,9 +15,6 @@ const MypageComp = ({ open, setOpen, User, NFlist }) => {
           </ProfileImgBox>
           <Info className="Info">
             <div>
-              {/* {User?.map((item) => (
-                <div>{item.nickName}</div>
-              ))} */}
               <div>{nickName}</div>
             </div>
             <div>게시물 {NFlist.length}개</div>

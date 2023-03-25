@@ -14,7 +14,7 @@ const SellModalContain = ({ isOpen, setIsOpen, click, main }) => {
   const [button, setButton] = useState();
   const tempButton = async () => {
     const _button = (await axios.post(`/api/nft/modalBt`, { account })).data;
-    // console.log("버튼", _button);
+
     setButton(_button);
   };
   useEffect(() => {

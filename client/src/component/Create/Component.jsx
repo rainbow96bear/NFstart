@@ -76,7 +76,8 @@ const CreateComp = () => {
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
         onMouseMove={drawing}
-        onMouseLeave={finishDrawing}></canvas>
+        onMouseLeave={finishDrawing}
+      ></canvas>
       <SettingBox>
         <ValueBox>
           <div>
@@ -115,7 +116,8 @@ const CreateComp = () => {
               onClick={() => {
                 setColor(item);
               }}
-              item={item}></ColorItem>
+              item={item}
+            ></ColorItem>
           ))}
 
           <EraserBox>
@@ -132,15 +134,22 @@ const CreateComp = () => {
             ctx.fillStyle = "#fff";
             ctx.fillRect(0, 0, 500, 500);
           }}
-          theme={theme}>
+          theme={theme}
+        >
           전체 지우기
         </AllDelete>
       </SettingBox>
       <MintingBox theme={theme}>
-        <a download={"image-name.png"} href={canvasRef.current?.toDataURL("image/png").replace("image/png", "image/octet-stream")} onClick={(e) => {
-          // 이미지를 IPFS에 저장하고 ...
-          console.log(e.target);
-        }}>
+        <a
+          download={"image-name.png"}
+          href={canvasRef.current
+            ?.toDataURL("image/png")
+            .replace("image/png", "image/octet-stream")}
+          onClick={(e) => {
+            // 이미지를 IPFS에 저장하고 ...
+            console.log(e.target);
+          }}
+        >
           민팅
         </a>
       </MintingBox>

@@ -1,18 +1,16 @@
 import styled from "styled-components";
 import ItemBoxCont from "./ItemBox/Container";
 
-const MainComp = ({ NFlist, mainId }) => {
-  // console.log("nf리스트", NFlist);
-  // console.log("nfId", mainId);
+const MainComp = ({ mainId }) => {
   return (
     <Main>
-      {/* {mainId?.map((item, index) => {
+      {mainId?.map((item, index) => {
         return (
-          <Box>
-            <ItemBoxCont NFlist={NFlist} item={item}></ItemBoxCont>
+          <Box key={index}>
+            <ItemBoxCont item={item} key={index}></ItemBoxCont>
           </Box>
         );
-      })} */}
+      })}
     </Main>
   );
 };
