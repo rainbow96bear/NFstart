@@ -7,7 +7,8 @@ import pinataSDK from "@pinata/sdk";
 import fs from "fs";
 import Web3 from "web3";
 import db from "../models/index";
-import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
+// import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
+import { abi as NFTAbi } from "../contracts/artifacts/LetMeDoItForYou.json";
 import { AbiItem } from "web3-utils";
 import { Readable } from "stream";
 
@@ -100,7 +101,8 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     // 3. 배포된 컨트랙트의 메서드를 활용하여 NFT 등록 데이터 생성
     const deployed = new web3.eth.Contract(
       NFTAbi as AbiItem[],
-      process.env.NFT_TOKEN_CA
+      // process.env.NFT_TOKEN_CA
+      process.env.LETMEDOITFORYOU_CA
     );
     const jsonData = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
     console.log(jsonData);
@@ -129,7 +131,8 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       data: string;
     } = {
       nonce: nonce,
-      to: process.env.NFT_TOKEN_CA,
+      // to: process.env.NFT_TOKEN_CA,
+      to: process.env.LETMEDOITFORYOU_CA,
       from: account,
       data: jsonData,
     };
