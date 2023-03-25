@@ -111,6 +111,8 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
               setImg("");
             }
             setIsDetail(false);
+            setLoading(false);
+            setSignLoading(false);
           }
         }} >
           <AllWrap>
@@ -209,6 +211,8 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
             if (img == undefined) {
               setImg("");
             }
+            setLoading(false);
+            setSignLoading(false);
           }
         }} >
           <AllWrap>
