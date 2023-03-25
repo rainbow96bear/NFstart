@@ -80,6 +80,16 @@ const NFTMintingComponent = ({
     return registered;
   };
 
+
+  // NFT 등록 트랜잭션 함수
+  const sendTransactionReq = async (registData) => {
+    alert("NFT 등록을 시도합니다. 서명 이후 약 30초 가량 소요됩니다. [2/2]");
+    setSignLoading(true);
+    await web3.eth.sendTransaction(registData);
+    setSignLoading(false);
+  }
+
+
   // 로그인 확인
   if (isDetail || registeringNFT) {
     if (!account) {
@@ -126,11 +136,7 @@ const NFTMintingComponent = ({
               )}
               {signLoading && (
                 <Loading>
-                  <img
-                    width={"35%"}
-                    alt=""
-                    src={`https://steamuserimages-a.akamaihd.net/ugc/586909633581902758/BCAF264131B1B1792A7F985BFDCB749844A7DB8B/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false`}
-                  ></img>
+                  <img width={"35%"} alt="" src={`https://steamuserimages-a.akamaihd.net/ugc/586909633581902758/BCAF264131B1B1792A7F985BFDCB749844A7DB8B/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false`}></img>
                   <div style={{ marginTop: "5%" }}>NFT 등록중...</div>
                 </Loading>
               )}

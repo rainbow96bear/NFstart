@@ -233,7 +233,7 @@ export const ModalStyle = {
   overlay: {
     position: "fixed",
     backgroundColor: "rgba(28, 28, 28, 0.89)",
-    zIndex: 4
+    zIndex: 4,
   },
   content: {
     display: "flex",
