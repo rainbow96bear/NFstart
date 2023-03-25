@@ -4,8 +4,9 @@ import { BsEraserFill } from "react-icons/bs";
 import brush from "../Create/brush.svg";
 import styled from "styled-components";
 import SeekBar from "react-seekbar-component";
+import NFTMintingContainer from "../NFTMinting/Container";
 
-const CreateComp = () => {
+const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [ctx, setCtx] = useState([]);
@@ -137,12 +138,31 @@ const CreateComp = () => {
         </AllDelete>
       </SettingBox>
       <MintingBox theme={theme}>
-        <a download={"image-name.png"} href={canvasRef.current?.toDataURL("image/png").replace("image/png", "image/octet-stream")} onClick={(e) => {
-          // 이미지를 IPFS에 저장하고 ...
-          console.log(e.target);
-        }}>
+        <div
+          onClick={() => {
+            const imgDataUrl = canvasRef.current?.toDataURL("image/png");
+            const blobBin = atob(imgDataUrl.split(",")[1]);
+            const array = [];
+            for (var i = 0; i < blobBin.length; i++) {
+              array.push(blobBin.charCodeAt(i));
+            }
+            const file = new Blob([new Uint8Array(array)], {
+              type: "image/png",
+            }); // Blob 생성
+
+            setRegisteringNFT(true);
+            // download={"image-name.png"}
+            // href={canvasRef.current
+            //   ?.toDataURL("image/png")
+            //   .replace("image/png", "image/octet-stream")}
+          }}>
           민팅
-        </a>
+        </div>
+        <NFTMintingContainer
+          registeringNFT={registeringNFT}
+          setRegisteringNFT={setRegisteringNFT}
+          file={file}
+        />
       </MintingBox>
     </CanvasBox>
   );

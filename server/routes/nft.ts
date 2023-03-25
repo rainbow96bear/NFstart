@@ -12,6 +12,7 @@ import { abi as NFTAbi } from "../contracts/artifacts/LetMeDoItForYou.json";
 import { AbiItem } from "web3-utils";
 import { Readable } from "stream";
 
+import { Op } from "sequelize";
 dotenv.config();
 
 const web3 = new Web3(
@@ -80,20 +81,22 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     console.log(IpfsHash);
 
     // 2. Pinata에 JSON 형식으로 NFT Data 등록
-    const jsonResult = await pinata.pinJSONToIPFS({
-      name: `${name} #${nonce}`,
-      desc,
-      volume,
-      publisher: account,
-      image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
-    }, {
-      pinataMetadata: {
-        name: filename + ".json",
+    const jsonResult = await pinata.pinJSONToIPFS(
+      {
+        name: `${name} #${nonce}`,
+        desc,
+        volume,
+        publisher: account,
+        image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
       },
-      pinataOptions: {
-        cidVersion: 0,
-      },
-    }
+      {
+        pinataMetadata: {
+          name: filename + ".json",
+        },
+        pinataOptions: {
+          cidVersion: 0,
+        },
+      }
     );
     const JsonIpfsHash = jsonResult.IpfsHash;
     console.log(JsonIpfsHash);
@@ -194,7 +197,6 @@ router.post("/save", async (req, res) => {
   }
 });
 
-
 // NFT 메인페이지에 최신 4개 출력
 router.post("/tomain", async (req, res) => {
   try {
@@ -290,4 +292,22 @@ router.post("/modalBt", async (req, res) => {
   }
 });
 
+router.get("/explore", async (req, res) => {
+  const { keyword } = req.query;
+  const searchResult = await db.NFT.findAll({
+    where: {
+      [Op.or]: [
+        { name: { [Op.substring]: keyword } },
+        { owner: { [Op.substring]: keyword } },
+        { "$User.nickName$": { [Op.substring]: keyword } },
+      ],
+    },
+    include: [
+      {
+        model: db.User,
+      },
+    ],
+  });
+  res.send({ searchResult });
+});
 export default router;

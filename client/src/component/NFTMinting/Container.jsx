@@ -7,8 +7,8 @@ const NFTMintingContainer = ({
   registeringNFT,
   setRegisteringNFT,
   registeringNFTOnclick,
+  file,
 }) => {
-
   const account = useSelector((state) => state.userInfo.account);
 
   // GOERLI_API_KEY 요청 보내는 것으로 바꾸기
@@ -23,6 +23,7 @@ const NFTMintingContainer = ({
         setRegisteringNFT={setRegisteringNFT}
         account={account}
         web3={web3}
+        file={file}
       />
     </>
   );
