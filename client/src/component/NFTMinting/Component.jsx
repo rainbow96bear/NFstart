@@ -57,9 +57,9 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
   // NFT 등록 로딩
   const [loading, setLoading] = useState(false);
   // 서명 로딩
-  // const [loading, setLoading] = useState(false);
+  const [signLoading, setSignLoading] = useState(false);
 
-  // NFT 등록 함수
+  // NFT 등록 Data 요청 함수
   const registReq = async () => {
     const formData = new FormData();
     formData.append('file', file);
@@ -74,6 +74,16 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
 
     return registered;
   }
+
+
+  // NFT 등록 트랜잭션 함수
+  const sendTransactionReq = async (registData) => {
+    alert("NFT 등록을 시도합니다. 서명 이후 약 30초 가량 소요됩니다. [2/2]");
+    setSignLoading(true);
+    await web3.eth.sendTransaction(registData);
+    setSignLoading(false);
+  }
+
 
   // 로그인 확인
   if (isDetail || registeringNFT) {
@@ -109,8 +119,12 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
                 <Loading>
                   <img alt="등록" src={`https://images.velog.io/images/leeseooo/post/de8c4bcc-40dc-474a-a4ef-2086127a6f3d/%EB%AC%B4%EC%A7%80%EA%B0%9C%EA%B3%A0%EC%96%91%EC%9D%B4.gif`}></img>
                   <div>NFT 등록중...</div>
-                  {/* <img width={"40%"} alt="" src={`https://steamuserimages-a.akamaihd.net/ugc/586909633581902758/BCAF264131B1B1792A7F985BFDCB749844A7DB8B/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false`}></img> */}
-                  {/* <div style={{ marginTop: "5%" }}>NFT 등록중...</div> */}
+                </Loading>
+              )}
+              {signLoading && (
+                <Loading>
+                  <img width={"35%"} alt="" src={`https://steamuserimages-a.akamaihd.net/ugc/586909633581902758/BCAF264131B1B1792A7F985BFDCB749844A7DB8B/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false`}></img>
+                  <div style={{ marginTop: "5%" }}>NFT 등록중...</div>
                 </Loading>
               )}
 
@@ -162,17 +176,13 @@ const NFTMintingComponent = ({ web3, account, registeringNFT, setRegisteringNFT 
                   }
                 }}>이전</NextBtn>
                 <NextBtn onClick={async () => {
-
-                  alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다.");
+                  alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다. [1/2]");
 
                   // NFT 등록 요청을 보낸다.
                   const registData = await registReq();
-                  console.log(registData);
-                  // alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
 
-                  console.log(web3.eth);
-                  await web3.eth.sendTransaction(registData);
-
+                  // 트랜잭션 요청을 보낸다.
+                  await sendTransactionReq(registData);
                   alert("NFT 가 Goerli Network에 등록되었습니다.");
 
                   setIsDetail(false);
