@@ -7,10 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 // registeringNFT : 기본 false, 클릭시 true
 const NFTMintingComponent = ({
+  web3,
   account,
   registeringNFT,
   setRegisteringNFT,
-  file,
+  drawingFile,
+  setDrawingFile,
+  drawingDataUrl,
 }) => {
   Modal.setAppElement("#root");
 
@@ -27,7 +30,6 @@ const NFTMintingComponent = ({
   const [img, setImg] = useState("");
   const [image, setImage] = useState("");
   const fileChange = useCallback((e) => {
-    console.log(e.target.files[0]);
     setFile(e.target.files[0]);
 
     // 이미지 경로 세팅
@@ -47,6 +49,17 @@ const NFTMintingComponent = ({
       setRegisteringNFT(false);
     }
   }, [img]);
+  useEffect(() => {
+    if (drawingFile) {
+      setFile(drawingFile);
+
+      // 이미지 경로 세팅
+      if (drawingDataUrl) {
+        setImg(drawingDataUrl);
+        setImage(drawingDataUrl);
+      }
+    }
+  }, [drawingFile]);
 
   // NFT 등록을 위한 상태값 (+ image, account-users 연결, web3)
   const [isDetail, setIsDetail] = useState(false); // 상세 정보 작성중인가?
@@ -123,6 +136,9 @@ const NFTMintingComponent = ({
                 setImg("");
               }
               setIsDetail(false);
+              setLoading(false);
+              setSignLoading(false);
+              setDrawingFile("");
             }
           }}>
           <AllWrap>
@@ -207,7 +223,7 @@ const NFTMintingComponent = ({
                 </NextBtn>
                 <NextBtn
                   onClick={async () => {
-                    alert("NFT 등록을 시도합니다. 약 10초 가량 소요됩니다.");
+                    alert("NFT 등록을 시도합니다. 약 30초 가량 소요됩니다.");
 
                     // NFT 등록 요청을 보낸다.
                     const registData = await registReq();
@@ -240,6 +256,8 @@ const NFTMintingComponent = ({
               if (img == undefined) {
                 setImg("");
               }
+              setLoading(false);
+              setSignLoading(false);
             }
           }}>
           <AllWrap>

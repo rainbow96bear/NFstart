@@ -55,11 +55,11 @@ function App() {
         };
         getAccount();
         navigate("/main");
-      } else {
-        navigate("/");
       }
+    } else {
+      navigate("/");
     }
-  }, []);
+  }, [account]);
 
   return (
     <Frame>

@@ -10,6 +10,8 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [ctx, setCtx] = useState([]);
+  const [drawingFile, setDrawingFile] = useState("");
+  const [drawingDataUrl, setDrawingDataUrl] = useState("");
   const [value, setValue] = useState(0);
   const [eraser, setEraser] = useState(0);
   const [color, setColor] = useState(0);
@@ -42,6 +44,9 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
     contextRef.current = context;
     setCtx(contextRef.current);
   }, []);
+  // useEffect(() => {
+  //   console.log(drawingFile);
+  // }, [drawingFile]);
 
   const startDrawing = () => {
     setIsDrawing(true);
@@ -141,6 +146,7 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
         <div
           onClick={() => {
             const imgDataUrl = canvasRef.current?.toDataURL("image/png");
+            setDrawingDataUrl(imgDataUrl);
             const blobBin = atob(imgDataUrl.split(",")[1]);
             const array = [];
             for (var i = 0; i < blobBin.length; i++) {
@@ -149,7 +155,8 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
             const file = new Blob([new Uint8Array(array)], {
               type: "image/png",
             }); // Blob 생성
-
+            console.log(file);
+            setDrawingFile(file);
             setRegisteringNFT(true);
             // download={"image-name.png"}
             // href={canvasRef.current
@@ -161,7 +168,9 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
         <NFTMintingContainer
           registeringNFT={registeringNFT}
           setRegisteringNFT={setRegisteringNFT}
-          file={file}
+          setDrawingFile={setDrawingFile}
+          drawingFile={drawingFile}
+          drawingDataUrl={drawingDataUrl}
         />
       </MintingBox>
     </CanvasBox>

@@ -7,7 +7,9 @@ const NFTMintingContainer = ({
   registeringNFT,
   setRegisteringNFT,
   registeringNFTOnclick,
-  file,
+  setDrawingFile,
+  drawingFile,
+  drawingDataUrl,
 }) => {
   const account = useSelector((state) => state.userInfo.account);
 
@@ -23,7 +25,9 @@ const NFTMintingContainer = ({
         setRegisteringNFT={setRegisteringNFT}
         account={account}
         web3={web3}
-        file={file}
+        setDrawingFile={setDrawingFile}
+        drawingFile={drawingFile}
+        drawingDataUrl={drawingDataUrl}
       />
     </>
   );
