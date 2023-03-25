@@ -3,7 +3,7 @@ import SellModalContain from "../../sell modal/Container/SellModalContain";
 import SellModal from "../../sell modal/Component/SellModal";
 import { useState } from "react";
 
-const ItemBoxComp = ({ item }) => {
+const ItemBoxComp = ({ item, NFlist }) => {
   const [on, setOn] = useState(false);
   const click = () => {
     setOn(!on);

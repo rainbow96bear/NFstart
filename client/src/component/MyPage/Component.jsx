@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { CgProfile } from "react-icons/cg";
 import ItemBoxCont from "./ItemBox/Container";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const MypageComp = ({ open, setOpen, NFlist, nickName }) => {
+const MypageComp = ({ open, setOpen, User, NFlist }) => {
+  // console.log("listNF", NFlist);
+  const { nickName } = useSelector((state) => state.userInfo);
   return (
     <MyPage>
       <MyPageFrame>
@@ -11,9 +13,12 @@ const MypageComp = ({ open, setOpen, NFlist, nickName }) => {
           <ProfileImgBox>
             <CgProfile size={"80%"} />
           </ProfileImgBox>
-          <Info>
+          <Info className="Info">
             <div>
-              <div>{NFlist.account}</div>
+              {/* {User?.map((item) => (
+                <div>{item.nickName}</div>
+              ))} */}
+              <div>{nickName}</div>
             </div>
             <div>게시물 {NFlist.length}개</div>
           </Info>
@@ -24,7 +29,12 @@ const MypageComp = ({ open, setOpen, NFlist, nickName }) => {
         </CategoryBox>
         <ItemBox>
           {NFlist?.map((item, index) => (
-            <ItemBoxCont item={item} index={index} key={index} />
+            <ItemBoxCont
+              item={item}
+              index={index}
+              key={index}
+              NFlist={NFlist}
+            />
           ))}
         </ItemBox>
       </MyPageFrame>
@@ -65,6 +75,8 @@ const Info = styled.div`
   justify-content: space-around;
   & :nth-child(1) {
     display: flex;
+    width: fit-content;
+    font-size: 2rem;
   }
 `;
 

@@ -1,7 +1,7 @@
 import "./App.css";
 import UserContainer from "./component/User/UserContainer";
 import ReactModal from "react-modal";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import NFTMintingContainer from "./component/NFTMinting/Container";
 import SideBarCont from "./component/sideBar/Container";
 import MainCont from "./component/mainPage/Container";
@@ -22,7 +22,6 @@ function App() {
   );
 
   const dispatch = useDispatch();
-
   window.ethereum.on("accountsChanged", async () => {
     if (window.ethereum) {
       const changeAccount = await window.ethereum.request({
@@ -45,7 +44,7 @@ function App() {
         <Route path="/" element={<MainCont></MainCont>}></Route>
         <Route path="/:params" element={<MainCont></MainCont>}></Route>
         <Route path="/login" element={<UserContainer />}></Route>
-        <Route path="/mypage/:account" element={<MypageCont />}></Route>
+        <Route path="/mypage/:idaccount" element={<MypageCont />}></Route>
         <Route path="/create" element={<CreateCont />}></Route>
         <Route path="/chat" element={<ChatCont />}></Route>
       </Routes>

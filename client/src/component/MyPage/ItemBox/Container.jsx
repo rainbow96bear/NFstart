@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 
-const ItemBoxCont = ({ item, index }) => {
+const ItemBoxCont = ({ item, index, NFlist }) => {
   const theme = useSelector((state) => state.theme);
 
   const location = useLocation();
@@ -20,7 +20,7 @@ const ItemBoxCont = ({ item, index }) => {
   return (
     <>
       {location.pathname != "login" ? (
-        <ItemBoxComp item={item} theme={theme}></ItemBoxComp>
+        <ItemBoxComp item={item} theme={theme} NFlist={NFlist}></ItemBoxComp>
       ) : (
         <></>
       )}

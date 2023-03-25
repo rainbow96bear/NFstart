@@ -153,7 +153,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
 router.post("/tomain", async (req, res) => {
   try {
     const nftList = await db.NFT.findAll({
-      order: ["id", "DESC"],
+      order: [["id", "DESC"]],
       limit: 4,
     });
 
@@ -164,11 +164,16 @@ router.post("/tomain", async (req, res) => {
 });
 // main all
 router.post("/tomainAll", async (req, res) => {
+  console.log("acc", req.body);
+
   try {
     const userList = await db.User.findAll({
+      where: {
+        id: req.body.account,
+      },
       order: [["id", "DESC"]],
     });
-    console.log("유저리스트", userList);
+    // console.log("유저리스트", userList);
 
     res.send(userList);
   } catch (error) {
@@ -177,27 +182,42 @@ router.post("/tomainAll", async (req, res) => {
 });
 //  NFT 마이페이지에 가지고 있는거 띄움
 router.post("/toMypage", async (req, res) => {
-  // console.log(req.body);
-  // console.log("999", req.body.account);
-
-  if (!req.body.account == db.User.account) {
+  if (!req.body.path == db.User.account) {
     res.send({ data: "회원 정보가 없습니다." });
     return;
   } else {
     try {
       const nftAccount = await db.User.findAll({
         where: {
-          account: req.body.account,
+          account: req.body.path,
         },
       });
+
       res.send(nftAccount);
     } catch (error) {
       res.send(error);
     }
   }
-
-  // 1차 유저랑 관계를 맺어야함
-  // 2차 해당하는 유저의 정보를 가져와야함
+});
+router.post("/myNFT", async (req, res) => {
+  console.log("path", req.body.path);
+  console.log("");
+  if (!req.body.path == db.NFT.owner) {
+    res.send({ data: "연결오류" });
+    return;
+  } else {
+    try {
+      const myNFTList = await db.NFT.findAll({
+        where: {
+          owner: req.body.path,
+        },
+      });
+      // console.log("마이nft", myNFTList);
+      res.send(myNFTList);
+    } catch (error) {
+      res.send(error);
+    }
+  }
 });
 
 router.post("/modalBt", async (req, res) => {
@@ -206,7 +226,7 @@ router.post("/modalBt", async (req, res) => {
     const MPmodalAc = await db.User.findAll({
       where: { account: req.body },
     });
-    console.log("모달어카", MPmodalAc);
+    // console.log("모달어카", MPmodalAc);
     const MPmodalNF = await db.NFT.findAll({
       where: {
         name: req.body.name,

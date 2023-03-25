@@ -1,7 +1,7 @@
 import MypageComp from "./Component";
 // HOOK
 import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // axios
@@ -11,18 +11,27 @@ const MypageCont = () => {
   // HOOK
   const [open, setOpen] = useState(false);
   const [NFlist, setNFlist] = useState([]);
-  let { account } = useParams();
-  //login
+  const [User, setUser] = useState([]);
+
+  //login 인한 지갑주소
   const location = useLocation();
-  const { nickName } = useSelector((state) => state.userInfo);
+
+  // path 지갑주소
+  let tempPath = location.pathname;
+  let path = tempPath.slice(9, tempPath.length);
 
   const templist = async () => {
-    const _NFlist = (await axios.post(`/api/nft/toMypage`, { account })).data;
+    const _User = (await axios.post(`/api/nft/toMypage`, { path })).data;
+    setUser(_User);
+  };
+  const tempNF = async () => {
+    const _NFlist = (await axios.post(`/api/nft/myNFT`, { path })).data;
+    // console.log("NF", _NFlist);
     setNFlist(_NFlist);
   };
-
   useEffect(() => {
     templist();
+    tempNF();
   }, []);
 
   return (
@@ -31,8 +40,9 @@ const MypageCont = () => {
         <MypageComp
           open={open}
           setOpen={setOpen}
+          User={User}
           NFlist={NFlist}
-          nickName={nickName}
+          path={path}
         ></MypageComp>
       ) : (
         // account 를 확인해서
