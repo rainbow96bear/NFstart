@@ -15,6 +15,12 @@ const logIn = (account, balance, chainId, nick) => {
   };
 };
 
+const logOut = () => {
+  return {
+    type: TYPE.LOGOUT,
+  };
+};
+
 const asyncLogIn = () => {
   return async (dispatch) => {
     try {
@@ -84,9 +90,13 @@ const asyncLogIn = () => {
           }
           localStorage.setItem("account", account);
         }
-        axios.post("/api/user/login", {
-          account,
-        });
+        axios
+          .post("/api/user/login", {
+            account,
+          })
+          .then((data) => {
+            console.log(data.data.location);
+          });
       } else {
         console.log("MetaMask is not exist");
       }
@@ -98,12 +108,10 @@ const asyncLogIn = () => {
 
 const asyncLogOut = () => {
   localStorage.clear();
-  axios.post("/api/user/logout").then(() => {
-    window.location.reload();
-  });
+  axios.post("/api/user/logout");
 };
 
-export const action = { logIn, asyncLogIn, asyncLogOut };
+export const action = { logIn, logOut, asyncLogIn, asyncLogOut };
 
 export const initialize = {
   userInfo: { account: "", balance: -1, chainId: "", nickName: "" },

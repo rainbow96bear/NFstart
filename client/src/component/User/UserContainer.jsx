@@ -1,15 +1,33 @@
 import UserComp from "./UserComp";
 import { action } from "../../modules/userInfo";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Web3 from "web3";
 import { useEffect, useState } from "react";
 
-const UserContainer = () => {
+const UserContainer = ({ cookieValue }) => {
   const dispatch = useDispatch();
-  const [change, setChange] = useState();
+  const navigate = useNavigate();
+  const account = useSelector((state) => state.userInfo);
 
-  return <UserComp />;
+  // const Enter = () => {
+  //   if (cookieValue) {
+  //     navigate("/main");
+  //   }
+  // };
+  // axios
+  //   .post("/api/user/login", {
+  //     account,
+  //   })
+  //   .then((data) => {
+  //     navigate(`/${data.data.location}`);
+  //   });
+  // useEffect(() => {
+  //   Enter();
+  // }, [cookieValue]);
+
+  return <UserComp cookieValue={cookieValue} />;
 };
 
 export default UserContainer;

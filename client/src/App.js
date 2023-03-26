@@ -1,7 +1,7 @@
 import "./App.css";
 import UserContainer from "./component/User/UserContainer";
 import ReactModal from "react-modal";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import NFTMintingContainer from "./component/NFTMinting/Container";
 import SideBarCont from "./component/sideBar/Container";
 import SettingCont from "./component/SettingPage/Container";
@@ -13,45 +13,67 @@ import styled from "styled-components";
 import MypageCont from "./component/MyPage/Container";
 import CreateCont from "./component/Create/Container";
 import ChatCont from "./component/Chat/Container/ChatContain";
+import LoadingComp from "./component/Loading/LoadingComp";
 import { action } from "./modules/userInfo";
+import { useEffect, useState } from "react";
 
 ReactModal.setAppElement("#root");
 function App() {
   const theme = useSelector((state) => state.theme);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const cookieValue = document.cookie.match(
     "(^|;) ?" + "logout" + "=([^;]*)(;|$)"
   );
+  console.log(cookieValue);
+  // const stateLog = document.cookie.split("; ").includes("logout=false");
+  // if (stateLog) {
+  //   dispatch(action.asyncLogIn());
+  //   console.log("쿠키의 상태", document.cookie.split("; "));
+  // }
 
-  const dispatch = useDispatch();
+  // if (cookieValue) {
+  //   if (cookieValue[2] == false) {
+  //     window.ethereum.on("accountsChanged", async () => {
+  //       if (window.ethereum) {
+  //         const changeAccount = await window.ethereum.request({
+  //           method: "eth_requestAccounts",
+  //         });
+  //         if (changeAccount) {
+  //           dispatch(action.asyncLogIn());
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
 
-  window.ethereum.on("accountsChanged", async () => {
-    if (window.ethereum) {
-      const changeAccount = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      if (changeAccount) {
-        dispatch(action.asyncLogIn());
-      }
-    }
-  });
+  // useEffect(() => {
+  //   // console.log("여긴 app 쿠키 :", cookieValue[2]);
+  // }, [cookieValue]);
 
   return (
-    <Frame>
-      <GlobalStyle
-        theme={theme == "dark" ? darkTheme : lightTheme}
-      ></GlobalStyle>
-      <SideBarCont cookieValue={cookieValue}></SideBarCont>
-      <Routes>
-        <Route path="/" element={<MainCont />} />
-        <Route path="/:params" element={<MainCont />} />
-        <Route path="/login" element={<UserContainer />} />
-        <Route path="/mypage/:account" element={<MypageCont />} />
-        <Route path="/setting" element={<SettingCont />} />
-        <Route path="/create" element={<CreateCont />} />
-        <Route path="/chat" element={<ChatCont />} />
-      </Routes>
-    </Frame>
+    <>
+      {/* {loading && <LoadingComp />} */}
+      <Frame>
+        <GlobalStyle
+          theme={theme == "dark" ? darkTheme : lightTheme}
+        ></GlobalStyle>
+        <SideBarCont></SideBarCont>
+        <Routes>
+          <Route
+            path="/"
+            element={<UserContainer cookieValue={cookieValue} />}
+          />
+          <Route path="/main" element={<MainCont />} />
+          <Route path="/:params" element={<MainCont />} />
+          <Route path="/mypage/:account" element={<MypageCont />} />
+          <Route path="/setting" element={<SettingCont />} />
+          <Route path="/create" element={<CreateCont />} />
+          <Route path="/chat" element={<ChatCont />} />
+        </Routes>
+      </Frame>
+    </>
   );
 }
 
@@ -59,6 +81,6 @@ export default App;
 
 const Frame = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
   overflow-x: hidden;
 `;

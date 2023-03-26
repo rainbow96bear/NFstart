@@ -13,8 +13,9 @@ import { BsList } from "react-icons/bs";
 //chat
 import { IoChatbubblesOutline } from "react-icons/io5";
 //
+
 import ThemeBtn from "../../customComp/ThemeBtn";
-import NFTMintingContainer from "../../component/NFTMinting/Container";
+import NFTMintingContainer from "../NFTMinting/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { action } from "../../modules/userInfo";
@@ -36,7 +37,7 @@ const SideBarComp = ({
   const [layer, setLayer] = useState(false);
 
   useEffect(() => {
-    if (cookieValue != null) {
+    if (cookieValue) {
       if (cookieValue[2] == "false") {
         const getAccount = async () => {
           const [_account] = await window.ethereum.request({
@@ -62,12 +63,12 @@ const SideBarComp = ({
 
   return (
     <>
-      {location.pathname != "/login" ? (
+      {account ? (
         <SideBarArea>
           <SideItem
             theme={theme}
             onClick={() => {
-              navigate("/");
+              navigate("/main");
             }}
           >
             {params == undefined ? (
@@ -168,7 +169,9 @@ const SideBarComp = ({
                     onClick={() => {
                       dispatch({ type: "userInfo/logout" });
                       dispatch(action.asyncLogOut);
-                      navigate("/login");
+                      if (!cookieValue) {
+                        navigate("/");
+                      }
                     }}
                   >
                     <p>로그아웃</p>
@@ -213,12 +216,16 @@ const SideItem = styled.div`
 `;
 const PopItem = styled.div`
   width: 100%;
-  padding: 20px;
+  border-radius: 5px;
+  background-color: ${(props) =>
+    props.theme == "dark" ? "#1e1e2e" : "#d4d3d3"};
+
   div {
-    padding: 10px;
+    padding: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 5px;
     > p {
       padding: 0 50px 0 10px;
     }

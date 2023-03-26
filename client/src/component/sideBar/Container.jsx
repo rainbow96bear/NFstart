@@ -7,12 +7,14 @@ import { action } from "../../modules/userInfo";
 
 const SideBarCont = ({ cookieValue }) => {
   const theme = useSelector((state) => state.theme);
-  const account = useSelector((state) => state.account);
+  const account = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
   const changeTheme = async () => {
     dispatch({ type: "theme/change" });
     await axios.put("/api/theme/set", { theme });
   };
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const test = async () => {
@@ -27,7 +29,6 @@ const SideBarCont = ({ cookieValue }) => {
   }, []);
 
   let { params } = useParams();
-  const navigate = useNavigate();
 
   const [registeringNFT, setRegisteringNFT] = useState(false);
 
