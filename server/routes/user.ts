@@ -1,6 +1,5 @@
 // /api/user
 import express from "express";
-import { runInNewContext } from "vm";
 import db from "../models/index";
 
 const router = express.Router();
@@ -44,18 +43,30 @@ router.post("/login", async (req, res) => {
     where: { account: req.body.account },
   });
   if (account) {
-    res.cookie("logout", false, {
+    res.cookie("login", true, {
       expires: new Date(Date.now() + 10 * 60 * 1000),
     });
   }
-  res.send({ isError: false });
+
+  let location: string;
+  if (req.cookies.login == true) {
+    location = "/main";
+  } else {
+    location = "/";
+  }
+  console.log("log후 cookie:", req.cookies.login);
+  console.log("log후", location);
+  res.send({ location });
 });
 
 router.post("/logout", async (req, res) => {
-  res.cookie("logout", true, {
+  res.cookie("login", false, {
     expires: new Date(Date.now() + 10 * 60 * 1000),
   });
-  res.end();
+  let location: string = "/";
+  // 쿠키 삭제
+  // res.clearCookie("login");
+  res.send({ location });
 });
 
 router.post("/mypageCheck", async (req, res) => {

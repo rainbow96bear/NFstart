@@ -13,8 +13,7 @@ export default FooterComp;
 const FooterBox = styled.div`
   width: 100%;
   margin: auto;
-  display: flex;
-  justify-content: center;
+
   p {
     color: #d4d4d4;
     font-size: 14px;
