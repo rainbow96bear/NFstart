@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import SellModal from "../../sell modal/Component/SellModal";
+import SellModal from "../../sell modal/Container/SellModalContain";
 
 const ItemBoxComp = ({
   handleMouseOver,
@@ -12,6 +12,7 @@ const ItemBoxComp = ({
   theme,
   NFlist,
   item,
+  nowPageUser,
 }) => {
   const [on, setOn] = useState(false);
   const click = () => {
@@ -49,7 +50,13 @@ const ItemBoxComp = ({
           ))}
         </SubBox>
       </ItemCase>
-      <SellModal isOpen={on} setIsOpen={setOn} click={click} main={main} />
+      <SellModal
+        isOpen={on}
+        setIsOpen={setOn}
+        click={click}
+        main={main}
+        nowPageUser={nowPageUser}
+      />
     </ItemBox>
   );
 };

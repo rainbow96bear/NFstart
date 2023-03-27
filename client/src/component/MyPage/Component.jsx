@@ -1,11 +1,20 @@
 import styled from "styled-components";
 import { CgProfile } from "react-icons/cg";
-import ItemBoxCont from "./ItemBox/Container";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
-const MypageComp = ({ open, setOpen, User, NFlist }) => {
-  // console.log("listNF", NFlist);
+import ItemBoxCont from "./ItemBox/Container";
+
+const MypageComp = ({ open, setOpen, User, NFlist, sellNft }) => {
   const { nickName } = useSelector((state) => state.userInfo);
+  const [myPageSell, setmyPageSell] = useState([]);
+  const [price, setprice] = useState(false);
+  const sync = async () => {
+    setmyPageSell(sellNft);
+  };
+  useEffect(() => {
+    sync();
+  }, [price]);
   return (
     <MyPage>
       <MyPageFrame>
@@ -17,23 +26,51 @@ const MypageComp = ({ open, setOpen, User, NFlist }) => {
             <div>
               <div>{nickName}</div>
             </div>
-            <div>게시물 {NFlist.length}개</div>
+            <div> 총 게시물 {NFlist.length}개</div>
           </Info>
         </InfoBox>
         <CategoryBox>
-          <div>전체</div>
-          <div>판매중</div>
+          <div
+            style={{ curser: "pointer" }}
+            onClick={() => {
+              setprice(false);
+            }}
+          >
+            전체
+          </div>
+          <div
+            style={{ curser: "pointer" }}
+            onClick={() => {
+              setprice(true);
+            }}
+          >
+            판매중
+          </div>
         </CategoryBox>
-        <ItemBox>
-          {NFlist?.map((item, index) => (
-            <ItemBoxCont
-              item={item}
-              index={index}
-              key={index}
-              NFlist={NFlist}
-            />
-          ))}
-        </ItemBox>
+
+        {price ? (
+          <ItemBox>
+            {myPageSell?.map((item, index) => (
+              <ItemBoxCont
+                item={item}
+                index={index}
+                key={index}
+                NFlist={myPageSell}
+              />
+            ))}
+          </ItemBox>
+        ) : (
+          <ItemBox>
+            {NFlist?.map((item, index) => (
+              <ItemBoxCont
+                item={item}
+                index={index}
+                key={index}
+                NFlist={NFlist}
+              />
+            ))}
+          </ItemBox>
+        )}
       </MyPageFrame>
     </MyPage>
   );

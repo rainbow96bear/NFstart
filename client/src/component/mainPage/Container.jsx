@@ -9,6 +9,7 @@ const MainCont = () => {
     const _MainId = (await axios.post("/api/nft/tomainAll")).data;
     setMainId(_MainId);
   };
+
   useEffect(() => {
     tempId();
   }, []);

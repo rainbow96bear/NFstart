@@ -10,6 +10,7 @@ const MypageCont = () => {
   // HOOK
   const [open, setOpen] = useState(false);
   const [NFlist, setNFlist] = useState([]);
+  const [sellNft, setSellNft] = useState([]);
   const [User, setUser] = useState([]);
 
   //login 인한 지갑주소
@@ -28,9 +29,15 @@ const MypageCont = () => {
 
     setNFlist(_NFlist);
   };
+  const sellNftList = async () => {
+    const _sellNft = (await axios.post(`/api/nft/mySellNft`, { path })).data;
+
+    setSellNft(_sellNft);
+  };
   useEffect(() => {
     templist();
     tempNF();
+    sellNftList();
   }, []);
 
   return (
@@ -41,6 +48,7 @@ const MypageCont = () => {
           setOpen={setOpen}
           User={User}
           NFlist={NFlist}
+          sellNft={sellNft}
           path={path}
         ></MypageComp>
       ) : (
