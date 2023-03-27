@@ -57,6 +57,12 @@ const NFTMintingComponent = ({
   // const [tags, setTags] = useState([]);               // NFT 태그
   // NFT 등록 시간, 각각의 확률..
 
+  // 판매 설정 관련
+  const [nftDescHeight, setHeight] = useState(135);
+  const [isAdvanced, setIsAdvanced] = useState(false);
+  const [sellPrice, setSellPrice] = useState(0);
+  const [sellFees, setSellFees] = useState(0);
+
   // NFT 등록 로딩
   const [loading, setLoading] = useState(false);
   // 서명 로딩
@@ -86,7 +92,8 @@ const NFTMintingComponent = ({
     setSignLoading(false);
     console.log("sendTransactionReq() 호출");
     console.log(registData.saveData);
-    const saved = (await axios.post("/api/nft/save", registData.saveData)).data;
+    const obj = { ...registData.saveData, sellPrice, sellFees }
+    const saved = (await axios.post("/api/nft/save", obj)).data;
     console.log(saved);
   }
 
@@ -162,30 +169,47 @@ const NFTMintingComponent = ({
                   ></NFTDesc>
 
                   <h4>NFT 설명</h4>
-                  <NFTDesc
-                    contentEditable="true"
-                    placeholder="NFT 설명"
-                    value={desc}
-                    style={{ height: "135px", overflowY: "scroll" }}
-                    onInput={(e) => {
-                      setDesc(e.target.innerText);
-                    }}
-                  ></NFTDesc>
+                  <NFTDesc contentEditable="true" placeholder="NFT 설명" value={desc} style={{ height: `${nftDescHeight}px`, overflowY: "scroll", transition: "all 1s" }} onInput={(e) => {
+                    setDesc(e.target.innerText);
+                  }}></NFTDesc>
 
                   <h4>발행 개수</h4>
                   <NFTDesc>1</NFTDesc>
 
-                  <h4>고급 설정</h4>
-                  <NFTDesc contentEditable="true"></NFTDesc>
 
-                  <h4>고급 설정2</h4>
-                  <NFTDesc contentEditable="true"></NFTDesc>
-
-                  {/* <input style={{ width: "100%", height: "30px" }} value={num} placeholder=""></input> */}
-                  {/* <h4>즉시 판매</h4>
-                                    <input style={{ width: "100%", height: "30px" }} placeholder="ㅇㅅㅇ"></input>
-                                    <h4>예약 경매</h4>
-                                    <input style={{ width: "100%", height: "30px" }} placeholder="ㅇㅅㅇ"></input> */}
+                  <div style={{ padding: "3px 0", display: "flex", alignItems: "center" }}>
+                    <div style={{ display: "inline-block", fontWeight: "600", fontSize: "14px", color: "rgb(66,66,66)", padding: "0px 8px" }}>판매 설정</div>
+                    <div style={{ display: "inline-block", marginBottom: "4px", width: "50px", height: "25px", borderRadius: "20px", margin: "3px 5px 0 3px", backgroundColor: "white", position: "relative" }}>
+                      {/* Button */}
+                      {isAdvanced ? <>
+                        {/* 판매중 */}
+                        <div style={{ backgroundColor: "rgb(65, 187, 181)", border: "1px solid rgb(225, 225, 225)", transition: "all 0.5s", marginTop: "3.5px", marginLeft: "27px", cursor: "pointer", width: "18px", height: "18px", borderRadius: "20px" }} onClick={() => {
+                          setHeight(135);
+                          setIsAdvanced(false);
+                          // 모달 나갈 시 금액과 고급여부 지우기
+                          // 금액들 setState로 비우기
+                        }}></div>
+                        <div style={{ width: "200px", position: "absolute", left: "-150%", top: "100%" }}>
+                          <h4>판매 금액</h4>
+                          <input style={{ width: "100%", height: "30px" }} placeholder="Ether" onInput={(e) => {
+                            setSellPrice(e.target.value);
+                            // 여기 -> DB에 넣기
+                          }}></input>
+                          <h4>수수료</h4>
+                          <input style={{ width: "100%", height: "30px" }} placeholder="5~20%" onInput={(e) => {
+                            setSellFees(e.target.value);
+                            // 여기 -> DB에 넣기
+                          }}></input>
+                        </div>
+                      </> : <>
+                        {/* 기본 */}
+                        <div style={{ backgroundColor: "rgb(225, 225, 225)", transition: "all 0.5s", marginTop: "3.5px", marginLeft: "29px", marginTop: "4px", marginLeft: "3.5px", cursor: "pointer", width: "18px", height: "18px", borderRadius: "20px" }} onClick={() => {
+                          setHeight(32);
+                          setIsAdvanced(true);
+                        }}></div>
+                      </>}
+                    </div>
+                  </div>
                 </DetailInputWrap>
               </DetailContent>
 
@@ -290,7 +314,7 @@ const NFTMintingComponent = ({
                   </NextBtn>
                 </div>
               ) : (
-                <div>
+                <div onDoubleClick={addBtnClick}>
                   <FcAddImage size="100" color="#fff" />
                   <ImgAddDesc>
                     사진과 동영상을 여기에 끌어다 놓으세요
@@ -366,11 +390,15 @@ const AllWrap = styled.div`
 `;
 
 const Title = styled.div`
-  text-align: center;
-  border-bottom: 1px solid rgba(176, 176, 176, 0.425);
-  padding: 10px 0;
-  font-size: 14px;
-  font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid rgba(176, 176, 176, 0.425);
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
 `;
 
 const ContentWrap = styled.div`
@@ -386,8 +414,12 @@ const ContentWrap = styled.div`
 `;
 
 const ImgAddDesc = styled.div`
-  margin: 20px 0 70px 0;
-  font-size: 15px;
+    margin: 20px 0 70px 0;
+    font-size: 15px;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
 `;
 
 const ImgAddInput = styled.input`
@@ -396,20 +428,24 @@ const ImgAddInput = styled.input`
 `;
 
 const ImgAddBtn = styled.button`
-  background-color: #3e3e3e;
-  color: white;
-  font-size: 14px;
-  padding: 6px 10px;
-  border-radius: 5px;
-  text-align: center;
-  width: 140px;
-  cursor: pointer;
-  display: inline-block;
-  border: none;
-  &:hover {
-    transition: all 0.5s;
-    background-color: #41bbb5;
-  }
+    background-color: #3e3e3e;
+    color: white;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: 140px;
+    cursor: pointer;
+    display: inline-block;
+    border: none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+    &:hover {
+        transition: all 0.5s;
+        background-color: #41bbb5;
+    }
 `;
 
 const NFTImage = styled.img`
