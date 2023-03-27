@@ -14,18 +14,30 @@ const MypageComp = ({
   setIsModal,
   isModal,
   modalClick,
+  sellNft,
 }) => {
   // console.log("listNF", NFlist);
   const { nickName } = useSelector((state) => state.userInfo);
   const { account } = useSelector((state) => state.userInfo);
+
   const theme = useSelector((state) => state.theme);
   const imgInput = useRef();
+
   const addBtnClick = () => {
     imgInput.current.click();
   };
   const [image, setImage] = useState("");
   const [img, setImg] = useState("");
-
+  const [myPageSell, setmyPageSell] = useState([]);
+  const [price, setprice] = useState(false);
+  //
+  const sync = async () => {
+    setmyPageSell(sellNft);
+  };
+  useEffect(() => {
+    sync();
+  }, [price]);
+  //
   const onUploadImage = useCallback((e) => {
     // 이미지 경로 세팅
     const reader = new FileReader();
@@ -125,19 +137,46 @@ const MypageComp = ({
             </Info>
           </InfoBox>
           <CategoryBox>
-            <div>전체</div>
-            <div>판매중</div>
+            <div
+              style={{ curser: "pointer" }}
+              onClick={() => {
+                setprice(false);
+              }}
+            >
+              전체
+            </div>
+            <div
+              style={{ curser: "pointer" }}
+              onClick={() => {
+                setprice(true);
+              }}
+            >
+              판매중
+            </div>
           </CategoryBox>
-          <ItemBox>
-            {NFlist?.map((item, index) => (
-              <ItemBoxCont
-                item={item}
-                index={index}
-                key={index}
-                NFlist={NFlist}
-              />
-            ))}
-          </ItemBox>
+          {price ? (
+            <ItemBox>
+              {myPageSell?.map((item, index) => (
+                <ItemBoxCont
+                  item={item}
+                  index={index}
+                  key={index}
+                  NFlist={myPageSell}
+                />
+              ))}
+            </ItemBox>
+          ) : (
+            <ItemBox>
+              {NFlist?.map((item, index) => (
+                <ItemBoxCont
+                  item={item}
+                  index={index}
+                  key={index}
+                  NFlist={NFlist}
+                />
+              ))}
+            </ItemBox>
+          )}
         </MyPageFrame>
       </MyPage>
     </>

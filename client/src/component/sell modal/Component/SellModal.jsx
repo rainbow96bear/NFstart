@@ -1,8 +1,10 @@
-// import styled from "react-styled";
+// icon
 import { SiMaterialdesign } from "react-icons/si";
 import { MdLocalOffer } from "react-icons/md";
 import { FaEthereum } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { BsFillHeartFill } from "react-icons/bs";
+import { RiArrowDownSLine } from "react-icons/ri";
 import {
   AiOutlineTeam,
   AiOutlineMenu,
@@ -10,30 +12,46 @@ import {
   AiOutlineFieldTime,
 } from "react-icons/ai";
 
-import { BsFillHeartFill } from "react-icons/bs";
-import { TbArrowBarToDown } from "react-icons/tb";
-import { RiArrowDownSLine } from "react-icons/ri";
-
+// module
 import Modal from "react-modal";
 import ReactModal from "react-modal";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
-const SellModal = ({ click, isOpen, setIsOpen, main, button }) => {
+// Hook
+import { useSelector } from "react-redux";
+import { useState } from "react";
+
+// 주소
+import NftSell from "../NftSell/Container";
+
+const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, button }) => {
   Modal.setAppElement("#root");
   const theme = useSelector((state) => state.theme);
+  const [Buysell, setBuySell] = useState(false);
 
+  // const butSellClick = () => setBuySell(!Buysell);
   return (
     // Modal
-    <ReactModal style={ModalStyle} isOpen={isOpen} onRequestClose={() => { setIsOpen(false) }}>
+    <ReactModal
+      style={ModalStyle}
+      isOpen={isOpen}
+      onRequestClose={() => {
+        setIsOpen(false);
+      }}
+    >
       <ModalBox theme={theme} className={"modalBox"}>
-
         {/* 왼쪽 */}
         <LeftWrap>
           <ImgWrap className="MpRemoteImg">
             <ImgTop>
               {/* <img src="/imgs/eth.png" alt="Ethereum" /> */}
-              <FaEthereum size={"25"} style={{ marginRight: "5px", color: "rgba(165, 68, 255, 0.744)" }} />
+              <FaEthereum
+                size={"25"}
+                style={{
+                  marginRight: "5px",
+                  color: "rgba(165, 68, 255, 0.744)",
+                }}
+              />
               <span>{main?.price}</span>
             </ImgTop>
             <ImgDiv>
@@ -79,44 +97,75 @@ const SellModal = ({ click, isOpen, setIsOpen, main, button }) => {
           </LeftBottomWrap>
         </LeftWrap>
 
-
         {/* 오른쪽 */}
         <RightWrap>
           <DetailAndBuyWrap>
-
             {/* Hash & Close */}
-            <RightTop >
-              <div style={{ fontWeight: "600", marginBottom: "10px" }}>#{main?.hash}</div>
+            <RightTop>
+              <div style={{ fontWeight: "600", marginBottom: "10px" }}>
+                #{main?.hash}
+              </div>
 
-              <IoClose style={{ cursor: "pointer" }} onClick={() => click()} size={"40"} />
+              <IoClose
+                style={{ cursor: "pointer" }}
+                onClick={() => click()}
+                size={"40"}
+              />
             </RightTop>
 
             {/* NFT Name & Owner Account */}
             <div style={{ marginBottom: "30px" }}>
-              <div style={{ fontWeight: "600", fontSize: "20px" }}>{main?.name}</div>
-              <div style={{ cursor: "pointer" }} onClick={() => {
-                alert("해당 Owner의 계정 정보로 이동");
-              }}>Ownd by {main?.owner}</div>
+              <div style={{ fontWeight: "600", fontSize: "20px" }}>
+                {main?.name}
+              </div>
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  alert("해당 Owner의 계정 정보로 이동");
+                }}
+              >
+                Ownd by {main?.owner}
+              </div>
             </div>
 
             {/* Heart Btn */}
             <div style={{ marginBottom: "30px" }}>
               <div>
-                <BsFillHeartFill size={"30"} style={{ cursor: "pointer" }} onClick={() => {
-                  alert("찜 기능 만들기");
-                }} />
+                <BsFillHeartFill
+                  size={"30"}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    alert("찜 기능 만들기");
+                  }}
+                />
                 {main?.favorites}
               </div>
             </div>
 
             {/* Sale ends */}
             {/* <div style={{ marginBottom: "50px", backgroundColor: "rgb(245,245,245)", borderRadius: "10px", padding: "12px", fontSize: "18px" }}> */}
-            <div style={{ marginBottom: "50px", borderRadius: "10px", padding: "12px", fontSize: "18px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "left" }}>
-                <AiOutlineFieldTime size={"25"} style={{ marginRight: "5px" }} />
+            <div
+              style={{
+                marginBottom: "50px",
+                borderRadius: "10px",
+                padding: "12px",
+                fontSize: "18px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "left",
+                }}
+              >
+                <AiOutlineFieldTime
+                  size={"25"}
+                  style={{ marginRight: "5px" }}
+                />
                 sale ends{" "}
               </div>
-              <div >
+              <div>
                 <div>Hour : "hours"</div>
                 <div>Minutes</div>
                 <div>Seconds</div>
@@ -125,31 +174,90 @@ const SellModal = ({ click, isOpen, setIsOpen, main, button }) => {
 
             {/* Current Price & Buy Now */}
             {/* <div style={{ marginBottom: "50px", backgroundColor: "rgb(245,245,245)", borderRadius: "10px", padding: "12px" }}> */}
-            <div style={{ marginBottom: "50px", borderRadius: "10px", padding: "12px" }}>
+            <div
+              style={{
+                marginBottom: "50px",
+                borderRadius: "10px",
+                padding: "12px",
+              }}
+            >
               <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "left", fontSize: "18px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "left",
+                    fontSize: "18px",
+                  }}
+                >
                   <FaEthereum size={"25"} style={{ marginRight: "5px" }} />
                   Current price
                 </div>
                 <div>{main?.price} ETH</div>
               </div>
               <div>
-                <div onClick={() => { }} >
-                  <BuyNowBtn>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "left" }}>
-                      <AiOutlineThunderbolt size={"20"} style={{ marginRight: "5px" }} />
-                      Buy now
-                    </div>
-                  </BuyNowBtn>
+                {/* 이놈 왜 아무데서나 반응하지? */}
+                <div>
+                  {/* 만약 주인이 아니면 */}
+                  {nowPageUser != main?.owner ? (
+                    <BuyNowBtn>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "left",
+                        }}
+                      >
+                        <AiOutlineThunderbolt
+                          size={"20"}
+                          style={{ marginRight: "5px" }}
+                        />
+                        Buy now
+                      </div>
+                    </BuyNowBtn>
+                  ) : (
+                    // 주인이면
+                    <SellNowBtn
+                      style={{ backgroundColor: "red" }}
+                      onClick={(e) => {
+                        // alert("판매");
+                        setBuySell(true);
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "left",
+                        }}
+                      >
+                        <AiOutlineThunderbolt
+                          size={"20"}
+                          style={{ marginRight: "5px" }}
+                        />
+                        Sell now
+                      </div>
+                    </SellNowBtn>
+                  )}
+                  <ReactModal
+                    style={ModalStyle2}
+                    isOpen={Buysell}
+                    onRequestClose={() => {
+                      setBuySell(false);
+                    }}
+                  >
+                    {/* Buysell에 true 값만 전달되는 현상 */}
+                    <NftSell className={"modalBox"} Buysell={Buysell} />
+                  </ReactModal>
                 </div>
               </div>
             </div>
-
           </DetailAndBuyWrap>
 
           <OffersWrap>
             <OffersTitle>
-              <MdLocalOffer size={"25"} style={{ margin: "0 5px 3px 0" }} /> Offers
+              <MdLocalOffer size={"25"} style={{ margin: "0 5px 3px 0" }} />{" "}
+              Offers
             </OffersTitle>
             <OffersDetail>
               <div>
@@ -167,13 +275,11 @@ const SellModal = ({ click, isOpen, setIsOpen, main, button }) => {
             </OffersDetail>
           </OffersWrap>
         </RightWrap>
-
       </ModalBox>
-    </ReactModal >
+    </ReactModal>
   );
 };
 export default SellModal;
-
 
 export const ModalStyle = {
   overlay: {
@@ -199,6 +305,30 @@ export const ModalStyle = {
   },
 };
 
+export const ModalStyle2 = {
+  overlay: {
+    position: "fixed",
+    backgroundColor: "rgba(28, 28, 28, 0.89)",
+    zIndex: 11,
+  },
+  content: {
+    display: "flex",
+    justifyContent: "center",
+    overflow: "auto",
+    top: "15vh",
+    left: "22vw",
+    right: "22vw",
+    bottom: "15vh",
+    WebkitOverflowScrolling: "touch",
+    borderRadius: "10px",
+    outline: "none",
+    zIndex: 12,
+    transition: "all 1s",
+    background: "none",
+    padding: "none",
+    margin: "none",
+  },
+};
 
 const ModalBox = styled.div`
   display: flex;
@@ -231,21 +361,20 @@ const ImgTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
-  padding-left : 5px;
+  padding-left: 5px;
   font-weight: 600;
-  &>img{
+  & > img {
     width: 25px;
     cursor: pointer;
     margin-right: 2px;
   }
 `;
 
-const ImgDiv = styled.div`
-`;
+const ImgDiv = styled.div``;
 
 const NFTImg = styled.img`
   width: 100%;
-  object-fit: cover;  
+  object-fit: cover;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 `;
@@ -257,7 +386,7 @@ const LeftBottomWrap = styled.div`
   font-weight: 600;
 
   /* 각각의 메뉴 */
-  &>div{
+  & > div {
     display: flex;
     width: 100%;
     flex-direction: row;
@@ -272,16 +401,12 @@ const LeftBottomWrap = styled.div`
       display: flex;
       flex-direction: row;
     }
-
   }
-
-
 `;
 
 const RightWrap = styled.div`
   width: 50%;
 `;
-
 
 // 이 놈
 const DetailAndBuyWrap = styled.div`
@@ -362,13 +487,8 @@ const DetailAndBuyWrap = styled.div`
         transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
         font-size: 18px;
         background: transparent;
-        background-image: linear-gradient(
-            0.47turn,
-            #e2938f,
-            #ae7dbe,
-            #6f67f1
-        );
-        color : white;
+        background-image: linear-gradient(0.47turn, #e2938f, #ae7dbe, #6f67f1);
+        color: white;
 
         &::before {
           position: absolute;
@@ -425,7 +545,18 @@ const BuyNowBtn = styled.button`
   justify-content: left;
   border: none;
   box-sizing: border-box;
-  &:hover{
+  &:hover {
+    background-color: white;
+    /* border: 3px solid #c070c2; */
+  }
+`;
+const SellNowBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  border: none;
+  box-sizing: border-box;
+  &:hover {
     background-color: white;
     /* border: 3px solid #c070c2; */
   }

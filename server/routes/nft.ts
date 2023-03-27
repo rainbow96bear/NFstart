@@ -8,6 +8,7 @@ import fs from "fs";
 import Web3 from "web3";
 import db from "../models/index";
 // import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
+import { Op } from "sequelize";
 import { abi as NFTAbi } from "../contracts/artifacts/LetMeDoItForYou.json";
 import { AbiItem } from "web3-utils";
 import { Readable } from "stream";
@@ -243,6 +244,7 @@ router.post("/toMypage", async (req, res) => {
     }
   }
 });
+
 router.post("/myNFT", async (req, res) => {
   if (!req.body.path == db.NFT.owner) {
     res.send({ data: "연결오류" });
@@ -260,6 +262,24 @@ router.post("/myNFT", async (req, res) => {
     }
   }
 });
+router.post("/mySellNft", async (req, res) => {
+  if (!req.body.path == db.NFT.owner) {
+    res.send({ data: "연결오류" });
+    return;
+  } else {
+    try {
+      const mySellNFTList = await db.NFT.findAll({
+        where: {
+          price: { [Op.gte]: 1 },
+          owner: req.body.path,
+        },
+      });
+      res.send(mySellNFTList);
+    } catch (error) {
+      res.send(error);
+    }
+  }
+});
 
 router.post("/modalBt", async (req, res) => {
   try {
@@ -271,7 +291,6 @@ router.post("/modalBt", async (req, res) => {
         name: req.body.name,
       },
     });
-    // console.log("NF", MPmodalNF);
   } catch (error) {
     console.log(error);
   }

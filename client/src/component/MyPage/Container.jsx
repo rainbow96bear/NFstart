@@ -10,6 +10,7 @@ const MypageCont = () => {
   // HOOK
   const [open, setOpen] = useState(false);
   const [NFlist, setNFlist] = useState([]);
+  const [sellNft, setSellNft] = useState([]);
   const [User, setUser] = useState([]);
   const [isModal, setIsModal] = useState(true);
 
@@ -39,9 +40,15 @@ const MypageCont = () => {
     setIsModal(!isModal);
   };
 
+  const sellNftList = async () => {
+    const _sellNft = (await axios.post(`/api/nft/mySellNft`, { path })).data;
+
+    setSellNft(_sellNft);
+  };
   useEffect(() => {
     templist();
     tempNF();
+    sellNftList();
   }, []);
 
   return (
