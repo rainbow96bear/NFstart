@@ -88,6 +88,7 @@ const NFTMintingComponent = ({
   // NFT 등록 트랜잭션 함수
   const sendTransactionReq = async (registData) => {
     setSignLoading(true);
+    console.log(registData);
     await web3.eth.sendTransaction(registData.obj);
     setSignLoading(false);
     console.log("sendTransactionReq() 호출");
@@ -236,8 +237,8 @@ const NFTMintingComponent = ({
                     console.log(registData);
                     // alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
 
-                    console.log(web3.eth);
-                    await web3.eth.sendTransaction(registData);
+                    // console.log(web3.eth);
+                    // await web3.eth.sendTransaction(registData.obj);
 
                     // 트랜잭션 요청을 보낸다.
                     await sendTransactionReq(registData);

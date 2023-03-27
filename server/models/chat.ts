@@ -12,7 +12,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     partnerId!: string;
     text!: Text;
     time!: string;
-    static associate(model: any) {}
+    static associate(model: any) { }
   }
   Chat.init(
     {
@@ -24,6 +24,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     {
       sequelize,
       modelName: "Chat",
+      collate: "utf8_general_ci",
     }
   );
   return Chat;

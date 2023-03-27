@@ -108,22 +108,6 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     const jsonData = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
     console.log(jsonData);
 
-    // NFT를 Database에 등록 -> 해당 데이터를 컨트랙트에 배포하겠다는 서명 이후 진행(밖으로 빼기)
-    // const createdNFT = await db.NFT.create({
-    //   hash: nonce,
-    //   name: `${name} #${nonce}`,
-    //   desc,
-    //   filename: file.filename,
-    //   IpfsHash,
-    //   JsonIpfsHash,
-    //   publisher: account,
-    //   owner: account,
-    // });
-    // const user = await db.User.findOne({
-    //   while: { account: account },
-    // });
-    // await user.addUserNFTs(createdNFT);
-
     // 해당 Contract에 Transaction을 보내기 위한 객체 생성
     const obj: {
       nonce: number;

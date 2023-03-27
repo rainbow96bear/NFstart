@@ -88,6 +88,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     {
       sequelize,
       modelName: "NFT",
+      collate: "utf8_general_ci",
     }
   );
   return NFT;
