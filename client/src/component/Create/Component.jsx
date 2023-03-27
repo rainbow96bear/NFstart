@@ -152,9 +152,9 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
             for (var i = 0; i < blobBin.length; i++) {
               array.push(blobBin.charCodeAt(i));
             }
-            const file = new Blob([new Uint8Array(array)], {
+            const file = new File([new Uint8Array(array)], "draw.png", {
               type: "image/png",
-            }); // Blob 생성
+            });
             console.log(file);
             setDrawingFile(file);
             setRegisteringNFT(true);

@@ -4,7 +4,6 @@ import ItemBoxCont from "./ItemBox/Container";
 
 const ExploreComp = ({ handleSubmit, setKeyword, searchData }) => {
   const theme = useSelector((state) => state.theme);
-
   return (
     <ExplorePage>
       <Frame>

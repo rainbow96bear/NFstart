@@ -84,4 +84,14 @@ router.post("/mypageCheck", async (req, res) => {
     res.send({ isError: true });
   }
 });
+router.get("/logoutState", (req, res) => {
+  if (req.cookies.logout) {
+    res.send(req.cookies.logout);
+  } else {
+    res.cookie("logout", true, {
+      expires: new Date(Date.now() + 10 * 60 * 1000),
+    });
+    res.send("true");
+  }
+});
 export default router;

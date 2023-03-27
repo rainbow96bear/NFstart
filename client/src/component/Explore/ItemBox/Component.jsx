@@ -14,8 +14,7 @@ const ItemBoxComp = ({ item }) => {
       <ItemBox
         onClick={() => {
           click();
-        }}
-      >
+        }}>
         {item && <img alt="" src={`/uploads/${item.filename}`} />}
       </ItemBox>
       <SellModalContain isOpen={on} click={click} main={item} />

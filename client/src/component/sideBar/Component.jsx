@@ -32,9 +32,9 @@ const SideBarComp = ({
       <SideItem
         theme={theme}
         onClick={() => {
-          navigate("/main");
+          navigate("/");
         }}>
-        {location.pathname == "/main" ? (
+        {location.pathname == "/" ? (
           <AiFillHome size={"25"} />
         ) : (
           <AiOutlineHome size={"25"} />

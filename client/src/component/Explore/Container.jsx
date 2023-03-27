@@ -1,20 +1,24 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ExploreComp from "./Component";
 
 const ExploreCont = () => {
   const [keyword, setKeyword] = useState("");
   const [searchData, setSearchData] = useState([]);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const { searchResult } = (
-      await axios.get(`/api/nft/explore?keyword=${keyword}`)
-    ).data;
+  const searchFunc = async () => {
+    const { searchResult } = (await axios.post(`/api/nft/explore`, { keyword }))
+      .data;
     setSearchData(searchResult);
     console.log(searchResult);
   };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    searchFunc();
+  };
+  useEffect(() => {
+    searchFunc();
+  }, []);
   return (
     <ExploreComp
       setKeyword={setKeyword}

@@ -292,22 +292,32 @@ router.post("/modalBt", async (req, res) => {
   }
 });
 
-router.get("/explore", async (req, res) => {
-  const { keyword } = req.query;
-  const searchResult = await db.NFT.findAll({
-    where: {
-      [Op.or]: [
-        { name: { [Op.substring]: keyword } },
-        { owner: { [Op.substring]: keyword } },
-        { "$User.nickName$": { [Op.substring]: keyword } },
+router.post("/explore", async (req, res) => {
+  const { keyword } = req.body;
+  console.log(keyword);
+  let searchResult;
+  if (keyword == "") {
+    searchResult = await db.NFT.findAll({
+      include: [
+        {
+          model: db.User,
+        },
       ],
-    },
-    include: [
-      {
-        model: db.User,
+      order: [["id", "DESC"]],
+    });
+  } else {
+    searchResult = await db.NFT.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: "%" + keyword + "%" } },
+          { owner: { [Op.like]: "%" + keyword + "%" } },
+          { "$User.nickName$": { [Op.like]: "%" + keyword + "%" } },
+        ],
       },
-    ],
-  });
+      include: [{ model: db.User }],
+      order: [["id", "DESC"]],
+    });
+  }
   res.send({ searchResult });
 });
 export default router;
