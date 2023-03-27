@@ -177,6 +177,8 @@ router.post("/save", async (req, res) => {
       hash: req.body.hash,
       name: req.body.name,
       desc: req.body.desc,
+      price: req.body.sellPrice,
+      fees: req.body.sellFees,
       filename: req.body.filename,
       IpfsHash: req.body.IpfsHash,
       JsonIpfsHash: req.body.JsonIpfsHash,
