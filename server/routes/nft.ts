@@ -80,20 +80,22 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     console.log(IpfsHash);
 
     // 2. Pinata에 JSON 형식으로 NFT Data 등록
-    const jsonResult = await pinata.pinJSONToIPFS({
-      name: `${name} #${nonce}`,
-      desc,
-      volume,
-      publisher: account,
-      image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
-    }, {
-      pinataMetadata: {
-        name: filename + ".json",
+    const jsonResult = await pinata.pinJSONToIPFS(
+      {
+        name: `${name} #${nonce}`,
+        desc,
+        volume,
+        publisher: account,
+        image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
       },
-      pinataOptions: {
-        cidVersion: 0,
-      },
-    }
+      {
+        pinataMetadata: {
+          name: filename + ".json",
+        },
+        pinataOptions: {
+          cidVersion: 0,
+        },
+      }
     );
     const JsonIpfsHash = jsonResult.IpfsHash;
     console.log(JsonIpfsHash);
@@ -108,20 +110,20 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     console.log(jsonData);
 
     // NFT를 Database에 등록 -> 해당 데이터를 컨트랙트에 배포하겠다는 서명 이후 진행(밖으로 빼기)
-    // const createdNFT = await db.NFT.create({
-    //   hash: nonce,
-    //   name: `${name} #${nonce}`,
-    //   desc,
-    //   filename: file.filename,
-    //   IpfsHash,
-    //   JsonIpfsHash,
-    //   publisher: account,
-    //   owner: account,
-    // });
-    // const user = await db.User.findOne({
-    //   while: { account: account },
-    // });
-    // await user.addUserNFTs(createdNFT);
+    const createdNFT = await db.NFT.create({
+      hash: nonce,
+      name: `${name} #${nonce}`,
+      desc,
+      filename: file.filename,
+      IpfsHash,
+      JsonIpfsHash,
+      publisher: account,
+      owner: account,
+    });
+    const user = await db.User.findOne({
+      while: { account: account },
+    });
+    await user.addUserNFTs(createdNFT);
 
     // 해당 Contract에 Transaction을 보내기 위한 객체 생성
     const obj: {
@@ -194,11 +196,13 @@ router.post("/save", async (req, res) => {
   }
 });
 
-
 // NFT 메인페이지에 최신 4개 출력
 router.post("/tomain", async (req, res) => {
   try {
     const nftList = await db.NFT.findAll({
+      where: {
+        owner: req.body.account,
+      },
       order: [["id", "DESC"]],
       limit: 4,
     });
@@ -210,16 +214,10 @@ router.post("/tomain", async (req, res) => {
 });
 // main all
 router.post("/tomainAll", async (req, res) => {
-  console.log("acc", req.body);
-
   try {
     const userList = await db.User.findAll({
-      where: {
-        id: req.body.account,
-      },
       order: [["id", "DESC"]],
     });
-    // console.log("유저리스트", userList);
 
     res.send(userList);
   } catch (error) {
@@ -246,8 +244,6 @@ router.post("/toMypage", async (req, res) => {
   }
 });
 router.post("/myNFT", async (req, res) => {
-  console.log("path", req.body.path);
-  console.log("");
   if (!req.body.path == db.NFT.owner) {
     res.send({ data: "연결오류" });
     return;
@@ -258,7 +254,6 @@ router.post("/myNFT", async (req, res) => {
           owner: req.body.path,
         },
       });
-      // console.log("마이nft", myNFTList);
       res.send(myNFTList);
     } catch (error) {
       res.send(error);
@@ -267,18 +262,16 @@ router.post("/myNFT", async (req, res) => {
 });
 
 router.post("/modalBt", async (req, res) => {
-  console.log(req.body);
   try {
     const MPmodalAc = await db.User.findAll({
       where: { account: req.body },
     });
-    // console.log("모달어카", MPmodalAc);
     const MPmodalNF = await db.NFT.findAll({
       where: {
         name: req.body.name,
       },
     });
-    console.log("NF", MPmodalNF);
+    // console.log("NF", MPmodalNF);
   } catch (error) {
     console.log(error);
   }

@@ -7,6 +7,7 @@ interface UserAttributes {
   nickName: string;
   chainId: string;
   balance: number;
+  profile: number;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -15,6 +16,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     nickName!: string;
     chainId!: string;
     balance!: number;
+    profile!: number;
     static associate(models: any) {
       // 관계 대상 정하기
       User.hasMany(models.NFT, {
@@ -30,6 +32,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       nickName: { type: DataTypes.STRING, allowNull: false },
       chainId: { type: DataTypes.STRING, allowNull: false },
       balance: { type: DataTypes.DECIMAL(15, 2), allowNull: false },
+      profile: { type: DataTypes.STRING, allowNull: false },
     },
     {
       sequelize,

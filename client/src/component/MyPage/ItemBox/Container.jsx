@@ -17,15 +17,7 @@ const ItemBoxCont = ({ item, index, NFlist }) => {
   const handleMouseOut = () => {
     setZindex("3");
   };
-  return (
-    <>
-      {location.pathname != "login" ? (
-        <ItemBoxComp item={item} theme={theme} NFlist={NFlist}></ItemBoxComp>
-      ) : (
-        <></>
-      )}
-    </>
-  );
+  return <ItemBoxComp item={item} theme={theme} NFlist={NFlist}></ItemBoxComp>;
 };
 
 export default ItemBoxCont;

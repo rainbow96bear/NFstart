@@ -36,24 +36,39 @@ const SideBarComp = ({
   const location = useLocation();
   const [layer, setLayer] = useState(false);
 
+  // useEffect(() => {
+  //   if (cookieValue[2] == "false") {
+  //     const getAccount = async () => {
+  //       const [_account] = await window.ethereum.request({
+  //         method: "eth_requestAccounts",
+  //       });
+  //       const data = (await axios.post("/api/user/info", { account: _account }))
+  //         .data;
+  //       const { account, nickName, chainId, balance } = data.nickData;
+  //       dispatch({
+  //         type: "userInfo/login",
+  //         payload: { account, nickName, chainId, balance },
+  //       });
+  //     };
+  //     getAccount();
+  //   }
+  // }, [account, nickName]);
+
   useEffect(() => {
     if (cookieValue) {
-      if (cookieValue[2] == "false") {
-        const getAccount = async () => {
-          const [_account] = await window.ethereum.request({
-            method: "eth_requestAccounts",
-          });
-          const data = (
-            await axios.post("/api/user/info", { account: _account })
-          ).data;
-          const { account, nickName, chainId, balance } = data.nickData;
-          dispatch({
-            type: "userInfo/login",
-            payload: { account, nickName, chainId, balance },
-          });
-        };
-        getAccount();
-      }
+      const getAccount = async () => {
+        const [_account] = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        const data = (await axios.post("/api/user/info", { account: _account }))
+          .data;
+        const { account, nickName, chainId, balance } = data.nickData;
+        dispatch({
+          type: "userInfo/login",
+          payload: { account, nickName, chainId, balance },
+        });
+      };
+      getAccount();
     }
   }, [account, nickName]);
 

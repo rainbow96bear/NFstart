@@ -12,6 +12,7 @@ const MypageCont = () => {
   const [open, setOpen] = useState(false);
   const [NFlist, setNFlist] = useState([]);
   const [User, setUser] = useState([]);
+  const [isModal, setIsModal] = useState(true);
 
   //login 인한 지갑주소
   const location = useLocation();
@@ -29,27 +30,33 @@ const MypageCont = () => {
     // console.log("NF", _NFlist);
     setNFlist(_NFlist);
   };
+
+  // 프로필 사진 db 저장하기
+  const profileImg = async () => {
+    // const _profile = await axios.post('/api/user/replace'),{}
+  };
+
+  const modalClick = () => {
+    setIsModal(!isModal);
+  };
+
   useEffect(() => {
     templist();
     tempNF();
   }, []);
 
   return (
-    <>
-      {location.pathname != "/login" ? (
-        <MypageComp
-          open={open}
-          setOpen={setOpen}
-          User={User}
-          NFlist={NFlist}
-          path={path}
-        ></MypageComp>
-      ) : (
-        // account 를 확인해서
-        <></>
-        // 로그인 화면으로 넘어가게 만들어
-      )}
-    </>
+    <MypageComp
+      open={open}
+      setOpen={setOpen}
+      User={User}
+      NFlist={NFlist}
+      path={path}
+      isModal={isModal}
+      setIsModal={setIsModal}
+      modalClick={modalClick}
+    ></MypageComp>
+    // account 를 확인해서 // 로그인 화면으로 넘어가게 만들어
   );
 };
 

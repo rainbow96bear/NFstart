@@ -1,15 +1,25 @@
 import ItemBoxComp from "./Component";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
-const ItemBoxCont = ({ NFlist, item }) => {
+const ItemBoxCont = ({ item }) => {
+  const [NFlist, setNFlist] = useState([]);
   const theme = useSelector((state) => state.theme);
   const [main, setMain] = useState("");
-  const { nickName } = useSelector((state) => state.userInfo);
 
+  const templist = async () => {
+    const _NFlist = (
+      await axios.post("/api/nft/tomain", { account: item.account })
+    ).data;
+    setNFlist(_NFlist);
+  };
   useEffect(() => {
     setMain(NFlist[0]);
   }, [NFlist]);
+  useEffect(() => {
+    templist();
+  }, []);
   const [zIndex, setZindex] = useState("3");
 
   const handleMouseOver = () => {
@@ -28,7 +38,6 @@ const ItemBoxCont = ({ NFlist, item }) => {
       main={main}
       theme={theme}
       NFlist={NFlist}
-      nickName={nickName}
       item={item}
     ></ItemBoxComp>
   );

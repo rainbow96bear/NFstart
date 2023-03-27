@@ -9,7 +9,6 @@ import axios from "axios";
 const SellModalContain = ({ isOpen, setIsOpen, click, main }) => {
   let { account } = useParams();
 
-  const location = useLocation();
   const theme = useSelector((state) => state.theme);
   const [button, setButton] = useState();
   const tempButton = async () => {
@@ -22,18 +21,14 @@ const SellModalContain = ({ isOpen, setIsOpen, click, main }) => {
   }, []);
   return (
     <>
-      {location.pathname != "login" ? (
-        <SellModal
-          theme={theme}
-          button={button}
-          click={click}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          main={main}
-        />
-      ) : (
-        <></>
-      )}
+      <SellModal
+        theme={theme}
+        button={button}
+        click={click}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        main={main}
+      />
     </>
   );
 };

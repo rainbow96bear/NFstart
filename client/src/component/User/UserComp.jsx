@@ -1,33 +1,11 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { action } from "../../modules/userInfo";
 import logo from "./logo.png";
 import home from "./home.png";
-import { useEffect, useState } from "react";
 
-const UserComp = () => {
+const UserComp = ({ Enter }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { account } = useSelector((state) => state.userInfo);
-
-  // const [log, setLog] = useState(
-  // document.cookie.split("; ").includes("login=true") || ""
-  // );
-
-  // useEffect(() => {
-  //   setLog(document.cookie.split("; ").includes("login=true") || "");
-  // }, [log]);
-  // console.log(log);
-  // useEffect(() => {
-  //   const loged = dispatch({ type: "userInfo/login" });
-  //   if (loged) {
-  //     console.log("hi");
-  //   } else {
-  //     console.log("bye");
-  //   }
-  // }, []);
-
   return (
     <>
       <UserBox>
@@ -42,6 +20,7 @@ const UserComp = () => {
                 className="signIn"
                 onClick={() => {
                   dispatch(action.asyncLogIn());
+                  Enter();
                 }}
               ></button>
               <p className="arrow_box">CLICK ME</p>
