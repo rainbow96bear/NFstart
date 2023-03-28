@@ -21,6 +21,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { action } from "../../modules/userInfo";
 import { useEffect, useState } from "react";
 
+import ThemeBtn from "../../customComp/ThemeBtn";
+import LoadingComp from "../Loading/LoadingComp";
+import { useLocation } from "react-router-dom";
+
 const SideBarComp = ({
   theme,
   changeTheme,
