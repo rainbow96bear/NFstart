@@ -7,17 +7,20 @@ import axios from "axios";
 import { useState } from "react";
 
 // 판매 등록 페이지(모달)
-const SellModal = ({ Buysell, NFlist, hash }) => {
+const SellModal = ({ Buysell, NFlist, hash, user, web3 }) => {
   const [priceValue, setPriceValue] = useState("");
   const [feesValue, setFeesValue] = useState("");
 
   const sendData = async () => {
-    const _sendData = await axios.post("/api/nft/sellData", {
-      priceValue: priceValue,
-      feesValue: feesValue,
-      hash: hash,
-    });
+    const _sendData = (
+      await axios.post("/api/nft/sellData", {
+        priceValue: priceValue,
+        hash: hash,
+        user: user,
+      })
+    ).data;
     console.log("받은 데이터 입니다.", _sendData);
+    await web3.eth.sendTransaction(_sendData);
   };
 
   return (
