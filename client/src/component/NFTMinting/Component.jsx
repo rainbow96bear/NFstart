@@ -90,20 +90,17 @@ const NFTMintingComponent = ({
     formData.append("account", account);
     setLoading(true);
     const registered = (await axios.post("/api/nft/regist", formData)).data;
-    console.log("registReq() 호출");
-    console.log(registered);
+    console.log("NFT 등록 Data : ", registered);
     setLoading(false);
     return registered;
   };
 
   // NFT 등록 트랜잭션 함수
   const sendTransactionReq = async (registData) => {
-    setSignLoading(true);
     console.log(registData);
+    setSignLoading(true);
     await web3.eth.sendTransaction(registData.obj);
     setSignLoading(false);
-    console.log("sendTransactionReq() 호출");
-    console.log(registData.saveData);
     const obj = { ...registData.saveData, sellPrice, sellFees };
     const saved = (await axios.post("/api/nft/save", obj)).data;
     console.log(saved);
@@ -119,6 +116,18 @@ const NFTMintingComponent = ({
     }
   }
 
+  // 초기화 함수
+  function init() {
+    setImg(undefined);
+    setImage("");
+    setIsDetail(false);
+    setLoading(false);
+    setSignLoading(false);
+    if (drawingFile) setDrawingFile("");
+    setHeight(135);
+    setIsAdvanced(false);
+  }
+
   return (
     <>
       {isDetail ? (
@@ -129,15 +138,21 @@ const NFTMintingComponent = ({
           onRequestClose={() => {
             const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
             if (confirm) {
-              setImg(undefined);
-              setImage("");
+
+
+              // // NFT 등록 로딩
+              // const [loading, setLoading] = useState(false);
+              // // 서명 로딩
+              // const [signLoading, setSignLoading] = useState(false);
+              if (loading || signLoading) {
+                alert("NFT 등록 진행중입니다.");
+                return;
+              }
+
+              init();
               if (img == undefined) {
                 setImg("");
               }
-              setIsDetail(false);
-              setLoading(false);
-              setSignLoading(false);
-              setDrawingFile("");
             }
           }}
         >
@@ -251,8 +266,6 @@ const NFTMintingComponent = ({
                             onClick={() => {
                               setHeight(135);
                               setIsAdvanced(false);
-                              // 모달 나갈 시 금액과 고급여부 지우기
-                              // 금액들 setState로 비우기
                             }}
                           ></div>
                           <div
@@ -269,7 +282,6 @@ const NFTMintingComponent = ({
                               placeholder="Ether"
                               onInput={(e) => {
                                 setSellPrice(e.target.value);
-                                // 여기 -> DB에 넣기
                               }}
                             ></input>
                             <h4>수수료</h4>
@@ -278,7 +290,6 @@ const NFTMintingComponent = ({
                               placeholder="5~20%"
                               onInput={(e) => {
                                 setSellFees(e.target.value);
-                                // 여기 -> DB에 넣기
                               }}
                             ></input>
                           </div>
@@ -331,15 +342,19 @@ const NFTMintingComponent = ({
 
                     // NFT 등록 요청을 보낸다.
                     const registData = await registReq();
-                    console.log(registData);
 
-                    // 트랜잭션 요청을 보낸다.
-                    await sendTransactionReq(registData);
+                    try {
+                      // 트랜잭션 요청을 보낸다.
+                      await sendTransactionReq(registData);
+                    } catch (error) {
+                      console.error(error);
+                      alert("서명이 취소 되었습니다.");
+                      init();
+                      return;
+                    }
+
                     alert("NFT 가 Goerli Network에 등록되었습니다.");
-
-                    setIsDetail(false);
-                    setImage("");
-                    setImg("");
+                    init();
                   }}
                 >
                   NFT 등록
@@ -356,13 +371,10 @@ const NFTMintingComponent = ({
           onRequestClose={() => {
             const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
             if (confirm) {
-              setImg(undefined);
-              setImage("");
+              init();
               if (img == undefined) {
                 setImg("");
               }
-              setLoading(false);
-              setSignLoading(false);
             }
           }}
         >
@@ -424,7 +436,8 @@ const NFTMintingComponent = ({
             </ContentWrap>
           </AllWrap>
         </Modal>
-      )}
+      )
+      }
     </>
   );
 };
