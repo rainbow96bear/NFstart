@@ -1,4 +1,14 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import ThemeBtn from "../../customComp/ThemeBtn";
+import LoadingComp from "../Loading/LoadingComp";
+import RandomContainer from "../Random/Container";
+import NFTMintingContainer from "../NFTMinting/Container";
+import { action } from "../../modules/userInfo";
+
 import { AiOutlineHome, AiFillHome, AiOutlinePoweroff } from "react-icons/ai";
 import { BsPlusSquare, BsPlusSquareFill } from "react-icons/bs";
 import {
@@ -12,17 +22,8 @@ import { MdExitToApp } from "react-icons/md";
 import { BsList } from "react-icons/bs";
 import { MdOutlineDraw } from "react-icons/md";
 import { CgGames } from "react-icons/cg";
-//chat
 import { IoChatbubblesOutline } from "react-icons/io5";
-
-import NFTMintingContainer from "../NFTMinting/Container";
-import { useDispatch, useSelector } from "react-redux";
-import { action } from "../../modules/userInfo";
-import { useEffect, useState } from "react";
-
-import ThemeBtn from "../../customComp/ThemeBtn";
-import LoadingComp from "../Loading/LoadingComp";
-import { useLocation } from "react-router-dom";
+import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 
 const SideBarComp = ({
   theme,
@@ -85,6 +86,18 @@ const SideBarComp = ({
           setRegisteringNFT={setRegisteringNFT}
         />
       </SideItem>
+
+      {/* NFT 뽑기 */}
+      <SideItem
+        theme={theme}
+        onClick={() => {
+          navigate("/random");
+        }}
+      >
+        <GiPerspectiveDiceSixFacesRandom size={"25"} />
+        <p>NFT 뽑기</p>
+      </SideItem>
+
       {account == "" ? (
         <></>
       ) : (
@@ -198,7 +211,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding: 0 50px 0 10px;
@@ -222,7 +235,7 @@ const PopItem = styled.div`
     cursor: pointer;
     &:hover {
       background-color: ${(props) =>
-        props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
     }
   }
 `;
