@@ -3,6 +3,7 @@ import express from "express";
 import db from "../models/index";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 
 const router = express.Router();
 
@@ -42,34 +43,43 @@ router.post("/info", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const account = await db.User.findOne({
-    where: { account: req.body.account },
-  });
-  if (account) {
-    res.cookie("login", true, {
-      expires: new Date(Date.now() + 10 * 60 * 1000),
+  try {
+    const account = await db.User.findOne({
+      where: { account: req.body.account },
     });
+    if (account) {
+      res.cookie("logout", false, {
+        expires: new Date(Date.now() + 10 * 60 * 1000),
+      });
+    }
+    res.send({ isError: false });
+  } catch (error) {
+    console.log(error);
+    res.send({ isError: true });
   }
-
-  let location: string;
-  if (req.cookies.login == true) {
-    location = "/main";
-  } else {
-    location = "/";
-  }
-  // console.log("log후 cookie:", req.cookies.login);
-  // console.log("log후", location);
-  res.send({ location });
 });
 
 router.post("/logout", async (req, res) => {
-  res.cookie("login", false, {
-    expires: new Date(Date.now() + 10 * 60 * 1000),
-  });
-  let location: string = "/";
-  // 쿠키 삭제
-  // res.clearCookie("login");
-  res.send({ location });
+  try {
+    res.cookie("logout", true, {
+      expires: new Date(Date.now() + 10 * 60 * 1000),
+    });
+    res.send({ isError: false });
+  } catch (error) {
+    console.log(error);
+    res.send({ isError: true });
+  }
+});
+
+router.get("/logoutState", (req, res) => {
+  if (req.cookies.logout) {
+    res.send(req.cookies.logout);
+  } else {
+    res.cookie("logout", true, {
+      expires: new Date(Date.now() + 10 * 60 * 1000),
+    });
+    res.send("true");
+  }
 });
 
 router.post("/mypageCheck", async (req, res) => {
@@ -85,6 +95,7 @@ router.post("/mypageCheck", async (req, res) => {
     res.send({ isError: true });
   }
 });
+
 router.post("/mypageCheck", async (req, res) => {
   try {
     const MpCheck = await db.User.findAll({
@@ -112,25 +123,54 @@ const storage = multer.diskStorage({
     );
   },
 });
+
 const upload = multer({
   storage: storage,
   limits: { fieldSize: 25 * 1024 * 1024 },
 });
+// 프로필 사진 업로드
+router.post("/change", upload.single("file"), async (req, res) => {
+  if (!req.file) {
+    res.send({ data: "파일 업로드 실패" });
+    return;
+  }
+  console.log(req.body);
+  const file = req.file;
+  console.log(file);
+  const filename = file.filename.split(".")[0];
+  const name = req.body.name;
+  const desc = req.body.desc;
+  const volume = req.body.num;
+  const account = req.body.account;
+
+  const imageData = fs.createReadStream(`./uploads/${file.filename}`);
+
+  // try {
+  //   await db.User.update({
+  //     profile: req.file.filename,
+  //   });
+  //   res.send("성공");
+  // } catch (error) {
+  //   console.error(error);
+  //   res.send("실패");
+  // }
+});
 
 //프로필 사진 변경하기 위한 router
-// router.post("/replace", async (req, res) => {
-//   try {
-//     const user = localStorage.getItem("account");
-//     console.log(user);
-//     // const curProfile = await db.User.update(
-//     //   { profile: req.body.profile },
-//     //   { where: { account: req.body.account } }
-//     // );
-//     res.send();
-//   } catch (error) {
-//     console.log(error);
-//     res.send({ isError: true });
-//   }
-// });
+router.post("/replace", async (req, res) => {
+  try {
+    const user = localStorage.getItem("account");
+    console.log(user);
+
+    // const curProfile = await db.User.update(
+    //   { profile: req.body.profile },
+    //   { where: { account: req.body.account } }
+    // );
+    res.send();
+  } catch (error) {
+    console.log(error);
+    res.send({ isError: true });
+  }
+});
 
 export default router;

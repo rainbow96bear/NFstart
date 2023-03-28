@@ -69,17 +69,21 @@ const asyncLogIn = () => {
             const nickLast = words[Math.floor(Math.random() * words.length)];
 
             const nickName = nickFirst + " " + nickLast;
-            await axios.post("/api/user/regist", {
-              account,
-              nickName,
-              balance,
-              chainId,
-            });
+            console.log(nickName);
 
-            dispatch({
-              type: "userInfo/login",
-              payload: { account, balance, chainId, nickName },
-            });
+            await axios
+              .post("/api/user/regist", {
+                account,
+                nickName,
+                balance,
+                chainId,
+              })
+              .then(() => {
+                dispatch({
+                  type: "userInfo/login",
+                  payload: { account, balance, chainId, nickName },
+                });
+              });
           } else {
             const nickName = abc.data.nickData.nickName;
 
@@ -90,13 +94,9 @@ const asyncLogIn = () => {
           }
           localStorage.setItem("account", account);
         }
-        axios
-          .post("/api/user/login", {
-            account,
-          })
-          .then((data) => {
-            console.log(data.data.location);
-          });
+        axios.post("/api/user/login", {
+          account,
+        });
       } else {
         console.log("MetaMask is not exist");
       }
@@ -108,7 +108,9 @@ const asyncLogIn = () => {
 
 const asyncLogOut = () => {
   localStorage.clear();
-  axios.post("/api/user/logout");
+  axios.post("/api/user/logout").then(() => {
+    window.location.reload();
+  });
 };
 
 export const action = { logIn, logOut, asyncLogIn, asyncLogOut };

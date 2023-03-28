@@ -56,6 +56,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
   const desc = req.body.desc;
   const volume = req.body.num;
   const account = req.body.account;
+  console.log(account);
 
   const imageData = fs.createReadStream(`./uploads/${file.filename}`);
   const nonce = await web3.eth.getTransactionCount(account);
@@ -81,20 +82,22 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     console.log(IpfsHash);
 
     // 2. Pinata에 JSON 형식으로 NFT Data 등록
-    const jsonResult = await pinata.pinJSONToIPFS({
-      name: `${name} #${nonce}`,
-      desc,
-      volume,
-      publisher: account,
-      image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
-    }, {
-      pinataMetadata: {
-        name: filename + ".json",
+    const jsonResult = await pinata.pinJSONToIPFS(
+      {
+        name: `${name} #${nonce}`,
+        desc,
+        volume,
+        publisher: account,
+        image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
       },
-      pinataOptions: {
-        cidVersion: 0,
-      },
-    }
+      {
+        pinataMetadata: {
+          name: filename + ".json",
+        },
+        pinataOptions: {
+          cidVersion: 0,
+        },
+      }
     );
     const JsonIpfsHash = jsonResult.IpfsHash;
     console.log(JsonIpfsHash);

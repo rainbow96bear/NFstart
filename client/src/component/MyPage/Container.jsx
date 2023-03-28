@@ -31,11 +31,6 @@ const MypageCont = () => {
     setNFlist(_NFlist);
   };
 
-  // 프로필 사진 db 저장하기
-  const profileImg = async () => {
-    // const _profile = await axios.post('/api/user/replace'),{}
-  };
-
   const modalClick = () => {
     setIsModal(!isModal);
   };
