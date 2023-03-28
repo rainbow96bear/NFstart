@@ -51,6 +51,19 @@ const NFTMintingComponent = ({
     }
   }, [img]);
 
+  // 그림판 이미지 세팅
+  useEffect(() => {
+    if (drawingFile) {
+      setFile(drawingFile);
+
+      // 이미지 경로 세팅
+      if (drawingDataUrl) {
+        setImg(drawingDataUrl);
+        setImage(drawingDataUrl);
+      }
+    }
+  }, [drawingFile]);
+
   // NFT 등록을 위한 상태값 (+ image, account-users 연결, web3)
   const [isDetail, setIsDetail] = useState(false); // 상세 정보 작성중인가?
   const [name, setName] = useState(); // NFT 이름
