@@ -80,7 +80,7 @@ function App() {
             <Route path="/" element={<UserContainer />}></Route>
           ) : (
             <Route path="/" element={<MainCont />}></Route>
-          )}{" "}
+          )}
           <Route path="/explore" element={<ExploreCont />} />
           <Route path="/mypage/:idaccount" element={<MypageCont />}></Route>
           <Route path="/setting" element={<SettingCont />} />
