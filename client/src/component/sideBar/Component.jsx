@@ -20,6 +20,7 @@ import { useLocation } from "react-router-dom";
 import { action } from "../../modules/userInfo";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import RandomContainer from "../Random/Container";
 
 const SideBarComp = ({
   theme,
@@ -126,15 +127,11 @@ const SideBarComp = ({
           <SideItem
             theme={theme}
             onClick={() => {
-              // setRegisteringNFT(true);
+              navigate("/random");
             }}
           >
             <GiPerspectiveDiceSixFacesRandom size={"25"} />
             <p>NFT 뽑기</p>
-            {/* <NFTMintingContainer
-              registeringNFT={registeringNFT}
-              setRegisteringNFT={setRegisteringNFT}
-            /> */}
           </SideItem>
 
           {account == "" ? (

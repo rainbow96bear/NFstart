@@ -17,6 +17,7 @@ import LoadingComp from "./component/Loading/LoadingComp";
 import axios from "axios";
 import { action } from "./modules/userInfo";
 import { useEffect, useState } from "react";
+import RandomContainer from "./component/Random/Container";
 
 ReactModal.setAppElement("#root");
 function App() {
@@ -85,6 +86,7 @@ function App() {
           <Route path="/setting" element={<SettingCont />} />
           <Route path="/create" element={<CreateCont />} />
           <Route path="/chat" element={<ChatCont />} />
+          <Route path="/random" element={<RandomContainer />} />
         </Routes>
       </Frame>
     </>
