@@ -13,6 +13,8 @@ import styled from "styled-components";
 import MypageCont from "./component/MyPage/Container";
 import CreateCont from "./component/Create/Container";
 import ChatCont from "./component/Chat/Container/ChatContain";
+import LoadingComp from "./component/Loading/LoadingComp";
+import ExploreCont from "./component/Explore/Container";
 import axios from "axios";
 import { action } from "./modules/userInfo";
 import { useEffect, useState } from "react";
@@ -78,7 +80,8 @@ function App() {
             <Route path="/" element={<UserContainer />}></Route>
           ) : (
             <Route path="/" element={<MainCont />}></Route>
-          )}
+          )}{" "}
+          <Route path="/explore" element={<ExploreCont />} />
           <Route path="/mypage/:idaccount" element={<MypageCont />}></Route>
           <Route path="/setting" element={<SettingCont />} />
           <Route path="/create" element={<CreateCont />} />

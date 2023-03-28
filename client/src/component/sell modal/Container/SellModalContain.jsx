@@ -1,16 +1,22 @@
 import SellModal from "../Component/SellModal";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import axios from "axios";
 
-const SellModalContain = ({ isOpen, setIsOpen, click, main, nowPageUser }) => {
+const SellModalContain = ({
+  isOpen,
+  setIsOpen,
+  click,
+  main,
+  nowPageUser,
+  NFlist,
+}) => {
   // redux
   const theme = useSelector((state) => state.theme);
   // Hook
   let { account } = useParams();
-  const location = useLocation();
   const [button, setButton] = useState();
 
   const tempButton = async () => {
@@ -31,6 +37,7 @@ const SellModalContain = ({ isOpen, setIsOpen, click, main, nowPageUser }) => {
         setIsOpen={setIsOpen}
         main={main}
         nowPageUser={nowPageUser}
+        NFlist={NFlist}
       />
     </>
   );

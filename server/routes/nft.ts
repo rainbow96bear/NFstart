@@ -10,6 +10,8 @@ import db from "../models/index";
 import { Op } from "sequelize";
 // import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { abi as NFTAbi } from "../contracts/artifacts/LetMeDoItForYou.json";
+// import { abi as NFTAbi } from "../contracts/artifacts/BuySell.json";
+
 import { AbiItem } from "web3-utils";
 import { Readable } from "stream";
 
@@ -184,6 +186,7 @@ router.post("/save", async (req, res) => {
   }
 });
 
+//------------------------------------------------------ Main , myPage---------------
 // NFT 메인페이지에 최신 4개 출력
 router.post("/tomain", async (req, res) => {
   try {
@@ -200,7 +203,7 @@ router.post("/tomain", async (req, res) => {
     res.send(error);
   }
 });
-// main all
+// Main에 아이디 전체
 router.post("/tomainAll", async (req, res) => {
   try {
     const userList = await db.User.findAll({
@@ -212,7 +215,7 @@ router.post("/tomainAll", async (req, res) => {
     res.send(error);
   }
 });
-//  NFT 마이페이지에 가지고 있는거 띄움
+// NFT 마이페이지에 가지고 있는거 띄움
 router.post("/toMypage", async (req, res) => {
   if (!req.body.path == db.User.account) {
     res.send({ data: "회원 정보가 없습니다." });
@@ -232,6 +235,7 @@ router.post("/toMypage", async (req, res) => {
   }
 });
 
+// 해당 페이지 아이디에 NFT 가져오기
 router.post("/myNFT", async (req, res) => {
   if (!req.body.path == db.NFT.owner) {
     res.send({ data: "연결오류" });
@@ -249,6 +253,7 @@ router.post("/myNFT", async (req, res) => {
     }
   }
 });
+// 판매신청된  NFT 목록
 router.post("/mySellNft", async (req, res) => {
   if (!req.body.path == db.NFT.owner) {
     res.send({ data: "연결오류" });
@@ -287,6 +292,124 @@ router.post("/modalBt", async (req, res) => {
   } else {
     res.send({ data: "판매자가 아닙니다" });
   }
+});
+
+router.post("/sellData", async (req, res) => {
+  // console.log(req.body);
+  // .update({컬럼: 변경사항 , where:{컬럼: 값}})
+  try {
+    await db.NFT.update(
+      { price: req.body.priceValue, fees: req.body.feesValue },
+      { where: { hash: req.body.hash } }
+    );
+
+    // const deployed = new web3.eth.Contract(
+    //   NFTAbi as AbiItem[],
+    //   // process.env.NFT_TOKEN_CA
+    //   process.env.LETMEDOITFORYOU_CA
+    // );
+
+    res.send("판매등록 성공");
+  } catch (error) {
+    console.log(error);
+    res.send("판매등록 실패");
+  }
+
+  //  contract에서 다른 메서드를 만들어야 하거든 ?
+  //  권한을 주는 메서드랑 판매 금액 설정을 하는 매서드
+  // const deployed = new web3.eth.Contract(
+  //   NFTAbi as AbiItem[],
+  //   process.env.LETMEDOITFORYOU_CA
+  // );
+  //----------------------------obj
+  // const obj: {
+  //   nonce: number;
+  //   to: string | undefined;
+  //   from: string;
+  //   data: string;
+  // } = {
+  //   nonce: nonce,
+  //   // to: process.env.NFT_TOKEN_CA,
+  //   to: process.env.LETMEDOITFORYOU_CA,
+  //   from: account,
+  //   data: jsonData,
+  // };
+  // -----------------------------
+  // --------------// sol파일 판매
+
+  // contract BreadShop {
+  //   mapping(address => uint) public breads;
+
+  //   function buyBread() public payable {
+  //     require(msg.value >= 10 ** 18);
+  //     // if (msg.value > 2 * 10 ** 18) {
+  //     //   payable(msg.sender).transfer(2 * 10 ** 18 - msg.value);
+  //     // }
+  //     breads[msg.sender] += 1;
+  //   }
+
+  //   function sellBread() public payable {
+  //     breads[msg.sender] -= 1;
+  //     payable(msg.sender).transfer(10 ** 18);
+  //   }
+
+  //   function getBread() public view returns (uint) {
+  //     return breads[msg.sender];
+  //   }
+
+  //   function getSender() public view returns (address) {
+  //     return msg.sender;
+  //   }
+  // }
+
+  // --------------------------------------------
+  //------------------//  연결
+  // const networkId = await web3.eth.net.getId();
+  // const _CA = BreadShopContract.networks[networkId].address;
+  // const abi = BreadShopContract.abi;
+  //
+  // ---------------------------------------------
+  // const _deployed = new web3.eth.Contract(abi, _CA);
+  // setDeployed(_deployed);
+
+  // const _bread = await _deployed.methods.getBread().call({ from: account });
+  // setBread(_bread);
+
+  // const temp = await _deployed.methods.getSender().call({ from: account });
+  // console.log(temp);
+
+  // onclick 했을때 고유한값, price ,fees
+
+  res.end();
+});
+
+router.post("/explore", async (req, res) => {
+  const { keyword } = req.body;
+  console.log(keyword);
+  let searchResult;
+  if (keyword == "") {
+    searchResult = await db.NFT.findAll({
+      include: [
+        {
+          model: db.User,
+        },
+      ],
+      order: [["id", "DESC"]],
+    });
+  } else {
+    searchResult = await db.NFT.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: "%" + keyword + "%" } },
+          { owner: { [Op.like]: "%" + keyword + "%" } },
+          { "$User.nickName$": { [Op.like]: "%" + keyword + "%" } },
+        ],
+      },
+      include: [{ model: db.User }],
+      order: [["id", "DESC"]],
+    });
+  }
+  res.send({ searchResult });
 });
 
 export default router;

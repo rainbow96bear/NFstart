@@ -1,8 +1,8 @@
 import NftSellModal from "./Component";
-const SellModalContain = ({ Buysell }) => {
+const SellModalContain = ({ Buysell, NFlist, hash }) => {
   return (
     <>
-      <NftSellModal Buysell={Buysell} />
+      <NftSellModal Buysell={Buysell} NFlist={NFlist} hash={hash} />
     </>
   );
 };

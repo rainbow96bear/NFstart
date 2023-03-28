@@ -56,6 +56,7 @@ const MypageCont = () => {
       isModal={isModal}
       setIsModal={setIsModal}
       modalClick={modalClick}
+      sellNft={sellNft}
     ></MypageComp>
     // account 를 확인해서 // 로그인 화면으로 넘어가게 만들어
   );
