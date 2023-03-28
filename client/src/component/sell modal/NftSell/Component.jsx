@@ -2,55 +2,48 @@ import Modal from "react-modal";
 import styled from "styled-components";
 import { BsCalendar } from "react-icons/bs";
 import { MdAttachMoney } from "react-icons/md";
+import axios from "axios";
+//
+import { useState } from "react";
 
 // 판매 등록 페이지(모달)
-const SellModal = ({ Buysell }) => {
-  console.log(Buysell);
+const SellModal = ({ Buysell, NFlist, hash }) => {
+  const [priceValue, setPriceValue] = useState("");
+  const [feesValue, setFeesValue] = useState("");
+
+  const sendData = async () => {
+    const _sendData = await axios.post("/api/nft/sellData", {
+      priceValue: priceValue,
+      feesValue: feesValue,
+      hash: hash,
+    });
+    console.log("받은 데이터 입니다.", _sendData);
+  };
+
   return (
     <>
       <DetailAndBuyWrap isOpen={Buysell}>
-        <div
-          style={{ fontWeight: "600", marginBottom: "10px" }}
-          onClick={() => {
-            alert("price : 가격선택");
-          }}
-        >
+        <div style={{ fontWeight: "600", marginBottom: "10px" }}>
           <Price>
-            <div>price :</div>
             <div>
-              <input type="text" />
-              <label>Price</label>
+              {" "}
+              <MdAttachMoney />
+              price :
+            </div>
+            <div>
+              <input
+                type="number"
+                value={priceValue}
+                onInput={(e) => {
+                  setPriceValue(e.target.value);
+                }}
+              />
+              <label>Eth</label>
               <span></span>
             </div>
           </Price>
         </div>
 
-        {/* <IoClose
-            style={{ cursor: "pointer" }}
-            onClick={() => click()}
-            size={"40"}
-          /> */}
-
-        {/* Heart Btn */}
-        <div
-          style={{
-            fontWeight: "600",
-            marginBottom: "10px",
-            marginBottom: "30px",
-          }}
-          onClick={() => {
-            alert("Duration : 날짜선택");
-          }}
-        >
-          <div>
-            <div>
-              <BsCalendar />
-            </div>
-            <div>날짜</div>
-          </div>
-          <div>내용</div>
-        </div>
-
         <div
           style={{
             fontWeight: "600",
@@ -60,9 +53,19 @@ const SellModal = ({ Buysell }) => {
           }}
         >
           <div>
-            <MdAttachMoney />
+            <MdAttachMoney /> fees :
           </div>
-          <div>fees</div>
+          <div>
+            <input
+              type="number"
+              value={feesValue}
+              onInput={(e) => {
+                setFeesValue(e.target.value);
+              }}
+            />
+            <label>fees</label>
+            <span></span>
+          </div>
         </div>
 
         <div
@@ -72,7 +75,11 @@ const SellModal = ({ Buysell }) => {
             padding: "12px",
           }}
         >
-          <div>
+          <div
+            onClick={async () => {
+              sendData();
+            }}
+          >
             <button>판매</button>
           </div>
         </div>
@@ -86,7 +93,6 @@ export default SellModal;
 const DetailAndBuyWrap = styled.div`
   display: flex;
   width: 100%;
-  /* background-color: #6f67f1; */
   background-color: #1c1c1cd2;
   flex-direction: column;
   justify-content: space-around;
@@ -96,24 +102,80 @@ const DetailAndBuyWrap = styled.div`
     display: flex;
     justify-content: space-between;
   }
+
   & > div:nth-child(2) {
-    display: flex;
-    flex-direction: row;
-    font-size: 18px;
-    justify-content: space-between;
-    width: 50%;
-    & > div:first-child {
-      display: flex;
-    }
-  }
-  & > div:nth-child(3) {
     display: flex;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     flex-wrap: wrap;
     overflow: hidden;
+    & > div:first-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    & > div:nth-child(2) {
+      position: relative;
+      width: 300px;
+      margin-left: 50px;
+      margin-top: 100px;
+
+      & > input {
+        font-size: 15px;
+        color: #222222;
+        width: 300px;
+        border: none;
+        border-bottom: solid #aaaaaa 1px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        position: relative;
+        background: none;
+        z-index: 5;
+        color: white;
+      }
+
+      & > label {
+        position: absolute;
+        color: #aaa;
+        left: 10px;
+        font-size: 20px;
+        bottom: 8px;
+        transition: all 0.2s;
+      }
+
+      & > span {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0%; /* right로만 바꿔주면 오 - 왼 */
+        background-color: #666;
+        width: 0;
+        height: 2px;
+        border-radius: 2px;
+        transition: 0.5s;
+      }
+
+      & > input::placeholder {
+        color: #aaaaaa;
+      }
+      & > input:focus {
+        outline: none;
+      }
+      & > input:focus ~ label,
+      input:valid ~ label {
+        font-size: 16px;
+        bottom: 40px;
+        color: #666;
+        font-weight: bold;
+      }
+
+      & > input:focus ~ span,
+      input:valid ~ span {
+        width: 100%;
+      }
+    }
   }
-  & > div:nth-child(4) {
+  & > div:nth-child(3) {
     display: flex;
     & > div button {
       cursor: pointer;
@@ -171,6 +233,7 @@ const Price = styled.div`
       position: relative;
       background: none;
       z-index: 5;
+      color: white;
     }
 
     & > label {

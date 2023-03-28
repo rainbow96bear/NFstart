@@ -13,35 +13,48 @@ import {
   AiOutlineFieldTime,
 } from "react-icons/ai";
 
-
 import Modal from "react-modal";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 
 // Hook
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // 주소
 import NftSell from "../NftSell/Container";
 
-const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, button }) => {
+const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, NFlist }) => {
   Modal.setAppElement("#root");
   const theme = useSelector((state) => state.theme);
+  const [hash, setHash] = useState("");
   const [Buysell, setBuySell] = useState(false);
+  useEffect(() => {
+    setHash(main.hash);
+  }, []);
 
-  // const butSellClick = () => setBuySell(!Buysell);
   return (
     // Modal
-    <ReactModal style={ModalStyle} isOpen={isOpen} onRequestClose={() => { setIsOpen(false) }}>
+    <ReactModal
+      style={ModalStyle}
+      isOpen={isOpen}
+      onRequestClose={() => {
+        setIsOpen(false);
+      }}
+    >
       <ModalBox theme={theme} className={"modalBox"}>
-
         {/* 왼쪽 */}
         <LeftWrap>
           <ImgWrap className="MpRemoteImg">
             <ImgTop>
               {/* <img src="/imgs/eth.png" alt="Ethereum" /> */}
-              <FaEthereum size={"25"} style={{ marginRight: "5px", color: "rgba(165, 68, 255, 0.744)" }} />
+              <FaEthereum
+                size={"25"}
+                style={{
+                  marginRight: "5px",
+                  color: "rgba(165, 68, 255, 0.744)",
+                }}
+              />
               <span>{main?.price}</span>
             </ImgTop>
             <ImgDiv>
@@ -104,41 +117,81 @@ const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, button }) => {
 
             {/* NFT Name & Owner Account */}
             <div style={{ marginBottom: "30px" }}>
-              <div style={{ fontWeight: "600", fontSize: "20px" }}>{main?.name}</div>
-              <div style={{ cursor: "pointer" }} onClick={() => {
-                alert("해당 Owner의 계정 정보로 이동");
-              }}>Ownd by {main?.owner}</div>
+              <div style={{ fontWeight: "600", fontSize: "20px" }}>
+                {main?.name}
+              </div>
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  alert("해당 Owner의 계정 정보로 이동");
+                }}
+              >
+                Ownd by {main?.owner}
+              </div>
             </div>
 
             {/* Heart Btn */}
             <div style={{ marginBottom: "30px" }}>
               <div>
-                <BsFillHeartFill size={"30"} style={{ cursor: "pointer" }} onClick={() => {
-                  alert("찜 기능 만들기");
-                }} />
+                <BsFillHeartFill
+                  size={"30"}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    alert("찜 기능 만들기");
+                  }}
+                />
                 {main?.favorites}
               </div>
             </div>
 
             {/* Sale ends */}
             {/* <div style={{ marginBottom: "50px", backgroundColor: "rgb(245,245,245)", borderRadius: "10px", padding: "12px", fontSize: "18px" }}> */}
-            <div style={{ marginBottom: "50px", borderRadius: "10px", padding: "12px", fontSize: "18px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "left" }}>
-                <AiOutlineFieldTime size={"25"} style={{ marginRight: "5px" }} />
+            {/* <div
+              style={{
+                marginBottom: "50px",
+                borderRadius: "10px",
+                padding: "12px",
+                fontSize: "18px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "left",
+                }}
+              >
+                <AiOutlineFieldTime
+                  size={"25"}
+                  style={{ marginRight: "5px" }}
+                />
                 sale ends{" "}
               </div>
-              <div >
+              <div>
                 <div>Hour : "hours"</div>
                 <div>Minutes</div>
                 <div>Seconds</div>
               </div>
-            </div>
+            </div> */}
 
             {/* Current Price & Buy Now */}
             {/* <div style={{ marginBottom: "50px", backgroundColor: "rgb(245,245,245)", borderRadius: "10px", padding: "12px" }}> */}
-            <div style={{ marginBottom: "50px", borderRadius: "10px", padding: "12px" }}>
+            <div
+              style={{
+                marginBottom: "50px",
+                borderRadius: "10px",
+                padding: "12px",
+              }}
+            >
               <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "left", fontSize: "18px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "left",
+                    fontSize: "18px",
+                  }}
+                >
                   <FaEthereum size={"25"} style={{ marginRight: "5px" }} />
                   Current price
                 </div>
@@ -195,7 +248,12 @@ const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, button }) => {
                     }}
                   >
                     {/* Buysell에 true 값만 전달되는 현상 */}
-                    <NftSell className={"modalBox"} Buysell={Buysell} />
+                    <NftSell
+                      className={"modalBox"}
+                      Buysell={Buysell}
+                      NFlist={NFlist}
+                      hash={hash}
+                    />
                   </ReactModal>
                 </div>
               </div>
@@ -223,8 +281,8 @@ const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, button }) => {
             </OffersDetail>
           </OffersWrap>
         </RightWrap>
-      </ModalBox >
-    </ReactModal >
+      </ModalBox>
+    </ReactModal>
   );
 };
 export default SellModal;
@@ -328,28 +386,28 @@ const NFTImg = styled.img`
 `;
 
 const LeftBottomWrap = styled.div`
-display: flex;
-flex-direction: row;
-font-size: 18px;
-font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+  font-weight: 600;
 
   /* 각각의 메뉴 */
   & > div {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  font-weight: 500;
-  & > div:first-child {
     display: flex;
-    align-items: center;
-  }
-    & > div:nth-child(2) {
-    display: flex;
+    width: 100%;
     flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: 500;
+    & > div:first-child {
+      display: flex;
+      align-items: center;
+    }
+    & > div:nth-child(2) {
+      display: flex;
+      flex-direction: row;
+    }
   }
-}
 `;
 
 const RightWrap = styled.div`
@@ -359,158 +417,153 @@ const RightWrap = styled.div`
 // 이 놈
 const DetailAndBuyWrap = styled.div`
   & > div:first-child {
-  display: flex;
-  justify-content: space-between;
-}
+    display: flex;
+    justify-content: space-between;
+  }
   & > div:nth-child(2) {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  text-align: center;
-
-    & > div:first-child {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
-  }
-    & > div:nth-child(2) {
-    display: flex;
-    justify-content: space-around;
-  }
-}
-  & > div:nth-child(3) {
-  display: flex;
-  font-size: 18px;
-  justify-content: space-around;
-}
-  & > div:nth-child(4) {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  flex-wrap: wrap;
-  overflow: hidden;
-
-    & > div:nth-child(2) {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 5px;
-  }
-}
-  & > div:nth-child(5) {
-  display: flex;
-  width: 100%;
-  font-size: 16px;
-  flex-direction: column;
-
-    & > div:first-child {
     display: flex;
     flex-direction: column;
-    font-size: 20px;
-    justify-content: center;
+    justify-content: space-around;
+    text-align: center;
 
-      & > div:first-child {
+    & > div:first-child {
       display: flex;
-      font-size: 20px;
+      justify-content: space-around;
+      margin-bottom: 10px;
     }
-      & > div:last-child {
+    & > div:nth-child(2) {
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
     }
   }
-    & > div:nth-child(2) {
+  /* & > div:nth-child(3) {
+    display: flex;
+    font-size: 18px;
+    justify-content: space-around;
+  } */
+  & > div:nth-child(3) {
     display: flex;
     width: 100%;
-    justify-content: space-around;
-    margin-top: 5%;
-    text-align: center;
+    flex-direction: column;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    flex-wrap: wrap;
+    overflow: hidden;
+
+    & > div:nth-child(1) {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 5px;
+    }
+  }
+  & > div:nth-child(4) {
+    display: flex;
+    width: 100%;
+    font-size: 16px;
+    flex-direction: column;
+
+    & > div:first-child {
+      display: flex;
+      flex-direction: column;
+      font-size: 20px;
+      justify-content: center;
+
+      & > div:first-child {
+        display: flex;
+        font-size: 20px;
+      }
+      & > div:last-child {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    & > div:nth-child(2) {
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      margin-top: 5%;
+      text-align: center;
       & > div button {
-      cursor: pointer;
-      background-color: #616161;
-      position: relative;
-      display: inline-block;
-      padding: 15px 150px;
-      border-radius: 15px;
-      transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
-      font-size: 18px;
-      background: transparent;
-        background-image: linear-gradient(
-            0.47turn,
-            #e2938f,
-            #ae7dbe,
-            #6f67f1
-        );
-        color : white;
+        cursor: pointer;
+        background-color: #616161;
+        position: relative;
+        display: inline-block;
+        padding: 15px 150px;
+        border-radius: 15px;
+        transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1); // ease-in-out-quartic;
+        font-size: 18px;
+        background: transparent;
+        background-image: linear-gradient(0.47turn, #e2938f, #ae7dbe, #6f67f1);
+        color: white;
 
         &::before {
-        position: absolute;
-        content: "";
-        top: 0;
-        left: 0;
-        z-index: -1;
-        width: 100%;
-        height: 100%;
-        background: var(--btn-bg);
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+          position: absolute;
+          content: "";
+          top: 0;
+          left: 0;
+          z-index: -1;
+          width: 100%;
+          height: 100%;
+          background: var(--btn-bg);
+          transform: scaleX(0);
+          transform-origin: right;
+          transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
       }
     }
   }
-}
 `;
 
 const RightTop = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: flex-end;
-line-height: 30px;
-margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  line-height: 30px;
+  margin-bottom: 20px;
 `;
 
 const OffersWrap = styled.div`
-display: flex;
-flex-direction: column;
-/* background-color: rgb(245,245,245); */
-border-radius: 10px;
-padding: 12px;
+  display: flex;
+  flex-direction: column;
+  /* background-color: rgb(245,245,245); */
+  border-radius: 10px;
+  padding: 12px;
 `;
 
 const OffersTitle = styled.div`
-display: flex;
+  display: flex;
 `;
 
 const OffersDetail = styled.div`
-display: flex;
-justify-content: space-around;
-flex-direction: row;
-  & > div:nth-child(3) {
   display: flex;
   justify-content: space-around;
-  font-size: 18px;
-}
+  flex-direction: row;
+  & > div:nth-child(3) {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+  }
 `;
 
 const BuyNowBtn = styled.button`
-display: flex;
-align-items: center;
-justify-content: left;
-border: none;
-box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  border: none;
+  box-sizing: border-box;
   &:hover {
-  background-color: white;
-  /* border: 3px solid #c070c2; */
-}
+    background-color: white;
+    /* border: 3px solid #c070c2; */
+  }
 `;
 const SellNowBtn = styled.button`
-display: flex;
-align-items: center;
-justify-content: left;
-border: none;
-box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  border: none;
+  box-sizing: border-box;
   &:hover {
-  background-color: white;
-  /* border: 3px solid #c070c2; */
-}
+    background-color: white;
+    /* border: 3px solid #c070c2; */
+  }
 `;

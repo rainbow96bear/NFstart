@@ -14,6 +14,7 @@ import MypageCont from "./component/MyPage/Container";
 import CreateCont from "./component/Create/Container";
 import ChatCont from "./component/Chat/Container/ChatContain";
 import LoadingComp from "./component/Loading/LoadingComp";
+import ExploreCont from "./component/Explore/Container";
 import axios from "axios";
 import { action } from "./modules/userInfo";
 import { useEffect, useState } from "react";
@@ -79,6 +80,7 @@ function App() {
             path="/"
             element={<UserContainer cookieValue={cookieValue} />}
           />
+          <Route path="/explore" element={<ExploreCont />} />
           <Route path="/main" element={<MainCont />} />
           <Route path="/:params" element={<MainCont />} />
           <Route path="/mypage/:idaccount" element={<MypageCont />}></Route>

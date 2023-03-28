@@ -2,7 +2,7 @@ import styled from "styled-components";
 import SellModalContain from "../../sell modal/Container/SellModalContain";
 import { useState } from "react";
 
-const ItemBoxComp = ({ item, nowPageUser }) => {
+const ItemBoxComp = ({ item, nowPageUser, NFlist }) => {
   const [on, setOn] = useState(false);
   const click = () => {
     setOn(!on);
@@ -23,6 +23,7 @@ const ItemBoxComp = ({ item, nowPageUser }) => {
         click={click}
         main={item}
         nowPageUser={nowPageUser}
+        NFlist={NFlist}
       />
     </>
   );
