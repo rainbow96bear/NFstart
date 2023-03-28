@@ -5,6 +5,7 @@ import ItemBoxCont from "./ItemBox/Container";
 import { useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { useCallback } from "react";
+import axios from "axios";
 
 const MypageComp = ({
   open,
@@ -16,6 +17,12 @@ const MypageComp = ({
   modalClick,
   sellNft,
 }) => {
+  const [file, setFile] = useState();
+  const [image, setImage] = useState("");
+  const [img, setImg] = useState("");
+  const [myPageSell, setmyPageSell] = useState([]);
+  const [price, setprice] = useState(false);
+
   // console.log("listNF", NFlist);
   const { nickName } = useSelector((state) => state.userInfo);
   const { account } = useSelector((state) => state.userInfo);
@@ -26,10 +33,7 @@ const MypageComp = ({
   const addBtnClick = () => {
     imgInput.current.click();
   };
-  const [image, setImage] = useState("");
-  const [img, setImg] = useState("");
-  const [myPageSell, setmyPageSell] = useState([]);
-  const [price, setprice] = useState(false);
+
   //
   const sync = async () => {
     setmyPageSell(sellNft);
@@ -39,7 +43,10 @@ const MypageComp = ({
   }, [price]);
   //
   const onUploadImage = useCallback((e) => {
+    console.log(e.target.files[0]);
     // 이미지 경로 세팅
+    setFile(e.target.files[0]);
+
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
@@ -50,9 +57,16 @@ const MypageComp = ({
     };
   }, []);
 
+  const replaceReq = async () => {
+    const formData = new FormData();
+    formData.append("file", file);
+    console.log(file);
+    const replaced = (await axios.post("/api/user/change", formData)).data;
+    // console.log(replaced);
+    return replaced;
+  };
+
   useEffect(() => {
-    console.log(image);
-    console.log(img);
     setIsModal(isModal);
     if (img) {
       setIsModal(!isModal);
@@ -74,7 +88,10 @@ const MypageComp = ({
             />
             <div
               className="item"
-              onClick={() => {
+              onClick={async () => {
+                await replaceReq();
+                // setImage("");
+                // setImg("");
                 addBtnClick();
               }}
             >

@@ -22,7 +22,7 @@ export const reducer = (state = "light", action) => {
       if (state == "light") {
         state = "dark";
         return state;
-      } else {
+      } else if (state == "dark") {
         state = "light";
         return state;
       }

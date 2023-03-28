@@ -11,66 +11,28 @@ import { CgProfile } from "react-icons/cg";
 import { MdExitToApp } from "react-icons/md";
 import { BsList } from "react-icons/bs";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
+import { MdOutlineDraw } from "react-icons/md";
+import { CgGames } from "react-icons/cg";
+//chat
 import { IoChatbubblesOutline } from "react-icons/io5";
 
-import ThemeBtn from "../../customComp/ThemeBtn";
 import NFTMintingContainer from "../NFTMinting/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { action } from "../../modules/userInfo";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import RandomContainer from "../Random/Container";
 
 const SideBarComp = ({
   theme,
   changeTheme,
-  params,
   navigate,
   registeringNFT,
   setRegisteringNFT,
-  cookieValue,
 }) => {
   const { nickName, account } = useSelector((state) => state.userInfo);
+
   const dispatch = useDispatch();
   const location = useLocation();
   const [layer, setLayer] = useState(false);
-
-  // useEffect(() => {
-  //   if (cookieValue[2] == "false") {
-  //     const getAccount = async () => {
-  //       const [_account] = await window.ethereum.request({
-  //         method: "eth_requestAccounts",
-  //       });
-  //       const data = (await axios.post("/api/user/info", { account: _account }))
-  //         .data;
-  //       const { account, nickName, chainId, balance } = data.nickData;
-  //       dispatch({
-  //         type: "userInfo/login",
-  //         payload: { account, nickName, chainId, balance },
-  //       });
-  //     };
-  //     getAccount();
-  //   }
-  // }, [account, nickName]);
-
-  useEffect(() => {
-    if (cookieValue) {
-      const getAccount = async () => {
-        const [_account] = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        const data = (await axios.post("/api/user/info", { account: _account }))
-          .data;
-        const { account, nickName, chainId, balance } = data.nickData;
-        dispatch({
-          type: "userInfo/login",
-          payload: { account, nickName, chainId, balance },
-        });
-      };
-      getAccount();
-    }
-  }, [account, nickName]);
 
   const onClickPop = (e) => {
     setLayer((prev) => (prev ? false : true));
@@ -122,7 +84,6 @@ const SideBarComp = ({
               setRegisteringNFT={setRegisteringNFT}
             />
           </SideItem>
-
           {/* NFT 뽑기 */}
           <SideItem
             theme={theme}
@@ -133,7 +94,6 @@ const SideBarComp = ({
             <GiPerspectiveDiceSixFacesRandom size={"25"} />
             <p>NFT 뽑기</p>
           </SideItem>
-
           {account == "" ? (
             <></>
           ) : (
@@ -144,8 +104,8 @@ const SideBarComp = ({
                   navigate(`/mypage/:${account}`);
                 }}
               >
-                <AiOutlinePoweroff size={"25"} />
-                <p>프로필</p>
+                <CgProfile size={"25"} />
+                <p>{nickName}'s 프로필</p>
               </SideItem>
             </>
           )}
@@ -235,7 +195,6 @@ export default SideBarComp;
 const SideBarArea = styled.div`
   width: 50%;
   max-width: 300px;
-  height: 100vh;
   border-right: 1px solid #5a5a5a;
   padding: 20px;
   flex-direction: column;
@@ -248,7 +207,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding: 0 50px 0 10px;
@@ -272,7 +231,7 @@ const PopItem = styled.div`
     cursor: pointer;
     &:hover {
       background-color: ${(props) =>
-    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+        props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
     }
   }
 `;
