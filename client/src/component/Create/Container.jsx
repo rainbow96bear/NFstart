@@ -1,6 +1,12 @@
+import { useState } from "react";
 import CreateComp from "./Component";
 
 const CreateCont = () => {
-  return <CreateComp></CreateComp>;
+  const [registeringNFT, setRegisteringNFT] = useState(false);
+  return (
+    <CreateComp
+      setRegisteringNFT={setRegisteringNFT}
+      registeringNFT={registeringNFT}></CreateComp>
+  );
 };
 export default CreateCont;

@@ -4,11 +4,14 @@ import { BsEraserFill } from "react-icons/bs";
 import brush from "../Create/brush.svg";
 import styled from "styled-components";
 import SeekBar from "react-seekbar-component";
+import NFTMintingContainer from "../NFTMinting/Container";
 
-const CreateComp = () => {
+const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [ctx, setCtx] = useState([]);
+  const [drawingFile, setDrawingFile] = useState("");
+  const [drawingDataUrl, setDrawingDataUrl] = useState("");
   const [value, setValue] = useState(0);
   const [eraser, setEraser] = useState(0);
   const [color, setColor] = useState(0);
@@ -41,6 +44,9 @@ const CreateComp = () => {
     contextRef.current = context;
     setCtx(contextRef.current);
   }, []);
+  // useEffect(() => {
+  //   console.log(drawingFile);
+  // }, [drawingFile]);
 
   const startDrawing = () => {
     setIsDrawing(true);
@@ -76,8 +82,7 @@ const CreateComp = () => {
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
         onMouseMove={drawing}
-        onMouseLeave={finishDrawing}
-      ></canvas>
+        onMouseLeave={finishDrawing}></canvas>
       <SettingBox>
         <ValueBox>
           <div>
@@ -116,8 +121,7 @@ const CreateComp = () => {
               onClick={() => {
                 setColor(item);
               }}
-              item={item}
-            ></ColorItem>
+              item={item}></ColorItem>
           ))}
 
           <EraserBox>
@@ -134,18 +138,40 @@ const CreateComp = () => {
             ctx.fillStyle = "#fff";
             ctx.fillRect(0, 0, 500, 500);
           }}
-          theme={theme}
-        >
+          theme={theme}>
           전체 지우기
         </AllDelete>
       </SettingBox>
       <MintingBox theme={theme}>
-        <a download={"image-name.png"} href={canvasRef.current?.toDataURL("image/png").replace("image/png", "image/octet-stream")} onClick={(e) => {
-          // 이미지를 IPFS에 저장하고 ...
-          console.log(e.target);
-        }}>
+        <div
+          onClick={() => {
+            const imgDataUrl = canvasRef.current?.toDataURL("image/png");
+            setDrawingDataUrl(imgDataUrl);
+            const blobBin = atob(imgDataUrl.split(",")[1]);
+            const array = [];
+            for (var i = 0; i < blobBin.length; i++) {
+              array.push(blobBin.charCodeAt(i));
+            }
+            const file = new File([new Uint8Array(array)], "draw.png", {
+              type: "image/png",
+            });
+            console.log(file);
+            setDrawingFile(file);
+            setRegisteringNFT(true);
+            // download={"image-name.png"}
+            // href={canvasRef.current
+            //   ?.toDataURL("image/png")
+            //   .replace("image/png", "image/octet-stream")}
+          }}>
           민팅
-        </a>
+        </div>
+        <NFTMintingContainer
+          registeringNFT={registeringNFT}
+          setRegisteringNFT={setRegisteringNFT}
+          setDrawingFile={setDrawingFile}
+          drawingFile={drawingFile}
+          drawingDataUrl={drawingDataUrl}
+        />
       </MintingBox>
     </CanvasBox>
   );

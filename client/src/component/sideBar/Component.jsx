@@ -10,9 +10,8 @@ import {
 import { CgProfile } from "react-icons/cg";
 import { MdExitToApp } from "react-icons/md";
 import { BsList } from "react-icons/bs";
-//chat
+import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { IoChatbubblesOutline } from "react-icons/io5";
-//
 
 import ThemeBtn from "../../customComp/ThemeBtn";
 import NFTMintingContainer from "../NFTMinting/Container";
@@ -122,6 +121,22 @@ const SideBarComp = ({
               setRegisteringNFT={setRegisteringNFT}
             />
           </SideItem>
+
+          {/* NFT 뽑기 */}
+          <SideItem
+            theme={theme}
+            onClick={() => {
+              // setRegisteringNFT(true);
+            }}
+          >
+            <GiPerspectiveDiceSixFacesRandom size={"25"} />
+            <p>NFT 뽑기</p>
+            {/* <NFTMintingContainer
+              registeringNFT={registeringNFT}
+              setRegisteringNFT={setRegisteringNFT}
+            /> */}
+          </SideItem>
+
           {account == "" ? (
             <></>
           ) : (
@@ -236,7 +251,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding: 0 50px 0 10px;
@@ -260,7 +275,7 @@ const PopItem = styled.div`
     cursor: pointer;
     &:hover {
       background-color: ${(props) =>
-        props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
     }
   }
 `;

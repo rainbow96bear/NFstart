@@ -11,6 +11,10 @@ const NFTMintingComponent = ({
   account,
   registeringNFT,
   setRegisteringNFT,
+  drawingFile,
+  setDrawingFile,
+  drawingDataUrl,
+
 }) => {
   Modal.setAppElement("#root");
 
@@ -52,10 +56,6 @@ const NFTMintingComponent = ({
   const [name, setName] = useState(); // NFT 이름
   const [desc, setDesc] = useState(); // NFT 설명
   const [num, setNum] = useState(1); // NFT 개수
-  // const [isSale, setIsSale] = useState(false);        // NFT를 판매할 것인가?
-  // const [isAuction, setIsAuctio] = useState(false);   // NFT를 경매할 것인가?
-  // const [tags, setTags] = useState([]);               // NFT 태그
-  // NFT 등록 시간, 각각의 확률..
 
   // 판매 설정 관련
   const [nftDescHeight, setHeight] = useState(135);
@@ -104,7 +104,7 @@ const NFTMintingComponent = ({
     if (!account) {
       alert("로그인 후 이용해 주시기 바랍니다.");
       setRegisteringNFT(false);
-      navigate("/");
+      navigate("/login");
       return;
     }
   }
@@ -127,6 +127,7 @@ const NFTMintingComponent = ({
               setIsDetail(false);
               setLoading(false);
               setSignLoading(false);
+              setDrawingFile("");
             }
           }}
         >
@@ -235,10 +236,6 @@ const NFTMintingComponent = ({
                     // NFT 등록 요청을 보낸다.
                     const registData = await registReq();
                     console.log(registData);
-                    // alert("NFT Image가 IPFS Pinata에 등록되었습니다.");
-
-                    // console.log(web3.eth);
-                    // await web3.eth.sendTransaction(registData.obj);
 
                     // 트랜잭션 요청을 보낸다.
                     await sendTransactionReq(registData);
