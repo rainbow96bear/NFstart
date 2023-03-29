@@ -343,7 +343,8 @@ const NFTMintingComponent = ({
                     } catch (error) {
                       console.error(error);
                       alert("서명이 취소 되었습니다.");
-                      init();
+                      setLoading(false);
+                      setSignLoading(false);
                       return;
                     }
 
