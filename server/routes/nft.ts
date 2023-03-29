@@ -338,19 +338,24 @@ router.post("/sellData", async (req, res) => {
 
   res.end();
 });
-router.post("/buybuy", async (req, res) => {
-  try {
-    const nonce = await web3.eth.getTransactionCount(req.body.user.account);
-    //
-    const LMDIFYdeployed = new web3.eth.Contract(
-      NFTAbi as AbiItem[],
-      process.env.LETMEDOITFORYOU_CA
-      //
-    );
-  } catch (error) {
-    console.log("비상비상");
-  }
-});
+// router.post("/buybuy", async (req, res) => {
+//   try {
+//     const nonce = await web3.eth.getTransactionCount(req.body.user.account);
+//     //
+//     const LMDIFYdeployed = new web3.eth.Contract(
+//       NFTAbi as AbiItem[],
+//       process.env.LETMEDOITFORYOU_CA
+
+//     );
+//     //
+//     const APPID = LMDIFYdeployed.methods
+//       .setApprovalForAll(process.env.BuySell_CA, true)
+//       .encodeABI();
+
+//   } catch (error) {
+//     console.log("비상비상");
+//   }
+// });
 
 router.post("/explore", async (req, res) => {
   const { keyword } = req.body;
