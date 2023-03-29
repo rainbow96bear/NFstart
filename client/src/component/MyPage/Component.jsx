@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { CgProfile } from "react-icons/cg";
 import { MdContentCopy } from "react-icons/md";
+import { BsChatDots } from "react-icons/bs";
 import ItemBoxCont from "./ItemBox/Container";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { useCallback } from "react";
 import axios from "axios";
+import { action } from "../../modules/userInfo";
+import { useNavigate } from "react-router-dom";
 
 const MypageComp = ({
   open,
@@ -15,6 +18,7 @@ const MypageComp = ({
   setIsModal,
   isModal,
   modalClick,
+  userProfile,
   sellNft,
 }) => {
   const [file, setFile] = useState();
@@ -23,12 +27,14 @@ const MypageComp = ({
   const [myPageSell, setmyPageSell] = useState([]);
   const [price, setprice] = useState(false);
 
-  // console.log("listNF", NFlist);
+  console.log("listNF", NFlist != []);
   const { nickName } = useSelector((state) => state.userInfo);
   const { account } = useSelector((state) => state.userInfo);
 
   const theme = useSelector((state) => state.theme);
   const imgInput = useRef();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const addBtnClick = () => {
     imgInput.current.click();
@@ -42,11 +48,9 @@ const MypageComp = ({
     sync();
   }, [price]);
   //
-  const onUploadImage = useCallback((e) => {
-    console.log(e.target.files[0]);
-    // 이미지 경로 세팅
+  const fileChange = useCallback((e) => {
     setFile(e.target.files[0]);
-
+    // 이미지 경로 세팅
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
@@ -55,18 +59,23 @@ const MypageComp = ({
         setImage(reader.result);
       }
     };
+    // 요청 보내야함
   }, []);
 
-  const replaceReq = async () => {
+  const registReq = async () => {
     const formData = new FormData();
     formData.append("file", file);
-    console.log(file);
-    const replaced = (await axios.post("/api/user/change", formData)).data;
-    // console.log(replaced);
-    return replaced;
+    formData.append("account", account);
+
+    const registered = (await axios.post("/api/user/imgUpload", formData)).data;
+    console.log(registered);
+    if (registered === "성공") {
+      window.location.reload();
+    }
   };
 
   useEffect(() => {
+    registReq();
     setIsModal(isModal);
     if (img) {
       setIsModal(!isModal);
@@ -81,17 +90,10 @@ const MypageComp = ({
             <div className="item">
               <h1>프로필 사진 바꾸기</h1>
             </div>
-            <ImgAddInput
-              type={"file"}
-              ref={imgInput}
-              onChange={onUploadImage}
-            />
+            <ImgAddInput type={"file"} ref={imgInput} onChange={fileChange} />
             <div
               className="item"
-              onClick={async () => {
-                await replaceReq();
-                // setImage("");
-                // setImg("");
+              onClick={() => {
                 addBtnClick();
               }}
             >
@@ -115,13 +117,18 @@ const MypageComp = ({
       <MyPage>
         <MyPageFrame>
           <InfoBox>
-            {image ? (
-              <ProfileImgBox
-                onClick={() => {
-                  modalClick();
-                }}
-              >
-                <img src={image.toString()} alt={"image"} />
+            {userProfile ? (
+              <ProfileImgBox>
+                <div
+                  className="imgFrame"
+                  theme={theme}
+                  onClick={() => {
+                    modalClick();
+                  }}
+                >
+                  <p>편집</p>
+                </div>
+                <img src={`/uploads/${userProfile}`} alt={"image"} />
               </ProfileImgBox>
             ) : (
               <ProfileImgBox>
@@ -135,10 +142,7 @@ const MypageComp = ({
             )}
             <Info>
               <div>
-                {/* {User?.map((item) => (
-                <div>{item.nickName}</div>
-              ))} */}
-                <div>{nickName}</div>
+                <div className="imgProfile">{nickName}</div>
               </div>
               <div className="acc">
                 <span>{account.slice(0, 5)}&nbsp;···&nbsp;</span>
@@ -184,14 +188,25 @@ const MypageComp = ({
             </ItemBox>
           ) : (
             <ItemBox>
-              {NFlist?.map((item, index) => (
-                <ItemBoxCont
-                  item={item}
-                  index={index}
-                  key={index}
-                  NFlist={NFlist}
-                />
-              ))}
+              {NFlist.length == 0 ? (
+                <>
+                  <div className="nonft">
+                    <BsChatDots />
+                    <p>올린 NFT가 없습니다.</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {NFlist?.map((item, index) => (
+                    <ItemBoxCont
+                      item={item}
+                      index={index}
+                      key={index}
+                      NFlist={NFlist}
+                    />
+                  ))}
+                </>
+              )}
             </ItemBox>
           )}
         </MyPageFrame>
@@ -233,6 +248,29 @@ const ProfileImgBox = styled.div`
     border-radius: 100%;
     width: 145px;
     height: 145px;
+    position: absolute;
+  }
+  .imgFrame {
+    width: 145px;
+    height: 145px;
+    position: relative;
+    z-index: 999;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > p {
+      display: none;
+    }
+  }
+  .imgFrame:hover {
+    > p {
+      display: flex;
+      color: red;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    background-color: rgba(255, 255, 255, 0.4);
   }
 `;
 const Info = styled.div`
@@ -276,6 +314,12 @@ const CategoryBox = styled.div`
 const ItemBox = styled.div`
   display: flex;
   flex-wrap: wrap;
+  .nonft {
+    width: 100%;
+
+    display: block;
+    text-align: center;
+  }
 `;
 const ImgAddInput = styled.input`
   visibility: hidden;

@@ -1,17 +1,16 @@
 import axios from "axios";
-import { BiCookie, BiRewind } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 import Web3 from "web3";
 
 const TYPE = {
   LOGIN: "userInfo/login",
   LOGOUT: "userInfo/logout",
+  // PROFILE: "userInfo/set",
 };
 
-const logIn = (account, balance, chainId, nick) => {
+const logIn = (account, balance, chainId, nick, profile) => {
   return {
     type: TYPE.LOGIN,
-    payload: { account, balance, chainId, nick },
+    payload: { account, balance, chainId, nick, profile },
   };
 };
 
@@ -20,6 +19,13 @@ const logOut = () => {
     type: TYPE.LOGOUT,
   };
 };
+
+// const set = (profile) => {
+//   return {
+//     type: TYPE.PROFILE,
+//     payload: profile,
+//   };
+// };
 
 const asyncLogIn = () => {
   return async (dispatch) => {
@@ -113,10 +119,29 @@ const asyncLogOut = () => {
   });
 };
 
-export const action = { logIn, logOut, asyncLogIn, asyncLogOut };
+// const asyncProfile = () => {
+//   return async (dispatch) => {
+//     dispatch({ type: "userInfo/set", payload: { profile: "dsf" } });
+//   };
+// };
+
+export const action = {
+  logIn,
+  logOut,
+  // set,
+  asyncLogIn,
+  asyncLogOut,
+  // asyncProfile,
+};
 
 export const initialize = {
-  userInfo: { account: "", balance: -1, chainId: "", nickName: "" },
+  userInfo: {
+    account: "",
+    balance: -1,
+    chainId: "",
+    nickName: "",
+    profile: "",
+  },
 };
 
 export const reducer = (state = initialize, action) => {
@@ -126,6 +151,8 @@ export const reducer = (state = initialize, action) => {
       return { ...state, ...payload };
     case TYPE.LOGOUT:
       return { ...initialize };
+    // case TYPE.PROFILE:
+    //   return { ...state };
     default:
       return state;
   }

@@ -15,6 +15,7 @@ const ItemBoxComp = ({ item, nowPageUser, NFlist }) => {
           click();
         }}
       >
+        <div className="icon"></div>
         {item && <img alt="" src={`/uploads/${item.filename}`} />}
       </ItemBox>
       <SellModalContain
@@ -46,5 +47,14 @@ const ItemBox = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
+    cursor: pointer;
+  }
+  & > img:hover {
+    > img {
+      opacity: 0.5;
+    }
+    position: absolute;
+    z-index: 999;
+    background-color: rgba(0, 187, 255, 0.2);
   }
 `;

@@ -37,8 +37,6 @@ function App() {
           theme,
         })
       ).data.theme;
-      console.log(_theme);
-      console.log(theme);
       if (theme != _theme) {
         dispatch({ type: "theme/change" });
       }
@@ -46,7 +44,6 @@ function App() {
     (async () => {
       const data = (await axios.get("/api/user/logoutState")).data;
       setLogoutState(data);
-      console.log(data);
       if (data.toString() == "false") {
         dispatch(action.asyncLogIn());
       } else {
@@ -59,9 +56,9 @@ function App() {
           const changeAccount = await window.ethereum.request({
             method: "eth_requestAccounts",
           });
-
           if (changeAccount) {
             dispatch(action.asyncLogIn());
+            navigate("/");
           }
         }
       });

@@ -128,47 +128,37 @@ const upload = multer({
   storage: storage,
   limits: { fieldSize: 25 * 1024 * 1024 },
 });
+
 // 프로필 사진 업로드
-router.post("/change", upload.single("file"), async (req, res) => {
-  if (!req.file) {
+router.post("/imgUpload", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      res.send({ data: "파일 업로드 실패" });
+      return;
+    }
+
+    const file = req.file;
+
+    await db.User.update(
+      { profile: req.file.filename },
+      { where: { account: req.body.account } }
+    );
+    res.send("성공");
+  } catch (error) {
+    console.error(error);
     res.send({ data: "파일 업로드 실패" });
-    return;
   }
-  console.log(req.body);
-  const file = req.file;
-  console.log(file);
-  const filename = file.filename.split(".")[0];
-  const name = req.body.name;
-  const desc = req.body.desc;
-  const volume = req.body.num;
-  const account = req.body.account;
-
-  const imageData = fs.createReadStream(`./uploads/${file.filename}`);
-
-  // try {
-  //   await db.User.update({
-  //     profile: req.file.filename,
-  //   });
-  //   res.send("성공");
-  // } catch (error) {
-  //   console.error(error);
-  //   res.send("실패");
-  // }
 });
 
 //프로필 사진 변경하기 위한 router
-router.post("/replace", async (req, res) => {
+router.post("/findProfile", async (req, res) => {
   try {
-    const user = localStorage.getItem("account");
-    console.log(user);
-
-    // const curProfile = await db.User.update(
-    //   { profile: req.body.profile },
-    //   { where: { account: req.body.account } }
-    // );
-    res.send();
+    const userData = await db.User.findAll({
+      where: { account: req.body.account },
+    });
+    console.log(userData);
+    res.send(userData);
   } catch (error) {
-    console.log(error);
     res.send({ isError: true });
   }
 });
