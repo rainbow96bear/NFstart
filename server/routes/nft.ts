@@ -10,8 +10,6 @@ import db from "../models/index";
 import { Op } from "sequelize";
 // import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { abi as NFTAbi } from "../contracts/artifacts/LetMeDoItForYou.json";
-// import { abi as NFTAbi } from "../contracts/artifacts/BuySell.json";
-
 import { AbiItem } from "web3-utils";
 import { Readable } from "stream";
 
@@ -52,17 +50,22 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     return;
   }
 
-  const file = req.file;
-  const filename = file.filename.split(".")[0];
+  const imgfile = req.file;
   const name = req.body.name;
   const desc = req.body.desc;
   const volume = req.body.num;
   const account = req.body.account;
-  console.log(account);
 
-  const imageData = fs.createReadStream(`./uploads/${file.filename}`);
-  const nonce = await web3.eth.getTransactionCount(account);
-  console.log(file);
+  const imageData = fs.createReadStream(`./uploads/${imgfile.filename}`);
+
+  // 0. 배포된 컨트랙트를 불러온다.
+  const deployed = new web3.eth.Contract(
+    NFTAbi as AbiItem[],
+    // process.env.NFT_TOKEN_CA
+    process.env.LETMEDOITFORYOU_CA
+  );
+  // const nonce = await web3.eth.getTransactionCount(account);
+  const tokenId = await deployed.methods.getTokenId().call();
 
   try {
     // 1. Pinata에 Image 등록
@@ -73,7 +76,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       isDuplicate?: boolean;
     } = await pinata.pinFileToIPFS(imageData, {
       pinataMetadata: {
-        name: file.filename,
+        name: imgfile.filename,
       },
       pinataOptions: {
         cidVersion: 0,
@@ -81,12 +84,11 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     });
     if (imgResult.isDuplicate) console.log("이미 Pinata에 등록된 이미지");
     const IpfsHash = imgResult.IpfsHash;
-    console.log(IpfsHash);
 
     // 2. Pinata에 JSON 형식으로 NFT Data 등록
     const jsonResult = await pinata.pinJSONToIPFS(
       {
-        name: `${name} #${nonce}`,
+        name: `${name} #${tokenId}`,
         desc,
         volume,
         publisher: account,
@@ -94,7 +96,7 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       },
       {
         pinataMetadata: {
-          name: filename + ".json",
+          name: imgfile.filename.split(".")[0] + ".json",
         },
         pinataOptions: {
           cidVersion: 0,
@@ -102,25 +104,18 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       }
     );
     const JsonIpfsHash = jsonResult.IpfsHash;
-    console.log(JsonIpfsHash);
 
     // 3. 배포된 컨트랙트의 메서드를 활용하여 NFT 등록 데이터 생성
-    const deployed = new web3.eth.Contract(
-      NFTAbi as AbiItem[],
-      // process.env.NFT_TOKEN_CA
-      process.env.LETMEDOITFORYOU_CA
-    );
-    const jsonData = deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
-    console.log(jsonData);
+    const jsonData = await deployed.methods.NFTMint(JsonIpfsHash).encodeABI();
 
-    // 해당 Contract에 Transaction을 보내기 위한 객체 생성
+    // 4. 해당 Contract에 Transaction을 보내기 위한 객체 생성
     const obj: {
       nonce: number;
       to: string | undefined;
       from: string;
       data: string;
     } = {
-      nonce: nonce,
+      nonce: tokenId,
       // to: process.env.NFT_TOKEN_CA,
       to: process.env.LETMEDOITFORYOU_CA,
       from: account,
@@ -138,10 +133,10 @@ router.post("/regist", upload.single("file"), async (req, res) => {
       publisher: string;
       owner: string;
     } = {
-      hash: nonce,
-      name: `${name} #${nonce}`,
+      hash: tokenId,
+      name: `${name} #${tokenId}`,
       desc,
-      filename: file.filename,
+      filename: imgfile.filename,
       IpfsHash,
       JsonIpfsHash,
       publisher: account,

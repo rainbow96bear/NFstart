@@ -3,16 +3,10 @@ import Modal from "react-modal";
 import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// GiShamblingZombie
-// 메타마스크 좀비
-// 유니콘 
 
-// 유니콘 이미지
 import UnicornImg from "./images/417018_409072_5019.jpg";
-// import ZombieImg from "./images/zombieBackground.png";
 import ZombieImg from "./images/zomzom.png";
 
-// 페이지?
 const RandomComponent = ({ account }) => {
     return (
         <>
@@ -48,7 +42,7 @@ const AllWrap = styled.div`
 `;
 
 const SwapWrap = styled.div`
-    width: 600px;
+    width: 850px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -56,10 +50,15 @@ const SwapWrap = styled.div`
 
 const SwapItemWrap = styled.div`
     &>img {
-        width: 250px;
-        height: 250px;
-        border-radius: 20px;
+        width: 350px;
+        height: 350px;
+        border-radius: 30px;
         cursor: pointer;
+            box-shadow: rgba(23, 23, 23, 0.329) 0px 8px 30px 0px;
+        &:hover{
+            box-shadow: rgba(23, 23, 23, 0.62) 0px 8px 30px 0px;
+            transition: all 1s;
+        }
     }
 `;
 

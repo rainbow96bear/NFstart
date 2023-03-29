@@ -19,14 +19,17 @@ contract LetMeDoItForYou is ERC721Enumerable, ERC721URIStorage, Ownable {
         address _tokenOwner
     );
 
-    constructor() ERC721("LetMeDoItForYou - Goerli", "LMDIFY") {}
+    constructor() ERC721("Let me do it for you... - Goerli", "LMDIFY") {}
 
-    // 어떤 data를 받아서 넣어야 하는지 잘 모르겠다. -> ipfs cid 값 이라고 한다.
-    function NFTMint(string memory data) public {
+    function getTokenId() public view returns (uint256) {
+        return _tokenId.current();
+    }
+
+    function NFTMint(string memory _data) public {
         uint256 tokenId = _tokenId.current();
         _tokenId.increment();
         _safeMint(msg.sender, tokenId);
-        _setTokenURI(tokenId, data);
+        _setTokenURI(tokenId, _data);
     }
 
     function testMint() public {
