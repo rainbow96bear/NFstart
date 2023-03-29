@@ -95,6 +95,108 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_tokenOwner",
+						"type": "address"
+					}
+				],
+				"name": "getLatestToken",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "tokenURI",
+								"type": "string"
+							}
+						],
+						"internalType": "struct BuySell.TokenInfo",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_tokenOwner",
+						"type": "address"
+					}
+				],
+				"name": "getOwnerTokens",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "tokenURI",
+								"type": "string"
+							}
+						],
+						"internalType": "struct BuySell.TokenInfo[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getSaleTokenList",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "tokenURI",
+								"type": "string"
+							}
+						],
+						"internalType": "struct BuySell.TokenInfo[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
@@ -140,11 +242,11 @@
 	},
 	"sources": {
 		"contracts/BuySell.sol": {
-			"keccak256": "0x528d46596e7d18ae5324fb83320425993fca4c6c7dd2b7593cd229529901d427",
+			"keccak256": "0xf5df3d95f5ed59e8927be77b5297c52666030dfd24776615a33230a473e80643",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://451f18f479ab56f2761311d2d98c5a0379171da8d6133bba99fa08020a96eafb",
-				"dweb:/ipfs/Qmb7vUfeQ8M6QmH9HEvXj6jKGkJ448ky6V5Eocw82Ex8ym"
+				"bzz-raw://58793099b7112331687e3910713312d0db03c64637c190e97d663562627dc82c",
+				"dweb:/ipfs/QmRh2ZGaC8NzZo6J9CscDSjFWzrB525FdZHqwD1zeMq1Pt"
 			]
 		},
 		"contracts/LetMeDoItForYou.sol": {

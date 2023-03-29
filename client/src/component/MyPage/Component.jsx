@@ -23,7 +23,6 @@ const MypageComp = ({
   const [myPageSell, setmyPageSell] = useState([]);
   const [price, setprice] = useState(false);
 
-  // console.log("listNF", NFlist);
   const { nickName } = useSelector((state) => state.userInfo);
   const { account } = useSelector((state) => state.userInfo);
 

@@ -7,6 +7,8 @@ import pinataSDK from "@pinata/sdk";
 import fs from "fs";
 import Web3 from "web3";
 import db from "../models/index";
+import { BigNumber } from "@ethersproject/bignumber";
+
 import { Op } from "sequelize";
 // import { abi as NFTAbi } from "../contracts/artifacts/NFTToken.json";
 import { abi as NFTAbi } from "../contracts/artifacts/LetMeDoItForYou.json";
@@ -273,45 +275,45 @@ router.post("/mySellNft", async (req, res) => {
   }
 });
 
-router.post("/modalBt", async (req, res) => {
-  try {
-    const MPmodalAc = await db.User.findAll({
-      where: { account: req.body },
-    });
-    const MPmodalNF = await db.NFT.findAll({
-      where: {
-        name: req.body.name,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-
-  if (req.body.account == db.User.account) {
-    res.send({ data: "판매자 입니다" });
-  } else {
-    res.send({ data: "판매자가 아닙니다" });
-  }
-});
-
 router.post("/sellData", async (req, res) => {
-  console.log("req.user", req.body.user.account);
   try {
+    const nonce = await web3.eth.getTransactionCount(req.body.user.account);
+    const LMDIFYdeployed = new web3.eth.Contract(
+      NFTAbi as AbiItem[],
+      process.env.LETMEDOITFORYOU_CA
+    );
+
+    const APPID = LMDIFYdeployed.methods
+      .setApprovalForAll(process.env.BuySell_CA, true)
+      .encodeABI();
+
+    const objAproval: {
+      nonce: number;
+      from: string;
+      to: string | undefined;
+      data: string;
+    } = {
+      nonce: nonce,
+      from: req.body.user.account,
+      to: process.env.LETMEDOITFORYOU_CA,
+      data: APPID,
+    };
+
     const deployed = new web3.eth.Contract(
       BuySellAbi as AbiItem[],
       process.env.BuySell_CA
     );
 
-    console.log(req.body);
-    console.log(req.body.priceValue); // 20
+    const bigNumberValue = BigNumber.from(
+      Math.floor(req.body.priceValue * 10 ** 18).toString()
+    );
 
     const SellData = deployed.methods
-      .SalesToken(req.body.hash, req.body.priceValue)
+      .SalesToken(37, bigNumberValue)
       .encodeABI();
     console.log(SellData);
-    const nonce = await web3.eth.getTransactionCount(req.body.user.account);
 
-    const obj: {
+    const BuyObj: {
       nonce: number;
       from: string;
       to: string | undefined;
@@ -327,14 +329,27 @@ router.post("/sellData", async (req, res) => {
       { price: req.body.priceValue },
       { where: { hash: req.body.hash } }
     );
-    console.log("오브젝트", obj);
-    res.send(obj);
+
+    res.send({ BuyObj, objAproval });
   } catch (error) {
     console.log(error);
     res.send("판매등록 실패");
   }
 
   res.end();
+});
+router.post("/buybuy", async (req, res) => {
+  try {
+    const nonce = await web3.eth.getTransactionCount(req.body.user.account);
+    //
+    const LMDIFYdeployed = new web3.eth.Contract(
+      NFTAbi as AbiItem[],
+      process.env.LETMEDOITFORYOU_CA
+      //
+    );
+  } catch (error) {
+    console.log("비상비상");
+  }
 });
 
 router.post("/explore", async (req, res) => {

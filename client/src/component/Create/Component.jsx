@@ -44,9 +44,6 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
     contextRef.current = context;
     setCtx(contextRef.current);
   }, []);
-  // useEffect(() => {
-  //   console.log(drawingFile);
-  // }, [drawingFile]);
 
   const startDrawing = () => {
     setIsDrawing(true);
@@ -82,7 +79,8 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
         onMouseMove={drawing}
-        onMouseLeave={finishDrawing}></canvas>
+        onMouseLeave={finishDrawing}
+      ></canvas>
       <SettingBox>
         <ValueBox>
           <div>
@@ -121,7 +119,8 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
               onClick={() => {
                 setColor(item);
               }}
-              item={item}></ColorItem>
+              item={item}
+            ></ColorItem>
           ))}
 
           <EraserBox>
@@ -138,7 +137,8 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
             ctx.fillStyle = "#fff";
             ctx.fillRect(0, 0, 500, 500);
           }}
-          theme={theme}>
+          theme={theme}
+        >
           전체 지우기
         </AllDelete>
       </SettingBox>
@@ -162,7 +162,8 @@ const CreateComp = ({ registeringNFT, setRegisteringNFT }) => {
             // href={canvasRef.current
             //   ?.toDataURL("image/png")
             //   .replace("image/png", "image/octet-stream")}
-          }}>
+          }}
+        >
           민팅
         </div>
         <NFTMintingContainer
