@@ -138,12 +138,6 @@ const NFTMintingComponent = ({
           onRequestClose={() => {
             const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
             if (confirm) {
-
-
-              // // NFT 등록 로딩
-              // const [loading, setLoading] = useState(false);
-              // // 서명 로딩
-              // const [signLoading, setSignLoading] = useState(false);
               if (loading || signLoading) {
                 alert("NFT 등록 진행중입니다.");
                 return;
@@ -371,6 +365,7 @@ const NFTMintingComponent = ({
           onRequestClose={() => {
             const confirm = window.confirm("NFT 등록을 취소하시겠습니까?");
             if (confirm) {
+              // 초기화가 아니라 그냥 취소만 되도록 수정
               init();
               if (img == undefined) {
                 setImg("");

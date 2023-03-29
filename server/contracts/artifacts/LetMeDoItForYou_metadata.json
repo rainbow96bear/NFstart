@@ -145,7 +145,7 @@
 				"inputs": [
 					{
 						"internalType": "string",
-						"name": "data",
+						"name": "_data",
 						"type": "string"
 					}
 				],
@@ -205,6 +205,19 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getTokenId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -598,11 +611,11 @@
 	},
 	"sources": {
 		"contracts/LetMeDoItForYou.sol": {
-			"keccak256": "0xb11613353baf89c1eb5489c4d8522fe88cdb1ad6d5a99ab0e113def9acd71892",
+			"keccak256": "0x08a7ddc3570ba4e0c2aa64f328b0f2f19339b14cc24df554103e96af065e9698",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c5b3ebdc41858ab3f5e9101685fa118a60e5d10adf355019ec7aa2b200730459",
-				"dweb:/ipfs/QmSxkpSTu19kPQ1XPbD3HxFaWfp1ERQQtceo2H9NT1fUgP"
+				"bzz-raw://5caf8c0c2d2ebe9c03eec4abce88774235569d215f4859b94b10ea242b851c6b",
+				"dweb:/ipfs/QmNxKb9mqjQENQzLatAodbL29sfcgJWqMvNPFkwu3xPuZC"
 			]
 		},
 		"node_modules/@openzeppelin/contracts/access/Ownable.sol": {
