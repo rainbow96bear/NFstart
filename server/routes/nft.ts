@@ -44,6 +44,16 @@ const upload = multer({
   limits: { fieldSize: 25 * 1024 * 1024 },
 });
 
+
+// ai 이미지 생성
+// const { generateImage } = require('../controllers/openaiController')
+router.post("/generateimage", async (req, res) => {
+  console.log(req.body);
+  res.end();
+});
+
+
+// 기본 이미지 nft 등록 부분
 router.post("/regist", upload.single("file"), async (req, res) => {
   if (!req.file) {
     res.send({ data: "파일 업로드 실패" });
@@ -64,7 +74,6 @@ router.post("/regist", upload.single("file"), async (req, res) => {
     // process.env.NFT_TOKEN_CA
     process.env.LETMEDOITFORYOU_CA
   );
-  // const nonce = await web3.eth.getTransactionCount(account);
   const tokenId = await deployed.methods.getTokenId().call();
 
   try {
@@ -180,6 +189,32 @@ router.post("/save", async (req, res) => {
     res.send("실패");
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //------------------------------------------------------ Main , myPage---------------
 // NFT 메인페이지에 최신 4개 출력
