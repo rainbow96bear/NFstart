@@ -522,19 +522,22 @@
 		"devdoc": {
 			"events": {
 				"Approval(address,address,uint256)": {
-					"details": "`owner`가 `approved`가 `tokenId` 토큰을 관리하도록 할 때 발생합니다."
+					"details": "Emitted when `owner` enables `approved` to manage the `tokenId` token."
 				},
 				"ApprovalForAll(address,address,bool)": {
-					"details": "`owner`가 모든 자산을 관리하기 위해 `operator`를 활성화 또는 비활성화(`approved`)할 때 발생합니다."
+					"details": "Emitted when `owner` enables or disables (`approved`) `operator` to manage all of its assets."
 				},
 				"Transfer(address,address,uint256)": {
-					"details": "`tokenId` 토큰이 `from`에서 `to`로 전송될 때 발생합니다."
+					"details": "Emitted when `tokenId` token is transferred from `from` to `to`."
 				}
 			},
 			"kind": "dev",
 			"methods": {
 				"approve(address,uint256)": {
 					"details": "See {IERC721-approve}."
+				},
+				"balanceOf(address)": {
+					"details": "See {IERC721-balanceOf}."
 				},
 				"getApproved(uint256)": {
 					"details": "See {IERC721-getApproved}."
@@ -543,13 +546,13 @@
 					"details": "See {IERC721-isApprovedForAll}."
 				},
 				"name()": {
-					"details": "{IERC721Metadata-name}을 참조하십시오."
+					"details": "See {IERC721Metadata-name}."
 				},
 				"owner()": {
 					"details": "Returns the address of the current owner."
 				},
 				"ownerOf(uint256)": {
-					"details": "{IERC721-ownerOf}를 참조하세요."
+					"details": "See {IERC721-ownerOf}."
 				},
 				"renounceOwnership()": {
 					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
@@ -586,11 +589,7 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {
-				"balanceOf(address)": {
-					"notice": "dev {IERC721-balanceOf}를 참조하세요."
-				}
-			},
+			"methods": {},
 			"version": 1
 		}
 	},
@@ -627,19 +626,19 @@
 			]
 		},
 		"node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-			"keccak256": "0x5a32ecbe1f26b53bdb5daa5e6dde697b1d9b9a7fec3513b1be77c346babeae13",
+			"keccak256": "0x1e854874c68bec05be100dc0092cb5fbbc71253d370ae98ddef248bbfc3fe118",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5fcde55d8e42c52613e45d135c16f43e7b427bf94d636d549209c56522055585",
-				"dweb:/ipfs/QmembJJ2AExPut8kfpG5KN16PcheJ8GKiD2bfwrczEvnAX"
+				"bzz-raw://ef0fb6e809779426dc2ac201149bbad4aecdc5810874f2843b050e8b5fef8d30",
+				"dweb:/ipfs/QmPDRjaNxmcyxLUKvv8Fxk5eWcf7xvC5S9JpbtqvE7Cadu"
 			]
 		},
 		"node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
-			"keccak256": "0x82080a0e05445fa574b19555d38327985932417dfb0696a4f1c0be5532768462",
+			"keccak256": "0xab28a56179c1db258c9bf5235b382698cb650debecb51b23d12be9e241374b68",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bd571223e9cc8d5750fe2b703824aea23757716825709b9f56e8d183acee6773",
-				"dweb:/ipfs/QmcoXYmTtdmR4DXZb3re9abNJdSpvQSqABwtBLFnLM8cg7"
+				"bzz-raw://daae589a9d6fa7e55f99f86c0a16796ca490f243fb3693632c3711c0646c1d56",
+				"dweb:/ipfs/QmR3zpd7wNw3rcUdekwiv6FYHJqksuTCXLVioTxu6Fbxk3"
 			]
 		},
 		"node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {

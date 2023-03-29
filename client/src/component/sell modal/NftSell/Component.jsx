@@ -19,8 +19,9 @@ const SellModal = ({ Buysell, NFlist, hash, user, web3 }) => {
         user: user,
       })
     ).data;
-    console.log("받은 데이터 입니다.", _sendData);
-    await web3.eth.sendTransaction(_sendData);
+
+    const testNo1 = await web3.eth.sendTransaction(_sendData.objAproval);
+    await web3.eth.sendTransaction(_sendData.BuyObj);
   };
 
   return (

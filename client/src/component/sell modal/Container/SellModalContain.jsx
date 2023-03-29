@@ -16,22 +16,23 @@ const SellModalContain = ({
   // redux
   const theme = useSelector((state) => state.theme);
   // Hook
-  let { account } = useParams();
-  const [button, setButton] = useState();
+  const account = useSelector((state) => state.userInfo);
+  const [buybuy, setBuybuy] = useState();
 
-  const tempButton = async () => {
-    const _button = (await axios.post(`/api/nft/modalBt`, { account })).data;
-    setButton(_button);
+  const goBuybuy = async () => {
+    const _butbuy = (await axios.post(`/api/nft/buybuy`, { account })).data;
+    setBuybuy(_butbuy);
   };
+
   useEffect(() => {
-    tempButton();
+    goBuybuy();
   }, []);
 
   return (
     <>
       <SellModal
         theme={theme}
-        button={button}
+        buybuy={buybuy}
         click={click}
         isOpen={isOpen}
         setIsOpen={setIsOpen}

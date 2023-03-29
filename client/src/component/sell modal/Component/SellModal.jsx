@@ -144,38 +144,6 @@ const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, NFlist }) => {
               </div>
             </div>
 
-            {/* Sale ends */}
-            {/* <div style={{ marginBottom: "50px", backgroundColor: "rgb(245,245,245)", borderRadius: "10px", padding: "12px", fontSize: "18px" }}> */}
-            {/* <div
-              style={{
-                marginBottom: "50px",
-                borderRadius: "10px",
-                padding: "12px",
-                fontSize: "18px",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "left",
-                }}
-              >
-                <AiOutlineFieldTime
-                  size={"25"}
-                  style={{ marginRight: "5px" }}
-                />
-                sale ends{" "}
-              </div>
-              <div>
-                <div>Hour : "hours"</div>
-                <div>Minutes</div>
-                <div>Seconds</div>
-              </div>
-            </div> */}
-
-            {/* Current Price & Buy Now */}
-            {/* <div style={{ marginBottom: "50px", backgroundColor: "rgb(245,245,245)", borderRadius: "10px", padding: "12px" }}> */}
             <div
               style={{
                 marginBottom: "50px",
@@ -201,7 +169,11 @@ const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, NFlist }) => {
                 <div>
                   {/* 만약 주인이 아니면 */}
                   {nowPageUser != main?.owner ? (
-                    <BuyNowBtn>
+                    <BuyNowBtn
+                      onClick={() => {
+                        // buy
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
