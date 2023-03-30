@@ -334,7 +334,6 @@ router.post("/sellData", async (req, res) => {
     console.log(error);
     res.send("판매등록 실패");
   }
-});
 
 router.post("/buybuy", async (req, res) => {
   try {
@@ -376,9 +375,25 @@ router.post("/buybuy", async (req, res) => {
       value: BuyObjPrice.price * 10 ** 18, //디비에 저장되어 있는 값
     };
 
+    
+
     res.send({ BuyObj });
   } catch (error) {
     res.status(500).send("Error occurred.");
+  }
+});
+
+router.post("/favorite", async (req, res) => {
+  try {
+    console.log(req.body.count);
+    // const updateCount = await db.User.update(
+    //   { favorite: req.body.count },
+    //   { where: { owner: req.body.account } }
+    // );
+    // res.send({ updateCount });
+  } catch (error) {
+    console.log(error);
+    res.send("좋아하는거 실패");
   }
 });
 

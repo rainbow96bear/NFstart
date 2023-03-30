@@ -12,13 +12,13 @@ const ItemBoxCont = ({ item }) => {
   const user = useSelector((state) => state.userInfo);
 
   // 메인을 기준으로 사진 설정
-
   const templist = async () => {
     const _NFlist = (
       await axios.post("/api/nft/tomain", { account: item.account })
     ).data;
     setNFlist(_NFlist);
   };
+
   // 메인페이지 의 아이템 메인 설정
   useEffect(() => {
     setMain(NFlist[0]);

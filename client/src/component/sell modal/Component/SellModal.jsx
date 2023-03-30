@@ -31,6 +31,7 @@ const SellModal = ({
   main,
   nowPageUser,
   NFlist,
+  favClick,
   buybuy,
   goBuybuy,
 }) => {
@@ -38,6 +39,11 @@ const SellModal = ({
   const theme = useSelector((state) => state.theme);
   const [hash, setHash] = useState("");
   const [Buysell, setBuySell] = useState(false);
+
+  // const favorite = NFlist.map((item) => {
+  //   item.favorite;
+  // });
+
   useEffect(() => {
     setHash(main?.hash);
   }, []);
@@ -146,7 +152,7 @@ const SellModal = ({
                   size={"30"}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
-                    alert("찜 기능 만들기");
+                    favClick();
                   }}
                 />
                 {main?.favorites}
@@ -285,7 +291,7 @@ export const ModalStyle = {
     WebkitOverflowScrolling: "touch",
     borderRadius: "10px",
     outline: "none",
-    zIndex: 10,
+    zIndex: 999,
     transition: "all 1s",
     background: "none",
     padding: "none",

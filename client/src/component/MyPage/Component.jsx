@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { CgProfile } from "react-icons/cg";
 import { MdContentCopy } from "react-icons/md";
 import { BsChatDots } from "react-icons/bs";
+import { AiOutlineGitlab } from "react-icons/ai";
+import { AiOutlineAppstore } from "react-icons/ai";
+import { FaDollarSign } from "react-icons/fa";
+
 import ItemBoxCont from "./ItemBox/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
@@ -16,26 +20,33 @@ const MypageComp = ({
   User,
   NFlist,
   setIsModal,
+  userNick,
   isModal,
+  setIsNameModal,
+  replaceName,
+  isNameModal,
   modalClick,
+  nameModalClick,
   userProfile,
   sellNft,
+  remove,
 }) => {
   const [file, setFile] = useState();
   const [image, setImage] = useState("");
+  const [name, setName] = useState("");
   const [img, setImg] = useState("");
   const [myPageSell, setmyPageSell] = useState([]);
   const [price, setprice] = useState(false);
 
   const { nickName } = useSelector((state) => state.userInfo);
   const { account } = useSelector((state) => state.userInfo);
-
   const theme = useSelector((state) => state.theme);
+
   const imgInput = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const addBtnClick = () => {
+  const addBtnClick = async () => {
     imgInput.current.click();
   };
 
@@ -46,6 +57,7 @@ const MypageComp = ({
   useEffect(() => {
     sync();
   }, [price]);
+
   //
   const fileChange = useCallback((e) => {
     setFile(e.target.files[0]);
@@ -73,6 +85,17 @@ const MypageComp = ({
     }
   };
 
+  // const removeReq = async () => {
+  //   const formData = new FormData();
+  //   formData.append("file", "");
+
+  //   const registered = (await axios.post("/api/user/imgUpload", formData)).data;
+  //   console.log(registered);
+  //   if (registered === "성공") {
+  //     window.location.reload();
+  //   }
+  // };
+
   useEffect(() => {
     registReq();
     setIsModal(isModal);
@@ -98,7 +121,14 @@ const MypageComp = ({
             >
               사진 업로드
             </div>
-            <div className="item">현재 사진 삭제</div>
+            <div
+              className="item"
+              onClick={() => {
+                // removeReq();
+              }}
+            >
+              현재 사진 삭제
+            </div>
             <div
               className="item"
               onClick={() => {
@@ -107,6 +137,45 @@ const MypageComp = ({
               }}
             >
               취소
+            </div>
+          </div>
+        </ModalBox>
+      ) : (
+        <></>
+      )}
+      {!isNameModal ? (
+        <ModalBox theme={theme}>
+          <div className="box">
+            <div className="item2">
+              <h1>프로필 이름 바꾸기</h1>
+            </div>
+            <div className="item2">현재 프로필 이름 : {nickName}</div>
+            <div className="item2">
+              <input
+                type="text"
+                value={name}
+                onInput={(e) => {
+                  setName(e.target.value);
+                }}
+                placeholder={"변경할 프로필 이름 작성"}
+              />
+            </div>
+            <div className="item2">
+              <button
+                onClick={() => {
+                  nameModalClick();
+                }}
+              >
+                취소
+              </button>
+              <button
+                onClick={() => {
+                  replaceName(name);
+                  nameModalClick();
+                }}
+              >
+                저장
+              </button>
             </div>
           </div>
         </ModalBox>
@@ -136,12 +205,22 @@ const MypageComp = ({
                   onClick={() => {
                     modalClick();
                   }}
+                  title={"프로필 이미지 편집"}
                 />
               </ProfileImgBox>
             )}
             <Info>
               <div>
-                <div className="imgProfile">{nickName}</div>
+                <div className="imgProfile">
+                  <p>{nickName}</p>
+                  <button
+                    onClick={() => {
+                      nameModalClick();
+                    }}
+                  >
+                    프로필 편집
+                  </button>
+                </div>
               </div>
               <div className="acc">
                 <span>{account.slice(0, 5)}&nbsp;···&nbsp;</span>
@@ -156,14 +235,15 @@ const MypageComp = ({
               <div className="ea">게시물 {NFlist.length}개</div>
             </Info>
           </InfoBox>
-          <CategoryBox>
+          <CategoryBox theme={theme}>
             <div
               style={{ curser: "pointer" }}
               onClick={() => {
                 setprice(false);
               }}
             >
-              전체
+              <AiOutlineAppstore size={"20"} />
+              <p>전체</p>
             </div>
             <div
               style={{ curser: "pointer" }}
@@ -171,27 +251,39 @@ const MypageComp = ({
                 setprice(true);
               }}
             >
-              판매중
+              <FaDollarSign size={"20"} />
+              <p>판매중</p>
             </div>
           </CategoryBox>
           {price ? (
             <ItemBox>
-              {myPageSell?.map((item, index) => (
-                <ItemBoxCont
-                  item={item}
-                  index={index}
-                  key={index}
-                  NFlist={myPageSell}
-                />
-              ))}
+              {myPageSell.length == 0 ? (
+                <>
+                  <div className="nonft">
+                    <AiOutlineGitlab size={"40"} />
+                    <p>판매중인 NFT가 없습니다.</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {myPageSell?.map((item, index) => (
+                    <ItemBoxCont
+                      item={item}
+                      index={index}
+                      key={index}
+                      NFlist={myPageSell}
+                    />
+                  ))}
+                </>
+              )}
             </ItemBox>
           ) : (
             <ItemBox>
               {NFlist.length == 0 ? (
                 <>
                   <div className="nonft">
-                    <BsChatDots />
-                    <p>올린 NFT가 없습니다.</p>
+                    <BsChatDots size={"40"} />
+                    <p>업로드한 NFT가 없습니다.</p>
                   </div>
                 </>
               ) : (
@@ -222,8 +314,6 @@ const MyPage = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  /* overflow-y 이걸 한 이유가 있음? */
-  /* overflow-y: scroll; */
 `;
 const MyPageFrame = styled.div`
   width: 100%;
@@ -253,7 +343,7 @@ const ProfileImgBox = styled.div`
     width: 145px;
     height: 145px;
     position: relative;
-    z-index: 999;
+    z-index: 1;
     border-radius: 100%;
     display: flex;
     justify-content: center;
@@ -294,7 +384,12 @@ const Info = styled.div`
       margin: 0 10px 0 0;
     }
   }
-
+  .imgProfile {
+    button {
+      cursor: pointer;
+      margin-left: 20px;
+    }
+  }
   .ea {
     font-size: 20px;
   }
@@ -306,8 +401,24 @@ const CategoryBox = styled.div`
   font-size: 1.2rem;
   justify-content: center;
   border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
   & > div {
-    padding: 10px 90px;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px 90px;
+    font-size: 17px;
+    > p {
+      margin-left: 20px;
+    }
+  }
+  & > div:hover {
+    cursor: pointer;
+    background-color: ${(props) =>
+      props.theme == "dark" ? "#e0e0e0" : "#5a5a5a"};
+    color: ${(props) => (props.theme == "dark" ? "#5a5a5a" : "#e0e0e0")};
   }
 `;
 const ItemBox = styled.div`
@@ -315,9 +426,12 @@ const ItemBox = styled.div`
   flex-wrap: wrap;
   .nonft {
     width: 100%;
-
+    margin: 200px 0 0 0;
     display: block;
     text-align: center;
+    > p {
+      padding-top: 10px;
+    }
   }
 `;
 const ImgAddInput = styled.input`
@@ -339,9 +453,11 @@ const ModalBox = styled.div`
     width: 400px;
     height: 220px;
     border-radius: 20px;
-    background-color: #202020;
+    background-color: ${(props) =>
+      props.theme == "dark" ? "#202020" : "#e0e0e0"};
   }
-  .item {
+  .item,
+  .item2 {
     width: 400px;
     height: 50px;
     display: flex;
@@ -349,11 +465,42 @@ const ModalBox = styled.div`
     justify-content: center;
     font-weight: bold;
     font-size: 14px;
-    color: #fdfdfd;
+    color: ${(props) => (props.theme == "dark" ? "#fdfdfd" : "#202020")};
   }
-  .item:first-child {
+  .item:first-child,
+  .item2:first-child {
     height: 70px;
     font-size: 20px;
+  }
+  .item:nth-child(3),
+  .item2:nth-child(2) {
+    border-top: 1px solid #5e5e5e;
+    border-bottom: 1px solid #5e5e5e;
+    color: #1877f2;
+  }
+  .item:nth-child(4),
+  .item2:nth-child(3) {
+    border-bottom: 1px solid #5e5e5e;
+    color: #fa383e;
+  }
+  .item2 > input {
+    padding: 10px;
+    background-color: ${(props) =>
+      props.theme == "dark" ? "#424242" : "#fdfdfd"};
+    border: none;
+    border-radius: 5px;
+    color: ${(props) => (props.theme == "dark" ? "#fdfdfd" : "#202020")};
+  }
+  .item2 > button {
+    border: none;
+    width: 50%;
+    cursor: pointer;
+    font-weight: 600;
+    color: ${(props) => (props.theme == "dark" ? "#fdfdfd" : "#202020")};
+    background-color: inherit;
+  }
+  .item2 > button:hover {
+    color: #fa383e;
   }
   .item:nth-child(3) {
     border-top: 1px solid #5e5e5e;

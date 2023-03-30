@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import ThemeBtn from "../../customComp/ThemeBtn";
-import LoadingComp from "../Loading/LoadingComp";
 import RandomContainer from "../Random/Container";
 import NFTMintingContainer from "../NFTMinting/Container";
 import { action } from "../../modules/userInfo";
@@ -165,15 +164,16 @@ const SideBarComp = ({
                 <p>NFT 그리기</p>
                 <MdOutlineDraw size={"25"} />
               </div>
-              <div
-                onClick={() => {
-                  navigate("/loading");
-                  onClickPop();
-                }}
-              >
-                <p>미니게임</p>
-                <CgGames size={"25"} />
-              </div>
+              <Link to={"https://zep.us/play/yoWoWn"}>
+                <div
+                  onClick={() => {
+                    onClickPop();
+                  }}
+                >
+                  <p>미니게임</p>
+                  <CgGames size={"25"} />
+                </div>
+              </Link>
               <div
                 onClick={() => {
                   dispatch(action.asyncLogOut);
@@ -211,7 +211,7 @@ const SideItem = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>
-    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+      props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
   }
   > p {
     padding: 0 50px 0 10px;
@@ -222,7 +222,10 @@ const PopItem = styled.div`
   border-radius: 5px;
   background-color: ${(props) =>
     props.theme == "dark" ? "#1e1e2e" : "#d4d3d3"};
-
+  a {
+    text-decoration: none;
+    color: ${(props) => (props.theme == "dark" ? "#d4d3d3" : "#1e1e2e")};
+  }
   div {
     padding: 15px;
     display: flex;
@@ -235,7 +238,7 @@ const PopItem = styled.div`
     cursor: pointer;
     &:hover {
       background-color: ${(props) =>
-    props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
+        props.theme == "dark" ? "#5a5a5a" : "#e0e0e0"};
     }
   }
 `;

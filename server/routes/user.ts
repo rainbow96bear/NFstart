@@ -156,8 +156,19 @@ router.post("/findProfile", async (req, res) => {
     const userData = await db.User.findAll({
       where: { account: req.body.account },
     });
-    console.log(userData);
     res.send(userData);
+  } catch (error) {
+    res.send({ isError: true });
+  }
+});
+
+router.post("/replace", async (req, res) => {
+  try {
+    db.User.update(
+      { nickName: req.body.nickName },
+      { where: { account: req.body.account } }
+    );
+    res.send({ nickName: req.body.nickName });
   } catch (error) {
     res.send({ isError: true });
   }

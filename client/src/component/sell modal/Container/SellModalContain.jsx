@@ -20,6 +20,10 @@ const SellModalContain = ({
   const { account } = useSelector((state) => state.userInfo);
   const web3 = new Web3(window.ethereum);
   const [buybuy, setBuybuy] = useState();
+  // const favDbData = NFlist.map((item) => {
+  //   item.favorite;
+  // });
+  const [count, setCount] = useState(1);
 
   const goBuybuy = async () => {
     const _butbuy = (
@@ -32,6 +36,16 @@ const SellModalContain = ({
       await axios.post(`/api/nft/render`, { data: main.hash, account: account })
     ).data;
   };
+
+  const favClick = async () => {
+    setCount(count + 1);
+    const abc = await axios.post("/api/user/info", { account });
+    console.log(abc);
+    // const countData = (
+    //   await axios.post(`/api/nft/favorite`, { account, count })
+    // ).data;
+    // console.log(countData);
+  };
   return (
     <>
       <SellModal
@@ -42,6 +56,7 @@ const SellModalContain = ({
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         main={main}
+        favClick={favClick}
         nowPageUser={nowPageUser}
         NFlist={NFlist}
       />
