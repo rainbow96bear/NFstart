@@ -98,11 +98,10 @@ const LoadingComp = () => {
         <span className="star"></span>
       </div>
 
-      <h1>
-        <span>L</span>
-        <span>o</span>
+      {/* <h1>
+        <span>m</span>
         <span>a</span>
-        <span>d</span>
+        <span>k</span>
         <span>i</span>
         <span>n</span>
         <span>g</span>
@@ -110,22 +109,22 @@ const LoadingComp = () => {
         <span>.</span>
         <span>.</span>
         <span>.</span>
-      </h1>
+      </h1> */}
 
-      <div className="boi">
+      {/* <div className="boi">
         <div className="dog"></div>
         <img src={cat} width="400px" alt="" />
       </div>
       <div className="boi">
         <div className="dog"></div>
-        <img src={cat} width="400px" alt="" />
-        {/* <div className="rightleg"></div>
+        <img src={cat} width="400px" alt="" /> */}
+      {/* <div className="rightleg"></div>
         <div className="leftleg"></div>
         <div className="."></div>
         <div className="belly"></div>
         <div className="eye"></div>
         <div className="leftleg"></div> */}
-      </div>
+      {/* </div> */}
 
       <svg xmlns="http://www.w3.org/2000/svg">
         <filter id="inset" x="-50%" y="-50%" width="200%" height="200%">
@@ -151,16 +150,15 @@ const LoadingComp = () => {
 export default LoadingComp;
 
 const LoadingBox = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
   margin: 0;
   overflow-x: hidden;
 
   .sky {
     display: block;
     background: black;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
   }
 
   .star {

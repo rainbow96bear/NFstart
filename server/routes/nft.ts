@@ -342,6 +342,22 @@ router.post("/sellData", async (req, res) => {
 
   res.end();
 });
+
+// 찜기능
+router.post("/favorite", async (req, res) => {
+  try {
+    console.log(req.body.count);
+    // const updateCount = await db.User.update(
+    //   { favorite: req.body.count },
+    //   { where: { owner: req.body.account } }
+    // );
+    // res.send({ updateCount });
+  } catch (error) {
+    console.log(error);
+    res.send("좋아하는거 실패");
+  }
+});
+
 // router.post("/buybuy", async (req, res) => {
 //   try {
 //     const nonce = await web3.eth.getTransactionCount(req.body.user.account);

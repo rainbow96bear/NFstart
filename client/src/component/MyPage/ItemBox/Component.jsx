@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import SellModalContain from "../../sell modal/Container/SellModalContain";
+import { AiFillHeart } from "react-icons/ai";
+import { AiOutlineDollarCircle } from "react-icons/ai";
 import { useState } from "react";
 
 const ItemBoxComp = ({ item, nowPageUser, NFlist }) => {
@@ -7,7 +9,7 @@ const ItemBoxComp = ({ item, nowPageUser, NFlist }) => {
   const click = () => {
     setOn(!on);
   };
-
+  // console.log(item);
   return (
     <>
       <ItemBox
@@ -15,8 +17,33 @@ const ItemBoxComp = ({ item, nowPageUser, NFlist }) => {
           click();
         }}
       >
-        <div className="icon"></div>
-        {item && <img alt="" src={`/uploads/${item.filename}`} />}
+        {item && (
+          <>
+            <div className="icon">
+              <div>
+                <div>
+                  <p>
+                    <AiFillHeart size={"25"} />
+                  </p>
+                  <p>{item.favorite}</p>
+                </div>
+                {item.price == 0 ? (
+                  <></>
+                ) : (
+                  <div>
+                    <p>
+                      <AiOutlineDollarCircle size={"25"} />
+                    </p>
+                    <p>{item.price}</p>
+                  </div>
+                )}
+              </div>
+              <div>
+                <img alt="" src={`/uploads/${item.filename}`} />
+              </div>
+            </div>
+          </>
+        )}
       </ItemBox>
       <SellModalContain
         isOpen={on}
@@ -32,29 +59,55 @@ const ItemBoxComp = ({ item, nowPageUser, NFlist }) => {
 export default ItemBoxComp;
 // 가로 세로는 반응형 생각해서 다시 잡기
 const ItemBox = styled.div`
+  //전체
   position: relative;
   width: 33%;
-
-  &::after {
-    display: block;
-    content: "";
-    padding-bottom: 100%;
-  }
-  & > img {
-    padding: 3px;
-    position: absolute;
-    top: 0;
-    left: 0;
+  height: 33%;
+  // 아이콘들 배치
+  .icon {
+    display: flex;
     width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-  & > img:hover {
-    > img {
-      opacity: 0.5;
+    height: 220px;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    //
+    > div:first-child {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      > div {
+        width: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        > p {
+          width: 30px;
+          display: flex;
+          align-items: center;
+          padding: 5px;
+        }
+      }
     }
-    position: absolute;
-    z-index: 999;
-    background-color: rgba(0, 187, 255, 0.2);
+    > div:last-child {
+      width: 220px;
+      height: 220px;
+      position: relative;
+      > img {
+        padding: 3px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: inherit;
+        height: inherit;
+        cursor: pointer;
+      }
+      & > img:hover {
+        opacity: 0.3;
+      }
+    }
   }
 `;

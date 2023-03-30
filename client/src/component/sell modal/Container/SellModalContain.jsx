@@ -18,15 +18,38 @@ const SellModalContain = ({
   // Hook
   const account = useSelector((state) => state.userInfo);
   const [buybuy, setBuybuy] = useState();
+  // const favDbData = NFlist.map((item) => {
+  //   item.favorite;
+  // });
+  const [count, setCount] = useState(1);
 
-  const goBuybuy = async () => {
-    const _butbuy = (await axios.post(`/api/nft/buybuy`, { account })).data;
-    setBuybuy(_butbuy);
+  // const goBuybuy = async () => {
+  //   const _butbuy = (await axios.post(`/api/nft/buybuy`, { account })).data;
+  //   setBuybuy(_butbuy);
+  // };
+
+  const favClick = async () => {
+    setCount(count + 1);
+    const abc = await axios.post("/api/user/info", { account });
+    console.log(abc);
+    // const countData = (
+    //   await axios.post(`/api/nft/favorite`, { account, count })
+    // ).data;
+    // console.log(countData);
   };
 
-  useEffect(() => {
-    goBuybuy();
-  }, []);
+  // useEffect(() => {
+  //   goBuybuy();
+  // }, []);
+
+  // const loveNft = async () => {
+  //   const count = (await axios.post(`/api/nft/favorite`, { account })).data;
+  //   console.log(count + 1);
+  // };
+
+  // useEffect(()=>{
+  //   loveNft()
+  // },[])
 
   return (
     <>
@@ -37,6 +60,7 @@ const SellModalContain = ({
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         main={main}
+        favClick={favClick}
         nowPageUser={nowPageUser}
         NFlist={NFlist}
       />

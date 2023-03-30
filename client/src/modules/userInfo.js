@@ -4,7 +4,6 @@ import Web3 from "web3";
 const TYPE = {
   LOGIN: "userInfo/login",
   LOGOUT: "userInfo/logout",
-  // PROFILE: "userInfo/set",
 };
 
 const logIn = (account, balance, chainId, nick, profile) => {
@@ -17,6 +16,13 @@ const logIn = (account, balance, chainId, nick, profile) => {
 const logOut = () => {
   return {
     type: TYPE.LOGOUT,
+  };
+};
+
+const name = (account, nick) => {
+  return {
+    type: TYPE.NAME,
+    payload: { account, nick },
   };
 };
 
@@ -119,19 +125,12 @@ const asyncLogOut = () => {
   });
 };
 
-// const asyncProfile = () => {
-//   return async (dispatch) => {
-//     dispatch({ type: "userInfo/set", payload: { profile: "dsf" } });
-//   };
-// };
-
 export const action = {
   logIn,
   logOut,
-  // set,
+  name,
   asyncLogIn,
   asyncLogOut,
-  // asyncProfile,
 };
 
 export const initialize = {
