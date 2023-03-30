@@ -5,11 +5,15 @@ const MainComp = ({ mainId }) => {
   return (
     <Main>
       {mainId?.map((item, index) => {
-        return (
-          <Box key={index}>
-            <ItemBoxCont item={item} key={index}></ItemBoxCont>
-          </Box>
-        );
+        if (!undefined) {
+          return (
+            <Box key={index}>
+              <ItemBoxCont item={item} key={index}></ItemBoxCont>
+            </Box>
+          );
+        } else {
+          <></>;
+        }
       })}
     </Main>
   );

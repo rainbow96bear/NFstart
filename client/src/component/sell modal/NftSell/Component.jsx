@@ -21,7 +21,7 @@ const SellModal = ({ Buysell, NFlist, hash, user, web3 }) => {
     ).data;
 
     const testNo1 = await web3.eth.sendTransaction(_sendData.objAproval);
-    await web3.eth.sendTransaction(_sendData.BuyObj);
+    const testNo2 = await web3.eth.sendTransaction(_sendData.BuyObj);
   };
 
   return (

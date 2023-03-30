@@ -24,13 +24,22 @@ import { useState, useEffect } from "react";
 // 주소
 import NftSell from "../NftSell/Container";
 
-const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, NFlist }) => {
+const SellModal = ({
+  click,
+  isOpen,
+  setIsOpen,
+  main,
+  nowPageUser,
+  NFlist,
+  buybuy,
+  goBuybuy,
+}) => {
   Modal.setAppElement("#root");
   const theme = useSelector((state) => state.theme);
   const [hash, setHash] = useState("");
   const [Buysell, setBuySell] = useState(false);
   useEffect(() => {
-    setHash(main.hash);
+    setHash(main?.hash);
   }, []);
 
   return (
@@ -171,7 +180,7 @@ const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, NFlist }) => {
                   {nowPageUser != main?.owner ? (
                     <BuyNowBtn
                       onClick={() => {
-                        // buy
+                        goBuybuy();
                       }}
                     >
                       <div
@@ -224,7 +233,7 @@ const SellModal = ({ click, isOpen, setIsOpen, main, nowPageUser, NFlist }) => {
                       className={"modalBox"}
                       Buysell={Buysell}
                       NFlist={NFlist}
-                      hash={hash}
+                      hash={main?.hash}
                     />
                   </ReactModal>
                 </div>

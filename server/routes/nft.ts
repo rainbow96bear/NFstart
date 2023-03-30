@@ -282,15 +282,14 @@ router.post("/mySellNft", async (req, res) => {
 router.post("/sellData", async (req, res) => {
   try {
     const nonce = await web3.eth.getTransactionCount(req.body.user.account);
+
     const LMDIFYdeployed = new web3.eth.Contract(
       NFTAbi as AbiItem[],
       process.env.LETMEDOITFORYOU_CA
     );
-
     const APPID = LMDIFYdeployed.methods
       .setApprovalForAll(process.env.BuySell_CA, true)
       .encodeABI();
-
     const objAproval: {
       nonce: number;
       from: string;
@@ -307,16 +306,12 @@ router.post("/sellData", async (req, res) => {
       BuySellAbi as AbiItem[],
       process.env.BuySell_CA
     );
-
     const bigNumberValue = BigNumber.from(
       Math.floor(req.body.priceValue * 10 ** 18).toString()
     );
-
     const SellData = deployed.methods
-      .SalesToken(37, bigNumberValue)
+      .SalesToken(req.body.hash, bigNumberValue)
       .encodeABI();
-    console.log(SellData);
-
     const BuyObj: {
       nonce: number;
       from: string;
@@ -339,27 +334,53 @@ router.post("/sellData", async (req, res) => {
     console.log(error);
     res.send("판매등록 실패");
   }
-
-  res.end();
 });
-// router.post("/buybuy", async (req, res) => {
-//   try {
-//     const nonce = await web3.eth.getTransactionCount(req.body.user.account);
-//     //
-//     const LMDIFYdeployed = new web3.eth.Contract(
-//       NFTAbi as AbiItem[],
-//       process.env.LETMEDOITFORYOU_CA
 
-//     );
-//     //
-//     const APPID = LMDIFYdeployed.methods
-//       .setApprovalForAll(process.env.BuySell_CA, true)
-//       .encodeABI();
+router.post("/buybuy", async (req, res) => {
+  try {
+    // const Appdeployed = new web3.eth.Contract(
+    //   NFTAbi as AbiItem[],
+    //   process.env.LETMEDOITFORYOU_CA
+    // );
+    // const APPID = Appdeployed.methods
+    //   .setApprovalForAll(req.body.account, true)
+    //   .encodeABI();
 
-//   } catch (error) {
-//     console.log("비상비상");
-//   }
-// });
+    // const objAproval: {
+    //   from: string | undefined;
+    //   to: string | undefined;
+    //   data: string;
+    // } = {
+    //   from: process.env.LETMEDOITFORYOU_CA, // 현 메타마스크와 연결된 주소
+    //   to: req.body.account, //
+    //   data: APPID,
+    // };
+    //
+    const deployed = new web3.eth.Contract(
+      BuySellAbi as AbiItem[],
+      process.env.BuySell_CA
+    );
+    const buyData = deployed.methods.PurchaseToken(req.body.data).encodeABI();
+    const BuyObjPrice = await db.NFT.findOne({
+      where: { hash: req.body.data },
+    });
+    const BuyObj: {
+      from: string | undefined;
+      to: string | undefined;
+      data: string;
+      value: number | undefined;
+    } = {
+      from: req.body.account,
+      to: process.env.BuySell_CA,
+      data: buyData,
+      value: BuyObjPrice.price * 10 ** 18, //디비에 저장되어 있는 값
+    };
+
+    res.send({ BuyObj });
+  } catch (error) {
+    res.status(500).send("Error occurred.");
+  }
+});
 
 router.post("/explore", async (req, res) => {
   const { keyword } = req.body;
@@ -388,6 +409,12 @@ router.post("/explore", async (req, res) => {
     });
   }
   res.send({ searchResult });
+});
+router.post("/render", async (req, res) => {
+  await db.NFT.update(
+    { price: 0, owner: req.body.account },
+    { where: { hash: req.body.data } }
+  );
 });
 
 export default router;
