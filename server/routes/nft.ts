@@ -334,6 +334,7 @@ router.post("/sellData", async (req, res) => {
     console.log(error);
     res.send("판매등록 실패");
   }
+});
 
 router.post("/buybuy", async (req, res) => {
   try {
@@ -375,7 +376,7 @@ router.post("/buybuy", async (req, res) => {
       value: BuyObjPrice.price * 10 ** 18, //디비에 저장되어 있는 값
     };
 
-    
+
 
     res.send({ BuyObj });
   } catch (error) {
