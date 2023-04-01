@@ -192,6 +192,19 @@ router.post("/save", async (req, res) => {
   }
 });
 
+
+router.post("/createAi", async (req, res) => {
+  console.log(req.body);
+  res.end();
+});
+
+
+
+
+
+
+
+
 //------------------------------------------------------ Main , myPage---------------
 // NFT 메인페이지에 최신 4개 출력
 router.post("/tomain", async (req, res) => {
