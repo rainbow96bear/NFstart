@@ -12,7 +12,6 @@ const RandomComponent = ({ account }) => {
         <>
             <AllWrap>
                 <SwapWrap>
-                    {/* 좀비 */}
                     <SwapItemWrap>
                         <ItemTitle>랜덤 좀비 뽑기</ItemTitle>
                         <img src={ZombieImg} alt="유니콘" onClick={(e) => {
@@ -20,11 +19,12 @@ const RandomComponent = ({ account }) => {
                         }}></img><br />
                     </SwapItemWrap>
 
-                    {/* AI */}
                     <SwapItemWrap>
                         <ItemTitle>AI 뽑기</ItemTitle>
                         <img src={UnicornImg} alt="유니콘" onClick={() => {
-                            alert("ㅇㅅㅇ");
+                            axios.post("/api/nft/createAi", {
+                                account
+                            });
                         }}></img><br />
                     </SwapItemWrap>
                 </SwapWrap>
